@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   X,
-  CheckCircle2,
   GraduationCap,
   User,
   Phone,
@@ -11,6 +10,7 @@ import {
   Building,
 } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
+import { WhatsAppSimulatorModal } from './WhatsAppSimulatorModal';
 
 export const AdmissionModal: React.FC = () => {
   const { isAdmissionModalOpen, closeAdmissionModal, language } = useSchool();
@@ -55,9 +55,6 @@ export const AdmissionModal: React.FC = () => {
     e.preventDefault();
     if (!studentName.trim() || !parentName.trim() || !phone.trim()) return;
 
-    const langLabel =
-      language === 'ta' ? 'Tamil (தமிழ்)' : language === 'ur' ? 'Urdu (اردو)' : 'English';
-
     const formattedMessage = `*🏫 OLIVE TREE SCHOOL — NEW ADMISSION INQUIRY (2026-27)*
 -----------------------------------------
 *• Inquiry Type:* ${inquiryType}
@@ -66,16 +63,10 @@ export const AdmissionModal: React.FC = () => {
 *• Applying for Grade:* ${grade}
 *• Parent Name:* ${parentName.trim()}
 *• Contact Number:* ${phone.trim()}
-*• Preferred Language:* ${langLabel}
 *• Message:* ${message.trim() || 'Requesting admission details & office visit slot.'}`;
 
     setFormattedWaMessage(formattedMessage);
     setIsSubmitted(true);
-
-    const waUrl = `https://wa.me/918610113160?text=${encodeURIComponent(formattedMessage)}`;
-    if (typeof window !== 'undefined') {
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
-    }
   };
 
   const gradeOptions = [
@@ -109,86 +100,44 @@ export const AdmissionModal: React.FC = () => {
         </button>
 
         {isSubmitted ? (
-          /* Confirmation State with Direct WhatsApp Actions */
-          <div className="text-center py-6">
-            <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-[#34D399] mx-auto flex items-center justify-center mb-5 ring-8 ring-emerald-500/10">
-              <CheckCircle2 className="w-12 h-12" />
+          /* Local WhatsApp Simulator & Chat Preview State */
+          <div className="py-1">
+            <div className="text-center mb-4 pe-6">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 font-mono text-xs font-bold shadow-xs">
+                WhatsApp Chat Simulator (Live Preview)
+              </span>
+              <h3 className="font-editorial text-2xl font-bold text-slate-900 dark:text-white mt-1">
+                Inquiry Formatted & Ready to Send
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-[#9DB0A6]">
+                Review the formatted WhatsApp message below before dispatching.
+              </p>
             </div>
 
-            <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-700 text-white font-mono text-xs sm:text-sm font-bold shadow-xs mb-3">
-              WhatsApp Inquiry Initiated
-            </span>
-
-            <h3
-              className={`font-editorial text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-2 ${
-                language === 'ur' ? 'font-urdu leading-[1.4]' : ''
-              }`}
-            >
-              Inquiry Dispatched to Admissions Desk!
-            </h3>
-
-            <p
-              className={`text-sm sm:text-base text-slate-600 dark:text-[#9DB0A6] max-w-md mx-auto mb-6 leading-relaxed ${
-                language === 'ur' ? 'font-urdu leading-[1.8]' : ''
-              }`}
-            >
-              Your WhatsApp chat has been opened. Our admissions coordinator at Kaspa, Vellore campus will confirm seat availability, fee structure, and office interaction timings.
-            </p>
-
-            {/* Summary Box */}
-            <div className="bg-slate-50 dark:bg-[#0E1714] rounded-2xl p-5 border border-slate-200 dark:border-[#243B32] max-w-md mx-auto text-start text-xs sm:text-sm text-slate-700 dark:text-[#9DB0A6] space-y-2 mb-6">
-              <div className="flex justify-between">
-                <span className="font-mono text-slate-500">Inquiry Type:</span>
-                <span className="font-bold text-slate-900 dark:text-white">{inquiryType}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-mono text-slate-500">Student:</span>
-                <span className="font-bold text-slate-900 dark:text-white">
-                  {studentName} {age ? `(${age})` : ''}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-mono text-slate-500">Target Grade:</span>
-                <span className="font-bold text-blue-700 dark:text-[#34D399]">{grade}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-mono text-slate-500">Parent / Phone:</span>
-                <span className="font-bold text-slate-900 dark:text-white">
-                  {parentName} • {phone}
-                </span>
-              </div>
-            </div>
-
-            {/* WhatsApp Resend & Fallback Actions */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
-              <a
-                href={`https://wa.me/918610113160?text=${encodeURIComponent(formattedWaMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm shadow-md transition-all cursor-pointer ring-4 ring-emerald-500/20"
-              >
-                <span>📲 Primary (86101 13160)</span>
-              </a>
-
-              <a
-                href={`https://wa.me/919629049907?text=${encodeURIComponent(formattedWaMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-sm shadow-sm transition-all cursor-pointer border border-slate-700"
-              >
-                <span>💬 Secondary (96290 49907)</span>
-              </a>
-            </div>
-
-            <div className="mt-5">
-              <button
-                type="button"
-                onClick={handleResetAndClose}
-                className="px-6 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-semibold transition-colors cursor-pointer"
-              >
-                Done / Close Window
-              </button>
-            </div>
+            <WhatsAppSimulatorModal
+              isOpen={isSubmitted}
+              onClose={handleResetAndClose}
+              inquiryData={{
+                inquiryType,
+                studentName,
+                age,
+                grade,
+                parentName,
+                phone,
+                message,
+              }}
+              formattedMessage={formattedWaMessage}
+              onSendAnother={() => {
+                setIsSubmitted(false);
+                setStudentName('');
+                setAge('');
+                setGrade('Pre-KG');
+                setParentName('');
+                setPhone('');
+                setInquiryType('New Admission 2026-27');
+                setMessage('');
+              }}
+            />
           </div>
         ) : (
           /* Active Parent Inquiry Form */
