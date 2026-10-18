@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* View Transitions API & Silky Color Interpolation */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body, section, header, footer, div, nav, button, span, p, h1, h2, h3, h4 {
+  transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* High-Contrast "Soft Alabaster & Royal Emerald" Theme Variables Engine */
+:root[data-theme="light"], html:not(.dark) {
+  --bg-page: #F4F7F5;
+  --bg-page-alt: #EBF2EE;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --text-primary: #0F172A;
+  --text-navy: #1D4ED8;
+  --text-secondary: #475569;
+  --border-color: #E2E8F0;
+  --accent-cta: #D93829;
+  --accent-gold: #D97706;
+  --accent-forest: #047857;
+}
+
+:root[data-theme="dark"], html.dark {
+  --bg-page: #0E1714;
+  --bg-page-alt: #121E19;
+  --bg-surface: #16241F;
+  --bg-card: #16241F;
+  --text-primary: #F3F7F4;
+  --text-navy: #93C5FD;
+  --text-secondary: #9DB0A6;
+  --border-color: #243B32;
+  --accent-cta: #E04D3F;
+  --accent-gold: #F59E0B;
+  --accent-forest: #225C44;
+}
+
+html, body, #root {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  overflow-x: hidden;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-page) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Mathematical Centering Wrapper */
+.container-center, .container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding-left: clamp(1.5rem, 5vw, 5rem) !important;
+  padding-right: clamp(1.5rem, 5vw, 5rem) !important;
+}
+
+/* Editorial Serif & Display Headings */
+.font-editorial, .font-serif-editorial {
+  font-family: 'Fraunces', 'Playfair Display', Georgia, serif;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Prevent long Tamil/Urdu words from breaking grid or flex containers */
+[lang="ta"], [data-lang="ta"], html[lang="ta"], html[lang="ta"] body, html[lang="ta"] #root, .font-tamil {
+  font-family: 'Hind Madurai', 'Noto Sans Tamil', sans-serif !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  hyphens: none !important;
+}
+
+/* Automatically scale down oversized headings, badges, and buttons in Tamil */
+[lang="ta"] h1, [data-lang="ta"] h1 {
+  font-size: clamp(1.75rem, 3.2vw, 2.65rem) !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.01em !important;
+}
+
+[lang="ta"] h2, [data-lang="ta"] h2 {
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem) !important;
+  line-height: 1.35 !important;
+}
+
+[lang="ta"] h3, [data-lang="ta"] h3 {
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem) !important;
+  line-height: 1.4 !important;
+}
+
+[lang="ta"] button, [data-lang="ta"] button,
+[lang="ta"] nav a, [data-lang="ta"] nav a {
+  font-size: 0.875rem !important; /* 14px so Tamil navbar & buttons never explode */
+  line-height: 1.3 !important;
+}
+
+/* Urdu & RTL Typography */
+[lang="ur"], [data-lang="ur"], html[lang="ur"], html[lang="ur"] body, html[lang="ur"] #root, .font-urdu {
+  font-family: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  line-height: 1.75 !important;
+}
+
+[lang="ur"] h1, [data-lang="ur"] h1,
+[lang="ur"] h2, [data-lang="ur"] h2,
+[lang="ur"] h3, [data-lang="ur"] h3,
+[lang="ur"] h4, [data-lang="ur"] h4,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] .font-heading {
+  font-family: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif !important;
+  line-height: 1.4 !important;
+}
+
+[dir="rtl"] {
+  font-family: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', sans-serif !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0 !important;
+}
+
+
