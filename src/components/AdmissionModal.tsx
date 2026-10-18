@@ -59,7 +59,7 @@ export const AdmissionModal: React.FC = () => {
 -----------------------------------------
 *• Inquiry Type:* ${inquiryType}
 *• Student Name:* ${studentName.trim()}
-*• Child's Age:* ${age.trim() || 'Not specified'}
+*• Child's Age / DOB:* ${age.trim() || 'Not specified'}
 *• Applying for Grade:* ${grade}
 *• Parent Name:* ${parentName.trim()}
 *• Contact Number:* ${phone.trim()}
@@ -87,58 +87,48 @@ export const AdmissionModal: React.FC = () => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200 text-start cursor-default"
+        className={`bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200 text-start cursor-default ${
+          isSubmitted ? 'p-0 overflow-hidden' : 'p-6 sm:p-8'
+        }`}
       >
-        {/* High-Visibility Sticky Close Button (X) */}
-        <button
-          type="button"
-          onClick={handleResetAndClose}
-          className="sticky top-2 float-right -mt-1 -me-1 z-20 w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
-          aria-label="Close modal"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        {!isSubmitted && (
+          /* High-Visibility Sticky Close Button (X) for Form */
+          <button
+            type="button"
+            onClick={handleResetAndClose}
+            className="sticky top-2 float-right -mt-1 -me-1 z-20 w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
+            aria-label="Close modal"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
 
         {isSubmitted ? (
-          /* Local WhatsApp Simulator & Chat Preview State */
-          <div className="py-1">
-            <div className="text-center mb-4 pe-6">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 font-mono text-xs font-bold shadow-xs">
-                WhatsApp Chat Simulator (Live Preview)
-              </span>
-              <h3 className="font-editorial text-2xl font-bold text-slate-900 dark:text-white mt-1">
-                Inquiry Formatted & Ready to Send
-              </h3>
-              <p className="text-xs text-slate-600 dark:text-[#9DB0A6]">
-                Review the formatted WhatsApp message below before dispatching.
-              </p>
-            </div>
-
-            <WhatsAppSimulatorModal
-              isOpen={isSubmitted}
-              onClose={handleResetAndClose}
-              inquiryData={{
-                inquiryType,
-                studentName,
-                age,
-                grade,
-                parentName,
-                phone,
-                message,
-              }}
-              formattedMessage={formattedWaMessage}
-              onSendAnother={() => {
-                setIsSubmitted(false);
-                setStudentName('');
-                setAge('');
-                setGrade('Pre-KG');
-                setParentName('');
-                setPhone('');
-                setInquiryType('New Admission 2026-27');
-                setMessage('');
-              }}
-            />
-          </div>
+          /* Strictly Local WhatsApp Chat Simulator Screen */
+          <WhatsAppSimulatorModal
+            isOpen={isSubmitted}
+            onClose={handleResetAndClose}
+            inquiryData={{
+              inquiryType,
+              studentName,
+              age,
+              grade,
+              parentName,
+              phone,
+              message,
+            }}
+            formattedMessage={formattedWaMessage}
+            onSendAnother={() => {
+              setIsSubmitted(false);
+              setStudentName('');
+              setAge('');
+              setGrade('Pre-KG');
+              setParentName('');
+              setPhone('');
+              setInquiryType('New Admission 2026-27');
+              setMessage('');
+            }}
+          />
         ) : (
           /* Active Parent Inquiry Form */
           <div>
@@ -312,13 +302,13 @@ export const AdmissionModal: React.FC = () => {
                   className="flex-1 py-4 px-6 rounded-2xl font-bold text-base text-white bg-[#25D366] hover:bg-[#20ba59] active:scale-98 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 group cursor-pointer ring-4 ring-emerald-500/20"
                 >
                   <span className="text-xl">📲</span>
-                  <span>Send on WhatsApp →</span>
+                  <span>Preview WhatsApp Message →</span>
                 </button>
               </div>
 
               <div className="text-center text-xs text-slate-500 dark:text-[#9DB0A6] flex items-center justify-center gap-1.5 pt-1">
                 <ShieldCheck className="w-4 h-4 text-emerald-700 dark:text-[#34D399]" />
-                <span>Direct WhatsApp message to school office desk. No spam or third-party ads.</span>
+                <span>Local WhatsApp chat simulation. No external browser redirects.</span>
               </div>
             </form>
           </div>
