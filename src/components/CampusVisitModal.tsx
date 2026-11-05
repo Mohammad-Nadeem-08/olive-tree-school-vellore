@@ -19,6 +19,7 @@ import { useSchool } from '../context/SchoolContext';
 import {
   createWhatsAppUrl,
   openWhatsAppChat,
+  formatPhoneDisplay,
 } from '../utils/whatsapp';
 
 type ModalStep = 'form' | 'preview' | 'confirmed';
@@ -114,7 +115,7 @@ Thank you.`;
     setFormattedWaMessage(msg);
 
     // Single intentional user interaction to open WhatsApp
-    const result = openWhatsAppChat(msg);
+    const result = openWhatsAppChat(msg, siteConfig.primaryPhone);
     setPopupBlocked(!result.success);
     setIsOpening(false);
     setStep('confirmed');
@@ -159,9 +160,9 @@ Thank you.`;
       goBackBtn: 'Go Back & Edit',
       confirmBtn: 'Confirm & Continue to WhatsApp →',
       successTitle: 'Visit Request Prepared for WhatsApp',
-      successDesc: `Thank you, ${parentName}. Your visit request for ${date || 'the next working day'} around ${timeSlot} has been loaded into WhatsApp (+91 86101 13160). Please tap Send in WhatsApp to connect with our coordinator.`,
+      successDesc: `Thank you, ${parentName}. Your visit request for ${date || 'the next working day'} around ${timeSlot} has been loaded into WhatsApp (${formatPhoneDisplay(siteConfig.primaryPhone)}). Please tap Send in WhatsApp to connect with our coordinator.`,
       campusLoc: 'Campus Location:',
-      openWhatsAppBtn: '📲 Open WhatsApp (+91 86101 13160)',
+      openWhatsAppBtn: `📲 Open WhatsApp (${formatPhoneDisplay(siteConfig.primaryPhone)})`,
       copyBtn: 'Copy Message',
       copiedBtn: 'Copied!',
       doneBtn: 'Done / Close Window',
@@ -185,7 +186,7 @@ Thank you.`;
       successTitle: 'வளாக பார்வை கோரிக்கை தயாராக உள்ளது',
       successDesc: `நன்றி, ${parentName}. தங்களின் வளாக பார்வை கோரிக்கை தயாராக உள்ளது (${date || 'அடுத்த வேலை நாள்'} ${timeSlot}). வருகை நேரத்தை உறுதிப்படுத்த வாட்ஸ்அப்பில் செய்தியை அனுப்பவும்.`,
       campusLoc: 'பள்ளி முகவரி:',
-      openWhatsAppBtn: '📲 வாட்ஸ்அப்பில் திறக்கவும் (+91 86101 13160)',
+      openWhatsAppBtn: `📲 வாட்ஸ்அப்பில் திறக்கவும் (${formatPhoneDisplay(siteConfig.primaryPhone)})`,
       copyBtn: 'செய்தியை நகலெடுக்கவும்',
       copiedBtn: 'நகலெடுக்கப்பட்டது!',
       doneBtn: 'முடிந்தது / சாளரத்தை மூடுக',
@@ -209,7 +210,7 @@ Thank you.`;
       successTitle: 'کیمپس دورے کی درخواست تیار ہے',
       successDesc: `شکریہ محترم/محترمہ ${parentName}۔ آپ کے کیمپس دورے کی درخواست تیار ہو چکی ہے (${date || 'اگلے دفتری دن'} ${timeSlot})۔ وقت کی حتمی تصدیق کے لیے براہ کرم واٹس ایپ پر پیغام ارسال فرمائیں۔`,
       campusLoc: 'کیمپس کا پتہ:',
-      openWhatsAppBtn: '📲 واٹس ایپ کھولیں (+91 86101 13160)',
+      openWhatsAppBtn: `📲 واٹس ایپ کھولیں (${formatPhoneDisplay(siteConfig.primaryPhone)})`,
       copyBtn: 'پیغام کاپی کریں',
       copiedBtn: 'کاپی ہو گیا!',
       doneBtn: 'مکمل / بند کریں',
@@ -446,7 +447,7 @@ Thank you.`;
             <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200 text-xs flex items-start gap-2.5">
               <MessageSquare className="w-4 h-4 text-emerald-700 dark:text-[#34D399] shrink-0 mt-0.5" />
               <div className="leading-relaxed">
-                Clicking <strong>Confirm & Continue to WhatsApp</strong> will open WhatsApp (+91 86101 13160). Our coordinator will verify slot availability and confirm your appointment manually.
+                Clicking <strong>Confirm & Continue to WhatsApp</strong> will open WhatsApp ({formatPhoneDisplay(siteConfig.primaryPhone)}). Our coordinator will verify slot availability and confirm your appointment manually.
               </div>
             </div>
 
@@ -509,7 +510,7 @@ Thank you.`;
                 </div>
                 <p>{l.popupNote}</p>
                 <a
-                  href={createWhatsAppUrl(formattedWaMessage)}
+                  href={createWhatsAppUrl(formattedWaMessage, siteConfig.primaryPhone)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer"

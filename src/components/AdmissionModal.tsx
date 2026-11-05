@@ -21,6 +21,7 @@ import { useSchool } from '../context/SchoolContext';
 import {
   createWhatsAppUrl,
   openWhatsAppChat,
+  formatPhoneDisplay,
   OFFICIAL_WHATSAPP_NUMBER,
 } from '../utils/whatsapp';
 
@@ -155,7 +156,7 @@ Thank you.`;
     setFormattedWaMessage(msg);
 
     // Single intentional user interaction to open WhatsApp
-    const result = openWhatsAppChat(msg);
+    const result = openWhatsAppChat(msg, siteConfig?.primaryPhone);
     setPopupBlocked(!result.success);
     setIsOpening(false);
     setStep('confirmed');
@@ -224,7 +225,7 @@ Thank you.`;
             <div className="text-start mb-6 pe-8">
               <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-700 text-white font-mono text-xs font-bold mb-3 shadow-xs">
                 <GraduationCap className="w-4 h-4 text-amber-300" />
-                <span>Admissions 2027–28 Desk</span>
+                <span>Admissions {academicYear} Desk</span>
               </div>
               <h3
                 className={`font-editorial text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white ${
@@ -321,7 +322,7 @@ Thank you.`;
               <div>
                 <label className="block text-xs font-mono font-bold text-slate-700 dark:text-slate-300 uppercase mb-1.5 flex items-center gap-1.5">
                   <GraduationCap className="w-3.5 h-3.5 text-blue-700 dark:text-blue-400" />
-                  <span>Target Class for 2027–28 *</span>
+                  <span>Target Class for {academicYear} *</span>
                 </label>
                 <select
                   value={grade}
@@ -513,7 +514,7 @@ Thank you.`;
             <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200 text-xs flex items-start gap-2.5">
               <MessageSquare className="w-4 h-4 text-emerald-700 dark:text-[#34D399] shrink-0 mt-0.5" />
               <div className="leading-relaxed">
-                Clicking <strong>Confirm & Continue to WhatsApp</strong> will open WhatsApp (+91 86101 13160) with this inquiry. You can review the message in WhatsApp and tap Send to contact the admissions team.
+                Clicking <strong>Confirm & Continue to WhatsApp</strong> will open WhatsApp ({formatPhoneDisplay(siteConfig?.primaryPhone)}) with this inquiry. You can review the message in WhatsApp and tap Send to contact the admissions team.
               </div>
             </div>
 
@@ -559,7 +560,7 @@ Thank you.`;
                 Inquiry Prepared for WhatsApp
               </h3>
               <p className="text-sm sm:text-base text-slate-600 dark:text-[#9DB0A6] max-w-md mx-auto leading-relaxed">
-                Thank you, <strong>{parentName}</strong>. Your inquiry for <strong>{studentName}</strong> ({grade}) has been loaded into WhatsApp (+91 86101 13160). Please click <strong>Send</strong> in WhatsApp to connect with our admissions office.
+                Thank you, <strong>{parentName}</strong>. Your inquiry for <strong>{studentName}</strong> ({grade}) has been loaded into WhatsApp ({formatPhoneDisplay(siteConfig?.primaryPhone)}). Please click <strong>Send</strong> in WhatsApp to connect with our admissions office.
               </p>
             </div>
 
@@ -574,13 +575,13 @@ Thank you.`;
                   Your browser prevented opening WhatsApp automatically. Please use the direct link below:
                 </p>
                 <a
-                  href={createWhatsAppUrl(formattedWaMessage)}
+                  href={createWhatsAppUrl(formattedWaMessage, siteConfig?.primaryPhone)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>Open WhatsApp Directly (+91 86101 13160)</span>
+                  <span>Open WhatsApp Directly ({formatPhoneDisplay(siteConfig?.primaryPhone)})</span>
                 </a>
               </div>
             )}

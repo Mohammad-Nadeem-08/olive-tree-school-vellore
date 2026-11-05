@@ -182,7 +182,9 @@ export const Hero: React.FC = () => {
                   </span>
                 </div>
               ) : (
-                <span className="leading-snug text-start">{t.hero.admissionsOpenPill}</span>
+                <span className="leading-snug text-start">
+                  {t.hero.admissionsOpenPill.replace(/202[0-9]–?202[0-9]|202[0-9]-[0-9]+/g, siteConfig.admissionYear)}
+                </span>
               )}
             </div>
           </div>

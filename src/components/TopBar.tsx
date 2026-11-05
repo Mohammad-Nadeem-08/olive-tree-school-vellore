@@ -33,7 +33,7 @@ export const TopBar: React.FC = () => {
             <div className="flex items-center gap-1.5 flex-1 min-w-0 overflow-hidden">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-[11px] shrink-0 border border-[#E59A23]/40 tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#E59A23] animate-pulse" />
-                <span>2027–2028</span>
+                <span>{siteConfig.admissionYear}</span>
               </span>
 
               {/* Continuous Marquee on Mobile */}
@@ -145,7 +145,7 @@ export const TopBar: React.FC = () => {
           <div className="flex items-center gap-2.5 flex-1 min-w-0">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-xs shrink-0 border border-[#E59A23]/40 tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-[#E59A23] animate-pulse" />
-              <span>2027–2028</span>
+              <span>{siteConfig.admissionYear}</span>
             </span>
 
             {liveEditMode ? (
@@ -211,16 +211,17 @@ export const TopBar: React.FC = () => {
                 <span>{siteConfig.primaryPhone}</span>
               </a>
 
-              <span className="text-emerald-400/60">•</span>
-
-              <a
-                href={`tel:+91${siteConfig.secondaryPhone.replace(/\s+/g, '')}`}
-                className="hidden md:inline-flex items-center text-emerald-100 hover:text-white transition-colors"
-              >
-                <span>{siteConfig.secondaryPhone}</span>
-              </a>
-
-              <span className="text-emerald-400/60 hidden md:inline">•</span>
+              {siteConfig.secondaryPhone && (
+                <>
+                  <span className="text-emerald-400/60">•</span>
+                  <a
+                    href={`tel:+91${siteConfig.secondaryPhone.replace(/\D/g, '')}`}
+                    className="hidden md:inline-flex items-center text-emerald-100 hover:text-white transition-colors"
+                  >
+                    <span>{siteConfig.secondaryPhone}</span>
+                  </a>
+                </>
+              )}
 
               {/* Staff / Admin Access Button */}
               {isAdminAuthenticated ? (

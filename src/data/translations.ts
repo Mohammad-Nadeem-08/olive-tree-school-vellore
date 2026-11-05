@@ -949,3 +949,53 @@ export const curriculumData = {
 };
 
 export const defaultNotices: NoticeItem[] = [];
+
+/**
+ * Dynamically interpolates the central school configuration (admission year,
+ * years of excellence, primary phone) into the translation schema for any language.
+ * Ensures trilingual integrity across English, Tamil, and Urdu without hardcoding.
+ */
+export function getInterpolatedTranslations(
+  lang: Language,
+  config?: {
+    admissionYear?: string;
+    yearsOfExcellence?: string;
+    primaryPhone?: string;
+    secondaryPhone?: string;
+    altPhone?: string;
+  }
+): TranslationSchema {
+  const base = translations[lang] || translations.en;
+  if (!config) return base;
+
+  const year = config.admissionYear || '2027-2028';
+  const yearsExcellence = config.yearsOfExcellence || '13+';
+  const primaryPhone = config.primaryPhone || '86101 13160';
+
+  const interpolateString = (str: string): string => {
+    return str
+      .replace(/2027[–-]2028/g, year)
+      .replace(/2027[–-]28/g, year)
+      .replace(/13\+/g, yearsExcellence)
+      .replace(/86101\s*13160/g, primaryPhone);
+  };
+
+  const transform = (obj: any): any => {
+    if (typeof obj === 'string') {
+      return interpolateString(obj);
+    }
+    if (Array.isArray(obj)) {
+      return obj.map(transform);
+    }
+    if (obj !== null && typeof obj === 'object') {
+      const res: any = {};
+      for (const key of Object.keys(obj)) {
+        res[key] = transform(obj[key]);
+      }
+      return res;
+    }
+    return obj;
+  };
+
+  return transform(base);
+}

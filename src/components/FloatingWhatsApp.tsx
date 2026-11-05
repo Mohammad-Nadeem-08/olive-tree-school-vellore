@@ -1,6 +1,7 @@
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
+import { normalizeWhatsAppNumber, formatPhoneDisplay } from '../utils/whatsapp';
 
 export const FloatingWhatsApp: React.FC = () => {
   const {
@@ -19,17 +20,18 @@ export const FloatingWhatsApp: React.FC = () => {
   }
 
   const getWhatsAppMessage = () => {
+    const year = siteConfig.admissionYear;
     if (language === 'ta') {
-      return 'அஸ்ஸலாமு அலைக்கும்! ஆலிவ் ட்ரீ பள்ளியில் 2027-2028 மாணவர் சேர்க்கை குறித்து அறிய விரும்புகிறேன் (வேலூர் வளாகம்).';
+      return `அஸ்ஸலாமு அலைக்கும்! ஆலிவ் ட்ரீ பள்ளியில் ${year} மாணவர் சேர்க்கை குறித்து அறிய விரும்புகிறேன் (வேலூர் வளாகம்).`;
     }
     if (language === 'ur') {
-      return 'السلام علیکم! میں اولیو ٹری اسکول، ویلور میں تعلیمی سال 2027-2028 کے داخلوں کے متعلق معلومات حاصل کرنا چاہتا/چاہتی ہوں۔';
+      return `السلام علیکم! میں اولیو ٹری اسکول، ویلور میں تعلیمی سال ${year} کے داخلوں کے متعلق معلومات حاصل کرنا چاہتا/چاہتی ہوں۔`;
     }
-    return `Assalamu Alaikum! I would like to inquire about Pre-KG to 5th Std admissions for 2027-2028 at Olive Tree School (with Brainy Stars International), Kaspa, Vellore.`;
+    return `Assalamu Alaikum! I would like to inquire about Pre-KG to 5th Std admissions for ${year} at Olive Tree School (with Brainy Stars International), Kaspa, Vellore.`;
   };
 
-  const cleanPhone = siteConfig.primaryPhone.replace(/\D/g, '') || '8610113160';
-  const waUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(getWhatsAppMessage())}`;
+  const cleanPhone = normalizeWhatsAppNumber(siteConfig.primaryPhone);
+  const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(getWhatsAppMessage())}`;
 
   return (
     <div
@@ -51,7 +53,7 @@ export const FloatingWhatsApp: React.FC = () => {
         href={waUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Direct WhatsApp Chat (+91 86101 13160)"
+        aria-label={`Direct WhatsApp Chat (${formatPhoneDisplay(siteConfig.primaryPhone)})`}
         onClick={(e) => {
           e.stopPropagation();
         }}

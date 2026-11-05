@@ -7,7 +7,8 @@ import {
   Lock,
   MessageSquare,
 } from 'lucide-react';
-import { createWhatsAppUrl } from '../utils/whatsapp';
+import { createWhatsAppUrl, formatPhoneDisplay } from '../utils/whatsapp';
+import { useSchool } from '../context/SchoolContext';
 
 export interface WhatsAppSimulatorProps {
   isOpen: boolean;
@@ -31,6 +32,7 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
   formattedMessage,
   onSendAnother,
 }) => {
+  const { siteConfig } = useSchool();
   const [copied, setCopied] = useState(false);
   const [currentTime] = useState(() => {
     return new Date().toLocaleTimeString([], {
@@ -128,7 +130,7 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
           <div className="flex justify-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FFEECD] dark:bg-[#182229] text-[#54656F] dark:text-[#8696A0] text-[11px] font-medium shadow-2xs max-w-sm text-center">
               <Lock className="w-3 h-3 text-amber-700 dark:text-amber-400 shrink-0" />
-              <span>Review your message below and send via WhatsApp (+91 86101 13160).</span>
+              <span>Review your message below and send via WhatsApp ({formatPhoneDisplay(siteConfig.primaryPhone)}).</span>
             </div>
           </div>
 
@@ -157,13 +159,13 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
         <div className="p-4 bg-white dark:bg-[#16241F] border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-3">
           {/* Button 1: Open WhatsApp Directly */}
           <a
-            href={createWhatsAppUrl(formattedMessage)}
+            href={createWhatsAppUrl(formattedMessage, siteConfig.primaryPhone)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:scale-98 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
           >
             <MessageSquare className="w-4 h-4 text-white" />
-            <span>📲 Open WhatsApp (+91 86101 13160)</span>
+            <span>📲 Open WhatsApp ({formatPhoneDisplay(siteConfig.primaryPhone)})</span>
           </a>
 
           {/* Button 2: Copy Message to Clipboard */}

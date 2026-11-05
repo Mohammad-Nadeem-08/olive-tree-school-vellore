@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import type { Language, Theme, SiteConfig, NoticeItem, TranslationSchema, GalleryPhoto } from '../types';
-import { translations } from '../data/translations';
+import { getInterpolatedTranslations } from '../data/translations';
 import { defaultGalleryPhotos } from '../data/defaultGallery';
 
-const DEFAULT_CONFIG: SiteConfig = {
+export const DEFAULT_CONFIG: SiteConfig = {
   admissionYear: '2027-2028',
   yearsOfExcellence: '13+',
   primaryPhone: '86101 13160',
@@ -31,6 +31,7 @@ interface SchoolContextValue {
 
   siteConfig: SiteConfig;
   updateSiteConfig: (partial: Partial<SiteConfig>) => void;
+  saveSchoolConfig: (partial: Partial<SiteConfig>) => Promise<{ success: boolean; error?: string }>;
 
   notices: NoticeItem[];
   addNotice: (notice: Omit<NoticeItem, 'id'>) => void;
@@ -111,25 +112,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   }, [theme]);
 
-  // Sync HTML element attributes for font, direction, and localized title
-  useEffect(() => {
-    document.documentElement.lang = language;
-    document.documentElement.dir = language === 'ur' ? 'rtl' : 'ltr';
-    if (language === 'ur') {
-      document.body.classList.add('lang-ur');
-      document.body.classList.remove('lang-ta');
-      document.title = 'اولیو ٹری اسکول، ویلور | داخلے جاری ہیں تعلیمی سال 2027–2028 (عصری و دینی تعلیم)';
-    } else if (language === 'ta') {
-      document.body.classList.add('lang-ta');
-      document.body.classList.remove('lang-ur');
-      document.title = 'ஆலிவ் ட்ரீ பள்ளி, வேலூர் | மாணவர் சேர்க்கை 2027–2028 (பொதுக்கல்வி & இஸ்லாமிய தர்பிய்யா)';
-    } else {
-      document.body.classList.remove('lang-ta', 'lang-ur');
-      document.title = 'Olive Tree School, Vellore | Pre-KG to 5th Std Admissions Open 2027–2028 (Academic & Islamic Education)';
-    }
-  }, [language]);
-
-  // 2. Site Config
+  // 2. Site Config State
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
     try {
       const saved = localStorage.getItem('ots_site_config');
@@ -156,12 +139,122 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   });
 
+  // Sync HTML element attributes for font, direction, and localized title dynamically
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ur' ? 'rtl' : 'ltr';
+    const year = siteConfig.admissionYear;
+    if (language === 'ur') {
+      document.body.classList.add('lang-ur');
+      document.body.classList.remove('lang-ta');
+      document.title = `اولیو ٹری اسکول، ویلور | داخلے جاری ہیں تعلیمی سال ${year} (عصری و دینی تعلیم)`;
+    } else if (language === 'ta') {
+      document.body.classList.add('lang-ta');
+      document.body.classList.remove('lang-ur');
+      document.title = `ஆலிவ் ட்ரீ பள்ளி, வேலூர் | மாணவர் சேர்க்கை ${year} (பொதுக்கல்வி & இஸ்லாமிய தர்பிய்யா)`;
+    } else {
+      document.body.classList.remove('lang-ta', 'lang-ur');
+      document.title = `Olive Tree School, Vellore | Pre-KG to 5th Std Admissions Open ${year} (Academic & Islamic Education)`;
+    }
+  }, [language, siteConfig.admissionYear]);
+
+  // Dynamically interpolated trilingual schema based on centralized configuration
+  const t = useMemo(() => {
+    return getInterpolatedTranslations(language, siteConfig);
+  }, [language, siteConfig]);
+
+  // Background fetch to centralized /api/config for persistent shared updates across all visitors
+  const syncServerConfig = useCallback(async () => {
+    try {
+      const res = await fetch('/api/config');
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success && data.config) {
+          setSiteConfig((prev) => {
+            const updated = { ...prev, ...data.config };
+            localStorage.setItem('ots_site_config', JSON.stringify(updated));
+            return updated;
+          });
+        }
+      }
+    } catch {
+      // Gracefully silent fallback to existing loaded config on network error
+    }
+  }, []);
+
+  useEffect(() => {
+    syncServerConfig();
+
+    const handleFocus = () => {
+      syncServerConfig();
+    };
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        syncServerConfig();
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('visibilitychange', handleVisibility);
+
+    // Periodic lightweight background sync every 3 minutes
+    const interval = setInterval(syncServerConfig, 180000);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('visibilitychange', handleVisibility);
+      clearInterval(interval);
+    };
+  }, [syncServerConfig]);
+
+  // Client-side quick config update
   const updateSiteConfig = (partial: Partial<SiteConfig>) => {
     setSiteConfig((prev) => {
       const updated = { ...prev, ...partial };
       localStorage.setItem('ots_site_config', JSON.stringify(updated));
       return updated;
     });
+  };
+
+  // Persistent Admin Save: Persists to /api/config with authorization
+  const saveSchoolConfig = async (partial: Partial<SiteConfig>): Promise<{ success: boolean; error?: string }> => {
+    const updated = { ...siteConfig, ...partial };
+
+    try {
+      const res = await fetch('/api/config', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer olive2026',
+        },
+        body: JSON.stringify(updated),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.success && data.config) {
+          setSiteConfig(data.config);
+          localStorage.setItem('ots_site_config', JSON.stringify(data.config));
+          return { success: true };
+        }
+      }
+
+      const errData = await res.json().catch(() => ({}));
+      // Even if API returns error, retain in localStorage for admin
+      updateSiteConfig(partial);
+      return {
+        success: false,
+        error: errData.error || 'Server rejected configuration save. Saved locally in current browser.',
+      };
+    } catch {
+      // Offline fallback: save locally
+      updateSiteConfig(partial);
+      return {
+        success: true,
+        error: 'Saved locally in this browser. Cloud persistence will sync when network is restored.',
+      };
+    }
   };
 
   // 3. Notices (Clean production state: 0 seeded mock notices)
@@ -320,12 +413,13 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       value={{
         language,
         setLanguage,
-        t: translations[language],
+        t,
         isRtl,
         theme,
         toggleTheme,
         siteConfig,
         updateSiteConfig,
+        saveSchoolConfig,
         notices,
         addNotice,
         updateNotice,

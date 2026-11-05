@@ -3,12 +3,12 @@ import { Award, TreePine, CheckCircle, Brain, Trophy, Activity, Mic } from 'luci
 import { useSchool } from '../context/SchoolContext';
 
 export const AboutSection: React.FC = () => {
-  const { language, t, theme } = useSchool();
+  const { language, t, theme, siteConfig } = useSchool();
 
   const content = {
     en: {
       estBadge: 'Est. 2013 • Kaspa, Vellore',
-      heroCardTitle: '13+ Years of Nurturing Noble Character & Academic Minds',
+      heroCardTitle: `${siteConfig.yearsOfExcellence} Years of Nurturing Noble Character & Academic Minds`,
       heroCardDesc:
         'Founded with a clear vision: to give every child a joyful, values-based early education combining modern academic supremacy with authentic Islamic Tarbiyah in a proper Sunnah way.',
       ratioLabel: 'Teacher-Student Ratio',
@@ -32,7 +32,7 @@ export const AboutSection: React.FC = () => {
     },
     ta: {
       estBadge: 'தொடக்கம் 2013 • கஸ்பா, வேலூர்',
-      heroCardTitle: '13+ ஆண்டுகால நற்பண்பும் நவீன கல்வியும் இணைந்த சேவை',
+      heroCardTitle: `${siteConfig.yearsOfExcellence} ஆண்டுகால நற்பண்பும் நவீன கல்வியும் இணைந்த சேவை`,
       heroCardDesc:
         'ஒவ்வொரு குழந்தைக்கும் சுன்னாஹ் வழியிலான இஸ்லாமிய தர்பிய்யா மற்றும் நவீன கல்விச் சிறப்பின் சமநிலையான இணைப்பில் மகிழ்ச்சியான ஆரம்பக் கல்வியை வழங்குவதே எங்கள் நோக்கம்.',
       ratioLabel: 'ஆசிரியர்-மாணவர் விகிதம்',
@@ -56,7 +56,7 @@ export const AboutSection: React.FC = () => {
     },
     ur: {
       estBadge: 'قیام: 2013 • کاسپا، ویلور',
-      heroCardTitle: '13+ سالہ اعلیٰ اخلاق و تعلیمی فضیلت کا سفر',
+      heroCardTitle: `${siteConfig.yearsOfExcellence} سالہ اعلیٰ اخلاق و تعلیمی فضیلت کا سفر`,
       heroCardDesc:
         'ایک پرخلوص عزم کے ساتھ قائم کردہ ادارہ تاکہ ہر بچے کو مسنون اسلامی تربیت اور عصری تعلیمی کمال کے متوازن امتزاج سے پرمسرت ماحول فراہم کیا جا سکے۔',
       ratioLabel: 'استاد و طالب علم کا تناسب',

@@ -12,7 +12,7 @@ import {
 import { useSchool } from '../context/SchoolContext';
 
 export const GradeRoadMap: React.FC = () => {
-  const { t, language, openAdmissionModal, theme } = useSchool();
+  const { t, language, openAdmissionModal, theme, siteConfig } = useSchool();
   const [selectedGrade, setSelectedGrade] = useState<'prekg' | 'lkg' | 'ukg' | 'primary'>('prekg');
 
   const gradeDetails = {
@@ -375,7 +375,7 @@ export const GradeRoadMap: React.FC = () => {
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-[#D93829] hover:bg-[#b92c1e] text-white font-bold text-base transition-all shadow-md hover:shadow-lg cursor-pointer group"
               >
                 <span>
-                  Admissions for {current.tabLabel} (2027–28)
+                  Admissions for {current.tabLabel} ({siteConfig.admissionYear})
                 </span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
               </button>

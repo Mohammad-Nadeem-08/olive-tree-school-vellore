@@ -11,6 +11,7 @@ import {
   Download,
 } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
+import { normalizeWhatsAppNumber } from '../utils/whatsapp';
 
 export const ContactFooter: React.FC = () => {
   const {
@@ -131,7 +132,7 @@ export const ContactFooter: React.FC = () => {
                     }`}
                   >
                     <a
-                      href={`tel:+91${siteConfig.primaryPhone.replace(/\s+/g, '')}`}
+                      href={`tel:+91${siteConfig.primaryPhone.replace(/\D/g, '')}`}
                       className="hover:text-[#D93829] transition-colors flex items-center justify-between"
                     >
                       <span>{siteConfig.primaryPhone}</span>
@@ -139,18 +140,22 @@ export const ContactFooter: React.FC = () => {
                         {t.contact.whatsAppDesk}
                       </span>
                     </a>
-                    <a
-                      href={`tel:+91${siteConfig.secondaryPhone.replace(/\s+/g, '')}`}
-                      className="hover:text-[#D93829] transition-colors"
-                    >
-                      <span>{siteConfig.secondaryPhone}</span>
-                    </a>
-                    <a
-                      href={`tel:+91${siteConfig.altPhone.replace(/\s+/g, '')}`}
-                      className="hover:text-[#D93829] transition-colors"
-                    >
-                      <span>{siteConfig.altPhone}</span>
-                    </a>
+                    {siteConfig.secondaryPhone?.trim() && (
+                      <a
+                        href={`tel:+91${siteConfig.secondaryPhone.replace(/\D/g, '')}`}
+                        className="hover:text-[#D93829] transition-colors"
+                      >
+                        <span>{siteConfig.secondaryPhone}</span>
+                      </a>
+                    )}
+                    {siteConfig.altPhone?.trim() && (
+                      <a
+                        href={`tel:+91${siteConfig.altPhone.replace(/\D/g, '')}`}
+                        className="hover:text-[#D93829] transition-colors"
+                      >
+                        <span>{siteConfig.altPhone}</span>
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -176,7 +181,7 @@ export const ContactFooter: React.FC = () => {
                   </a>
                   <div className="mt-4">
                     <a
-                      href="https://wa.me/918610113160"
+                      href={`https://wa.me/${normalizeWhatsAppNumber(siteConfig.primaryPhone)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-xs sm:text-sm text-[#123524] dark:text-[#34D399] hover:text-[#D93829] dark:hover:text-[#D93829] font-bold cursor-pointer"

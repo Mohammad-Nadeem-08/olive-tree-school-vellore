@@ -9,6 +9,7 @@ export const Navbar: React.FC = () => {
     setLanguage,
     theme,
     toggleTheme,
+    siteConfig,
     t,
     openAdmissionModal,
     isAdminAuthenticated,
@@ -574,12 +575,12 @@ export const Navbar: React.FC = () => {
               )}
 
               <a
-                href="tel:8610113160"
+                href={`tel:+91${siteConfig.primaryPhone.replace(/\D/g, '')}`}
                 className={`inline-flex items-center gap-1.5 text-xs font-bold ${
                   theme === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
                 }`}
               >
-                <span>Call: 86101 13160</span>
+                <span>Call: {siteConfig.primaryPhone}</span>
               </a>
             </div>
           </div>
