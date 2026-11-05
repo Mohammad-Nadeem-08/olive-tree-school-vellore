@@ -37,6 +37,7 @@ export const CampusGallery: React.FC = () => {
     deleteGalleryPhoto,
     isAdminAuthenticated,
     liveEditMode,
+    siteConfig,
   } = useSchool();
 
   // Mode: Curated 6-photo homepage preview vs. Full 12-photo gallery
@@ -64,7 +65,7 @@ export const CampusGallery: React.FC = () => {
   const [captionTa, setCaptionTa] = useState('');
   const [captionUr, setCaptionUr] = useState('');
   const [category, setCategory] = useState<'classrooms' | 'tarbiyah' | 'activities'>('classrooms');
-  const [dateTag, setDateTag] = useState('Academic Year 2027–28');
+  const [dateTag, setDateTag] = useState(`Academic Year ${siteConfig.admissionYear}`);
   const [isCompressing, setIsCompressing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -248,7 +249,7 @@ export const CampusGallery: React.FC = () => {
       captionTa: captionTa.trim() || captionEn.trim(),
       captionUr: captionUr.trim() || captionEn.trim(),
       category,
-      date: dateTag.trim() || 'Academic Year 2027–28',
+      date: dateTag.trim() || `Academic Year ${siteConfig.admissionYear}`,
     });
 
     // Reset form
@@ -257,7 +258,7 @@ export const CampusGallery: React.FC = () => {
     setCaptionEn('');
     setCaptionTa('');
     setCaptionUr('');
-    setDateTag('Academic Year 2027–28');
+    setDateTag(`Academic Year ${siteConfig.admissionYear}`);
     setIsAddModalOpen(false);
     setErrorMsg('');
   };
@@ -1032,7 +1033,7 @@ export const CampusGallery: React.FC = () => {
                   type="text"
                   value={dateTag}
                   onChange={(e) => setDateTag(e.target.value)}
-                  placeholder="e.g. Academic Year 2027–28"
+                  placeholder={`e.g. Academic Year ${siteConfig.admissionYear}`}
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-[#243B32] bg-white dark:bg-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>

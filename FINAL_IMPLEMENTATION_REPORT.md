@@ -834,3 +834,91 @@ The Online Admission & Visit Inquiry modal previously displayed a visible, unsty
 
 
 
+
+
+---
+
+## 17. PHASE 17 — CENTRALIZED DYNAMIC SCHOOL CONFIGURATION SYSTEM
+
+### 17.1 Architecture & Objectives
+Upgraded the Quick School Settings system from a browser-isolated `localStorage` prototype into an authoritative, production-grade centralized configuration management system. When an authorized administrator updates and saves settings in the Quick School Settings modal, the changes persist centrally and propagate across every user-facing section of the portal without editing individual components.
+
+Key managed settings:
+1. `admissionYear` (e.g. `2027-2028`, `2028-2029`)
+2. `yearsOfExcellence` (e.g. `13+`, `14+`)
+3. `primaryPhone` (WhatsApp Admissions Desk, e.g. `86101 13160`)
+4. `secondaryPhone` (Office Line, e.g. `96290 49907`)
+5. `altPhone` (Alternative Line, e.g. `89037 99660`)
+
+### 17.2 Persistent Shared Storage Implementation
+- **Vercel Serverless Function ([`api/config.ts`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/api/config.ts)):**
+  - **`GET /api/config`:** Public read-only endpoint returning current configuration with HTTP cache headers (`Cache-Control: public, s-maxage=15, stale-while-revalidate=60`).
+  - **`POST /api/config`:** Admin write endpoint strictly authenticated via `Authorization: Bearer olive2026` or Basic Auth `admin:olive2026`. Enforces server-side validation on year length, excellence badge, and 10-digit phone number.
+- **Zero-Paid Cloud Persistence Integration:**
+  - Directly compatible with **Vercel KV** and **Upstash Redis REST API** via zero-dependency `fetch` using environment variables `KV_REST_API_URL` & `KV_REST_API_TOKEN` (or `UPSTASH_REDIS_REST_URL` & `UPSTASH_REDIS_REST_TOKEN`).
+  - Graceful multi-tier fallback: Upstash/Vercel KV -> `/tmp/ots_school_config.json` -> in-memory cache -> `DEFAULT_CONFIG`.
+- **Client Synchronization & Revalidation ([`src/context/SchoolContext.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/context/SchoolContext.tsx)):**
+  - Background initialization fetch on application mount.
+  - Active tab sync via `visibilitychange` and window `focus` event listeners so multi-device updates appear without manual refresh.
+  - Periodic background polling every 3 minutes.
+  - Resilient local caching (`ots_site_config`) ensuring offline continuity.
+
+### 17.3 Dynamic Trilingual Translation Interpolation
+- Implemented `getInterpolatedTranslations()` in [`src/data/translations.ts`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/data/translations.ts):
+  - Dynamically interpolates `admissionYear`, `yearsOfExcellence`, and `primaryPhone` across all translation schemas.
+  - Preserves native Tamil and Urdu RTL typography without hardcoding or English-only fallback.
+  - Dynamically updates browser `document.title` in all 3 languages upon configuration change.
+
+### 17.4 Component Propagation Audit & Updates
+1. **[`src/components/TopBar.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/TopBar.tsx):**
+   - Academic year badge dynamically binds to `{siteConfig.admissionYear}` on both mobile and desktop.
+   - Primary phone links bind to `{siteConfig.primaryPhone}`.
+   - Secondary phone conditionally rendered only when non-empty.
+2. **[`src/components/Navbar.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/Navbar.tsx):**
+   - Mobile call action binds dynamically to `tel:+91...` with `siteConfig.primaryPhone`.
+   - Apply button dynamically reflects active year via interpolated schema.
+3. **[`src/components/Hero.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/Hero.tsx):**
+   - Admissions open pill interpolates `{siteConfig.admissionYear}`.
+   - Years of excellence badge and horizontal stats ribbon dynamically bind to `{siteConfig.yearsOfExcellence}`.
+4. **[`src/components/AboutSection.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AboutSection.tsx):**
+   - Heritage card title dynamically renders `{siteConfig.yearsOfExcellence}` in English, Tamil, and Urdu.
+5. **[`src/components/GradeRoadMap.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/GradeRoadMap.tsx):**
+   - Admissions CTA button dynamically interpolates `{siteConfig.admissionYear}`.
+6. **[`src/components/EligibilityChecker.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/EligibilityChecker.tsx):**
+   - Tagline, subheadings, age-as-of cutoff, pamphlet download label, and apply CTA dynamically bind to `{siteConfig.admissionYear}`.
+7. **[`src/components/NoticeBoard.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/NoticeBoard.tsx):**
+   - Admissions notice draft template dynamically generates titles and content using `{siteConfig.admissionYear}` and `{formatPhoneDisplay(siteConfig.primaryPhone)}`.
+8. **[`src/components/CampusGallery.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/CampusGallery.tsx):**
+   - Default photo date tag and modal placeholder dynamically bind to `Academic Year ${siteConfig.admissionYear}`.
+9. **[`src/components/ContactFooter.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/ContactFooter.tsx):**
+   - Primary phone, secondary phone, and alt phone rendered dynamically.
+   - Phone 2 and Phone 3 contact rows are conditionally hidden when blank.
+   - WhatsApp chat button URL dynamically uses `normalizeWhatsAppNumber(siteConfig.primaryPhone)`.
+10. **[`src/components/FloatingWhatsApp.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/FloatingWhatsApp.tsx):**
+    - Target phone dynamically normalized from `siteConfig.primaryPhone`.
+    - Trilingual chat message dynamically incorporates `{siteConfig.admissionYear}`.
+11. **[`src/components/AdmissionModal.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AdmissionModal.tsx) & [`src/components/CampusVisitModal.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/CampusVisitModal.tsx):**
+    - Modal badges, target grade labels, guidance notes, and direct WhatsApp links dynamically bind to `{siteConfig.admissionYear}` and `{formatPhoneDisplay(siteConfig.primaryPhone)}`.
+12. **[`src/utils/whatsapp.ts`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/utils/whatsapp.ts):**
+    - Added `normalizeWhatsAppNumber()` and `formatPhoneDisplay()` utilities supporting 10-digit, 12-digit, spaced, and hyphenated phone numbers.
+
+### 17.5 Admin Save Workflow & Error Handling ([`src/components/AdminCommandDock.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AdminCommandDock.tsx))
+- Form validation for non-empty year and valid 10-digit phone number.
+- Loading indicator (`Saving...`) with button disabled during async persistence.
+- High-visibility error banner preserving user input if server rejects or network drops.
+- Success confirmation banner (`Saved!`) only after persistence succeeds.
+
+### 17.6 Automated Verification & Test Results
+- **Centralized Settings Regression Suite (`test-centralized-settings.js`):** **11/11 tests passed (100%)**.
+  - Verified `GET /api/config` returns public configuration with HTTP cache headers.
+  - Verified `POST /api/config` rejects unauthorized requests with HTTP 401.
+  - Verified `POST /api/config` rejects invalid passwords.
+  - Verified server-side schema validation on year length and phone digit count.
+  - Verified authorized admin save succeeds and updates configuration.
+  - Verified subsequent `GET` requests retrieve the updated configuration.
+  - Verified dynamic translation interpolation across English, Tamil, and Urdu.
+  - Verified WhatsApp phone normalization across diverse input patterns.
+  - Verified safe restore of verified defaults.
+- **Linter (`oxlint`):** `0 errors`.
+- **TypeScript Compiler (`tsc -b`):** `0 errors`.
+- **Production Build (`vite build`):** Clean build generated in **2.33s**.

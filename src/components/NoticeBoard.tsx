@@ -11,6 +11,7 @@ import {
   EyeOff,
 } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
+import { formatPhoneDisplay } from '../utils/whatsapp';
 import type { NoticeItem } from '../types';
 
 export const NoticeBoard: React.FC = () => {
@@ -516,6 +517,7 @@ const NoticeFormModal: React.FC<NoticeFormModalProps> = ({
   editingNotice,
   onSave,
 }) => {
+  const { siteConfig } = useSchool();
   const [category, setCategory] = useState<NoticeItem['category']>(
     editingNotice?.category || 'Admissions'
   );
@@ -533,18 +535,21 @@ const NoticeFormModal: React.FC<NoticeFormModalProps> = ({
   const [contentUr, setContentUr] = useState(editingNotice?.contentUr || '');
 
   const handleUseAdmissionsTemplate = () => {
-    setTitleEn('Admissions Open for Academic Year 2027-2028 (Pre-KG to 5th Std)');
-    setTitleTa('2027-2028 கல்வி ஆண்டுக்கான மாணவர் சேர்க்கை துவக்கம் (Pre-KG - 5th)');
-    setTitleUr('تعلیمی سال 2027-2028 کے لیے نئے داخلوں کا باقاعدہ آغاز');
+    const year = siteConfig.admissionYear;
+    const phone = formatPhoneDisplay(siteConfig.primaryPhone);
+
+    setTitleEn(`Admissions Open for Academic Year ${year} (Pre-KG to 5th Std)`);
+    setTitleTa(`${year} கல்வி ஆண்டுக்கான மாணவர் சேர்க்கை துவக்கம் (Pre-KG - 5th)`);
+    setTitleUr(`تعلیمی سال ${year} کے لیے نئے داخلوں کا باقاعدہ آغاز`);
 
     setContentEn(
-      'Admission forms are now available at the school campus during office hours (9:00 AM – 4:00 PM on all working days). Parents can also submit an online inquiry via WhatsApp (+91 86101 13160). Limited seats per class to preserve our 1:15 ratio.'
+      `Admission forms are now available at the school campus during office hours (9:00 AM – 4:00 PM on all working days). Parents can also submit an online inquiry via WhatsApp (${phone}). Limited seats per class to preserve our 1:15 ratio.`
     );
     setContentTa(
-      'பள்ளி வளாகத்தில் அலுவலக வேலை நேரங்களில் (காலை 9:00 - மாலை 4:00) சேர்க்கை படிவங்கள் பெறலாம். இணையதளம் மற்றும் வாட்ஸ்அப் (+91 86101 13160) மூலமாகவும் முன்பதிவு செய்யலாம்.'
+      `பள்ளி வளாகத்தில் அலுவலக வேலை நேரங்களில் (காலை 9:00 - மாலை 4:00) சேர்க்கை படிவங்கள் பெறலாம். இணையதளம் மற்றும் வாட்ஸ்அப் (${phone}) மூலமாகவும் முன்பதிவு செய்யலாம்.`
     );
     setContentUr(
-      'اسکول کیمپس میں دفتری اوقات (صبح 9:00 تا شام 4:00) داخلہ فارم دستیاب ہیں۔ والدین آن لائن اور واٹس ایپ (+91 86101 13160) پر بھی رابطہ کر سکتے ہیں۔'
+      `اسکول کیمپس میں دفتری اوقات (صبح 9:00 تا شام 4:00) داخلہ فارم دستیاب ہیں۔ والدین آن لائن اور واٹس ایپ (${phone}) پر بھی رابطہ کر سکتے ہیں۔`
     );
     setCategory('Admissions');
     setIsImportant(true);
