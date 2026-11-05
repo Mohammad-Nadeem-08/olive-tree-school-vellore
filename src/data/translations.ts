@@ -202,6 +202,9 @@ export const translations: Record<Language, TranslationSchema> = {
       save: 'Save to Gallery',
       uploadHint: 'Image will be automatically optimized to a lightweight Base64 format and saved in your school database.',
       lightboxClose: 'Close Lightbox (Esc)',
+      glimpseTitle: 'A Glimpse Into Olive Tree School',
+      viewAllPhotos: 'View All Photos (12)',
+      showHighlights: '← Back to Curated Highlights',
     },
   },
 
@@ -406,6 +409,9 @@ export const translations: Record<Language, TranslationSchema> = {
       save: 'தொகுப்பில் சேமிக்க',
       uploadHint: 'படம் தானாக சுருக்கப்பட்டு உங்கள் பள்ளி நினைவகத்தில் பாதுகாப்பாக சேமிக்கப்படும்.',
       lightboxClose: 'மூடுக (Esc)',
+      glimpseTitle: 'ஆலிவ் ட்ரீ பள்ளியின் ஒரு பார்வை',
+      viewAllPhotos: 'அனைத்து புகைப்படங்களையும் காண்க (12)',
+      showHighlights: '← சிறப்புக் காட்சிகளுக்குத் திரும்புக',
     },
   },
 
@@ -610,6 +616,9 @@ export const translations: Record<Language, TranslationSchema> = {
       save: 'گیلری میں محفوظ کریں',
       uploadHint: 'تصویر کو خودکار طور پر کمپریس کر کے محفوظ کیا جائے گا تاکہ میموری پر بوجھ نہ پڑے۔',
       lightboxClose: 'بند کریں (Esc)',
+      glimpseTitle: 'اولیو ٹری اسکول کی ایک جھلک',
+      viewAllPhotos: 'تمام تصاویر دیکھیں (12)',
+      showHighlights: '← منتخب جھلکیاں دکھائیں',
     },
   },
 };

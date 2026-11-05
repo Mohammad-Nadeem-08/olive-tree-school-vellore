@@ -241,5 +241,8 @@ export interface TranslationSchema {
     save: string;
     uploadHint: string;
     lightboxClose: string;
+    glimpseTitle: string;
+    viewAllPhotos: string;
+    showHighlights: string;
   };
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Clock, Edit3, Lock, ShieldCheck } from 'lucide-react';
+import { Phone, Clock, Edit3, Lock, ShieldCheck, Megaphone } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 
 export const TopBar: React.FC = () => {
@@ -25,24 +25,37 @@ export const TopBar: React.FC = () => {
       <div className="w-full px-3 sm:px-6 lg:px-16">
         {/* ========================================================
             MOBILE VIEWPORT (< sm: < 640px): 2-Tier Responsive Layout
-            Eliminates all overlapping, duplicated phone numbers,
-            and unexplained empty square buttons.
+            With Continuous Smooth Horizontal Marquee
             ======================================================== */}
         <div className="flex flex-col gap-1 sm:hidden">
-          {/* Row 1: Academic Year Badge + Status + Staff/Admin Action */}
+          {/* Row 1: Academic Year Badge + Smooth Marquee + Staff/Admin Action */}
           <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 min-w-0">
+            <div className="flex items-center gap-1.5 flex-1 min-w-0 overflow-hidden">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-[11px] shrink-0 border border-[#E59A23]/40 tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#E59A23] animate-pulse" />
                 <span>2026–2027</span>
               </span>
-              <span className="text-[11px] font-semibold text-emerald-100/90 truncate">
-                {language === 'ta'
-                  ? 'சேர்க்கை ஆரம்பம்'
-                  : language === 'ur'
-                    ? 'داخلے جاری ہیں'
-                    : 'Admissions Open'}
-              </span>
+
+              {/* Continuous Marquee on Mobile */}
+              <div
+                className="overflow-hidden relative flex-1 min-w-0 flex items-center gap-1 text-[11px] font-semibold text-emerald-100/95"
+                role="region"
+                aria-label="School Announcements"
+              >
+                <Megaphone className="w-3 h-3 text-amber-300 shrink-0" aria-hidden="true" />
+                <div className="overflow-hidden relative w-full select-none">
+                  <div className="animate-marquee-track items-center">
+                    <span className="pe-6 inline-flex items-center gap-2">
+                      <span>{tickerText}</span>
+                      <span className="text-amber-400/80 font-bold">•</span>
+                    </span>
+                    <span className="pe-6 inline-flex items-center gap-2" aria-hidden="true">
+                      <span>{tickerText}</span>
+                      <span className="text-amber-400/80 font-bold">•</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Clearly Labeled Staff/Admin Control - Never an empty square */}
@@ -88,7 +101,7 @@ export const TopBar: React.FC = () => {
             </div>
           </div>
 
-          {/* Optional Mobile Live Edit Ticker Bar */}
+          {/* Mobile Live Edit Ticker Bar (When admin editing is active) */}
           {liveEditMode && (
             <div className="flex items-center gap-1.5 pt-1 border-t border-amber-400/30">
               <input
@@ -117,10 +130,10 @@ export const TopBar: React.FC = () => {
         </div>
 
         {/* ========================================================
-            DESKTOP VIEWPORT (sm:flex): Preserved 1-Row Sleek Layout
+            DESKTOP VIEWPORT (sm:flex): Smooth Continuous Marquee
             ======================================================== */}
         <div className="hidden sm:flex items-center justify-between gap-4">
-          {/* Left: Announcement ticker */}
+          {/* Left: Academic badge + Continuous Marquee */}
           <div className="flex items-center gap-2.5 flex-1 min-w-0">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-xs shrink-0 border border-[#E59A23]/40 tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-[#E59A23] animate-pulse" />
@@ -152,8 +165,24 @@ export const TopBar: React.FC = () => {
                 </span>
               </div>
             ) : (
-              <div className="overflow-hidden text-emerald-50 text-xs sm:text-sm font-semibold truncate tracking-wide">
-                <span>{tickerText}</span>
+              <div
+                className="overflow-hidden relative flex-1 min-w-0 flex items-center gap-2 text-emerald-50 text-xs sm:text-sm font-semibold tracking-wide"
+                role="region"
+                aria-label="School Admissions Announcement"
+              >
+                <Megaphone className="w-3.5 h-3.5 text-amber-300 shrink-0" aria-hidden="true" />
+                <div className="overflow-hidden relative w-full select-none">
+                  <div className="animate-marquee-track items-center">
+                    <span className="pe-8 inline-flex items-center gap-3">
+                      <span>{tickerText}</span>
+                      <span className="text-amber-400/80 font-bold">•</span>
+                    </span>
+                    <span className="pe-8 inline-flex items-center gap-3" aria-hidden="true">
+                      <span>{tickerText}</span>
+                      <span className="text-amber-400/80 font-bold">•</span>
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
           </div>

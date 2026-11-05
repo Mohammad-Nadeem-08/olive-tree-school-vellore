@@ -494,4 +494,77 @@ Static inspection and layout geometry validation across target screen dimensions
   ✓ built in 2.11s
   ```
 
+---
+
+## 12. Announcement Marquee & Gallery Slideshow Improvements
+
+### 12.1 Continuous Horizontal Announcement Marquee
+- **CSS Animation Engine:** Implemented pure CSS marquee animation in [`src/index.css`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/index.css) using `@keyframes marquee-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }` with `animation: marquee-scroll 28s linear infinite`.
+- **Seamless Looping:** Uses duplicated content track with zero visible gap or reset jump.
+- **Visual Branding:** Sits seamlessly on the dark green background (`#133829`) with gold/cream text and a subtle gold `Megaphone` icon (`w-3.5 h-3.5 text-amber-300`).
+- **Responsive Placement:**
+  - **Desktop ($\ge$640px):** Spans the wide center region of the TopBar with ample reading room.
+  - **Mobile (<640px):** Integrated into Row 1 between the academic badge and Staff button, eliminating the previous text truncation.
+- **Accessibility & Reduced Motion:**
+  - Marquee pauses smoothly on hover (`:hover`) and keyboard focus (`:focus-within`).
+  - Supports `prefers-reduced-motion: reduce`: animation disables automatically and displays a static, readable announcement.
+  - Duplicated loop segment carries `aria-hidden="true"`, preventing screen-readers from reading announcements twice.
+- **Live Admin Edit Compatibility:** When `liveEditMode` is toggled on, the marquee is replaced by an editable text input with `Live Edit` badge for the active language. When saved, the marquee updates instantly.
+
+---
+
+### 12.2 Curated 6-Photo Homepage Gallery
+- **Curated Selection:** Evaluated all 12 authentic school photographs in [`src/data/defaultGallery.ts`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/data/defaultGallery.ts) and selected 6 representative photographs covering all facets of campus life:
+  1. `gallery-2`: UKG Kindergarten & Montessori Sensory Exploration (`/assets/school/classrooms/class-ukg-kindergarten.jpeg`)
+  2. `gallery-1`: Primary Grade 1 Academic Classroom (`/assets/school/classrooms/class-1-primary.jpeg`)
+  3. `gallery-5`: Class 2 Islamic Tarbiyah & Classroom Etiquette (`/assets/school/classrooms/class-2-primary.jpeg`)
+  4. `gallery-4`: Campus Playground, Slides & Swings (`/assets/school/activities/school-playground-outdoor-activities.jpeg`)
+  5. `gallery-10`: Classroom Building Veranda & Lawn (`/assets/school/exterior/school-classroom-building-facade.jpeg`)
+  6. `gallery-6`: School Campus Entrance Gate & Administration (`/assets/school/exterior/school-entrance-gate.jpeg`)
+- **Multilingual Section Title:** Retitled to **"A Glimpse Into Olive Tree School"** with native translations:
+  - English: *A Glimpse Into Olive Tree School*
+  - Tamil: *ஆலிவ் ட்ரீ பள்ளியின் ஒரு பார்வை*
+  - Urdu: *اولیو ٹری اسکول کی ایک جھلک*
+- **Desktop Layout:** Balanced 3-column grid (2 rows × 3 columns = 6 photos) with subtle rounded corners (`rounded-3xl`), `aspect-4/3`, and restrained hover lift.
+- **Mobile Swipeable Carousel (<640px):**
+  - Displays one primary photograph at a time with smooth touch swipe handling (`onTouchStart`, `onTouchMove`, `onTouchEnd`).
+  - Features tactile Previous and Next arrow buttons ($\ge 44\text{px}$ touch targets).
+  - 6 slide dot indicators with active dot highlighting.
+  - Image counter indicator (`Photo X of 6`).
+  - Tap-to-enlarge indicator opening the Lightbox.
+
+---
+
+### 12.3 Full 12-Photo Gallery Access ("View All Photos")
+- **Seamless Expansion:** Added prominent **"View All Photos (12)"** CTA button below the curated preview.
+- **Complete Access:** Tapping the CTA expands into the full 12-photograph gallery, surfacing the category filter tabs (*All Moments*, *Classrooms & Learning*, *Islamic Tarbiyah & Events*, *Sports & Activities*).
+- **Return to Highlights:** Header and footer provide a clear **"← Back to Curated Highlights"** button to collapse back to the 6-photo homepage preview.
+- **Zero Asset Loss:** All 12 original photos remain accessible with preserved metadata and admin upload/delete capabilities.
+
+---
+
+### 12.4 Interactive Lightbox / Slideshow
+- **Universal Access:** Clicking any photograph in either the curated preview or full gallery opens the Lightbox.
+- **Aspect Ratio Preservation:** Rendered with `max-h-[66vh] sm:max-h-[72vh] object-contain`, preventing distortion or mobile cropping.
+- **Navigation Controls:**
+  - Previous (`ChevronLeft`) and Next (`ChevronRight`) buttons with hit targets $\ge 44\text{px}$.
+  - Counter badge displaying `Photo X of Total`.
+- **Interactions:**
+  - **Touch Swiping:** Swipe left for next photo, swipe right for previous photo.
+  - **Keyboard Navigation:** Left / Right arrow keys navigate; Escape key closes.
+  - **Backdrop Dismissal:** Tapping the dark backdrop closes the lightbox; tapping the image itself does not dismiss it.
+  - **Scroll Lock:** Background scrolling is locked (`document.body.style.overflow = 'hidden'`) while open; focus is restored on close.
+  - **Manual Control:** No unwanted auto-rotation inside the lightbox.
+
+---
+
+### 12.5 Quality Checks & Production Build
+
+- **Automated Verification Suite (`test-marquee-gallery.js`):** `25/25 checks passed (100%)`.
+- **Regression Suites (`test-twostep-flow.js`, `test-final.js`):** `100% passed`.
+- **Linter (`oxlint`):** `0 errors`.
+- **TypeScript Compiler (`tsc -b`):** `0 errors`.
+- **Production Build (`vite build`):** Clean production bundle generated in 2.96s.
+
+
 
