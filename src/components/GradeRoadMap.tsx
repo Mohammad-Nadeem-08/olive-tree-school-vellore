@@ -231,7 +231,7 @@ export const GradeRoadMap: React.FC = () => {
   return (
     <section
       id="grades"
-      className={`py-12 sm:py-20 relative transition-colors ${
+      className={`py-12 sm:py-20 relative transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
@@ -375,7 +375,7 @@ export const GradeRoadMap: React.FC = () => {
                 className="inline-flex items-center gap-2.5 px-8 py-4 rounded-2xl bg-[#D93829] hover:bg-[#b92c1e] text-white font-bold text-base transition-all shadow-md hover:shadow-lg cursor-pointer group"
               >
                 <span>
-                  Admissions for {current.tabLabel} (2026–27) →
+                  Admissions for {current.tabLabel} (2027–28)
                 </span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
               </button>

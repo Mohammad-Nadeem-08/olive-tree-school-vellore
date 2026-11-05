@@ -6,16 +6,30 @@ import {
   Trash2,
   ChevronRight,
   X,
+  Edit3,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 import type { NoticeItem } from '../types';
 
 export const NoticeBoard: React.FC = () => {
-  const { t, notices, language, deleteNotice, isAdminAuthenticated, theme } = useSchool();
+  const {
+    t,
+    notices,
+    language,
+    addNotice,
+    updateNotice,
+    togglePublishNotice,
+    deleteNotice,
+    isAdminAuthenticated,
+    theme,
+  } = useSchool();
 
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedNotice, setSelectedNotice] = useState<NoticeItem | null>(null);
   const [isAddNoticeOpen, setIsAddNoticeOpen] = useState(false);
+  const [editingNotice, setEditingNotice] = useState<NoticeItem | null>(null);
 
   useEffect(() => {
     if (!selectedNotice && !isAddNoticeOpen) return;
@@ -23,6 +37,7 @@ export const NoticeBoard: React.FC = () => {
       if (e.key === 'Escape') {
         setSelectedNotice(null);
         setIsAddNoticeOpen(false);
+        setEditingNotice(null);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -48,48 +63,51 @@ export const NoticeBoard: React.FC = () => {
     }
   };
 
+  // For public visitors: show ONLY published notices (item.isPublished !== false)
+  // For admin users: show both published and draft notices
   const filteredNotices = notices.filter((item) => {
+    if (!isAdminAuthenticated && item.isPublished === false) return false;
     if (activeCategory === 'All') return true;
     return item.category === activeCategory;
   });
 
   const getTitle = (n: NoticeItem) => {
-    if (language === 'ta') return n.titleTa;
-    if (language === 'ur') return n.titleUr;
+    if (language === 'ta') return n.titleTa || n.titleEn;
+    if (language === 'ur') return n.titleUr || n.titleEn;
     return n.titleEn;
   };
 
   const getContent = (n: NoticeItem) => {
-    if (language === 'ta') return n.contentTa;
-    if (language === 'ur') return n.contentUr;
+    if (language === 'ta') return n.contentTa || n.contentEn;
+    if (language === 'ur') return n.contentUr || n.contentEn;
     return n.contentEn;
   };
 
   const parseNoticeDate = (dateStr: string) => {
-    if (!dateStr) return { month: 'OCT', day: '18', year: '2026' };
+    if (!dateStr) return { month: 'CIRC', day: 'OTS', year: '2027' };
     const parts = dateStr.trim().split(/[\s,/-]+/);
     if (parts.length >= 2) {
       if (isNaN(Number(parts[0]))) {
         return {
           month: parts[0].substring(0, 3).toUpperCase(),
           day: parts[1].padStart(2, '0'),
-          year: parts[2] || '2026',
+          year: parts[2] || '2027',
         };
       } else {
         return {
           day: parts[0].padStart(2, '0'),
           month: (parts[1] || 'OCT').substring(0, 3).toUpperCase(),
-          year: parts[2] || '2026',
+          year: parts[2] || '2027',
         };
       }
     }
-    return { month: 'OCT', day: '18', year: '2026' };
+    return { month: 'CIRC', day: 'OTS', year: '2027' };
   };
 
   return (
     <section
       id="notices"
-      className={`py-12 sm:py-20 relative transition-colors ${
+      className={`py-12 sm:py-20 relative transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
@@ -161,7 +179,10 @@ export const NoticeBoard: React.FC = () => {
             {isAdminAuthenticated && (
               <button
                 type="button"
-                onClick={() => setIsAddNoticeOpen(true)}
+                onClick={() => {
+                  setEditingNotice(null);
+                  setIsAddNoticeOpen(true);
+                }}
                 className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#D93829] hover:bg-[#b92c1e] text-white rounded-2xl text-sm font-bold transition-colors shadow-xs cursor-pointer"
               >
                 <PlusCircle className="w-4 h-4" />
@@ -171,21 +192,53 @@ export const NoticeBoard: React.FC = () => {
           </div>
         </div>
 
-        {/* Notices Cards Grid - Official Bulletin Ledger Aesthetic */}
+        {/* Notices Cards Grid OR Clean Professional Empty State */}
         {filteredNotices.length === 0 ? (
           <div
-            className={`rounded-3xl p-16 text-center border shadow-xs ${
+            className={`rounded-3xl p-10 sm:p-14 text-center border shadow-xs max-w-2xl mx-auto transition-colors ${
               theme === 'dark'
                 ? 'bg-[#16241F] border-[#243B32] text-[#9DB0A6]'
                 : 'bg-white border-slate-200/90 text-slate-600'
             }`}
           >
-            <p className="text-base font-medium">{t.notices.noNotices}</p>
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-100 dark:border-emerald-800/40 flex items-center justify-center text-emerald-700 dark:text-emerald-400">
+              <BellRing className="w-8 h-8 text-[#E59A23]" />
+            </div>
+            <h3
+              className={`font-editorial text-2xl sm:text-3xl font-bold mb-2 ${
+                theme === 'dark' ? 'text-white' : 'text-[#123524]'
+              } ${language === 'ur' ? 'font-urdu' : ''}`}
+            >
+              {t.notices.emptyHeading}
+            </h3>
+            <p
+              className={`text-sm sm:text-base font-medium max-w-md mx-auto leading-relaxed ${
+                theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-600'
+              } ${language === 'ur' ? 'font-urdu leading-[1.8]' : ''}`}
+            >
+              {t.notices.emptyDescription}
+            </p>
+            {isAdminAuthenticated && (
+              <div className="mt-6">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingNotice(null);
+                    setIsAddNoticeOpen(true);
+                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#123524] hover:bg-[#0c2419] text-white font-bold text-sm shadow-xs transition-colors cursor-pointer"
+                >
+                  <PlusCircle className="w-4 h-4 text-[#F59E0B]" />
+                  <span>Publish First Circular</span>
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-start">
             {filteredNotices.map((notice) => {
               const dateInfo = parseNoticeDate(notice.date);
+              const isPublished = notice.isPublished !== false;
               return (
                 <div
                   key={notice.id}
@@ -196,6 +249,8 @@ export const NoticeBoard: React.FC = () => {
                   } ${
                     notice.isImportant
                       ? 'border-[#D93829] ring-2 ring-[#D93829]/20'
+                      : !isPublished
+                      ? 'border-amber-400/60 dark:border-amber-600/60 opacity-90'
                       : theme === 'dark'
                       ? 'border-[#243B32] hover:border-[#34D399]'
                       : 'border-slate-200/90 hover:border-emerald-600'
@@ -205,6 +260,54 @@ export const NoticeBoard: React.FC = () => {
                   <div className="absolute top-0 left-8 w-6 h-3 bg-gradient-to-b from-[#D1D5DB] to-[#9CA3AF] rounded-b-md shadow-xs opacity-75 pointer-events-none" />
 
                   <div>
+                    {/* Admin Status Pill when logged in */}
+                    {isAdminAuthenticated && (
+                      <div className="mb-3 pb-2 border-b border-dashed border-slate-200 dark:border-[#243B32] flex items-center justify-between">
+                        <span
+                          className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wide ${
+                            isPublished
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                              : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                          }`}
+                        >
+                          {isPublished ? `● ${t.notices.publishedBadge}` : `○ ${t.notices.draftBadge}`}
+                        </span>
+
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => togglePublishNotice(notice.id)}
+                            className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 hover:bg-slate-200 dark:bg-[#0E1714] dark:hover:bg-[#243B32] text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
+                            title={isPublished ? t.notices.unpublishAction : t.notices.publishAction}
+                          >
+                            {isPublished ? (
+                              <>
+                                <EyeOff className="w-3 h-3 text-amber-600" />
+                                <span>{t.notices.unpublishAction}</span>
+                              </>
+                            ) : (
+                              <>
+                                <Eye className="w-3 h-3 text-emerald-600" />
+                                <span>{t.notices.publishAction}</span>
+                              </>
+                            )}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditingNotice(notice);
+                              setIsAddNoticeOpen(true);
+                            }}
+                            className="p-1 rounded text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors cursor-pointer"
+                            title={t.notices.editNotice}
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     {/* Notice Top: Calendar Date Block + Tags */}
                     <div className="flex items-start justify-between gap-3 mb-5 pt-1">
                       {/* Left: Authentic Calendar Stamp Block */}
@@ -219,13 +322,15 @@ export const NoticeBoard: React.FC = () => {
 
                       {/* Right: Category Tag + Urgent Stamp */}
                       <div className="flex flex-col items-end gap-1.5 flex-1 min-w-0">
-                        <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold tracking-wide uppercase shadow-xs ${
-                          notice.category === 'Admissions'
-                            ? 'bg-[#123524] text-white'
-                            : notice.category === 'Academic'
-                            ? 'bg-[#1E3A8A] text-white'
-                            : 'bg-[#D97706] text-white'
-                        }`}>
+                        <span
+                          className={`px-2.5 py-0.5 rounded-md text-[11px] font-mono font-bold tracking-wide uppercase shadow-xs ${
+                            notice.category === 'Admissions'
+                              ? 'bg-[#123524] text-white'
+                              : notice.category === 'Academic'
+                              ? 'bg-[#1E3A8A] text-white'
+                              : 'bg-[#D97706] text-white'
+                          }`}
+                        >
                           {getCategoryLabel(notice.category)}
                         </span>
 
@@ -296,13 +401,17 @@ export const NoticeBoard: React.FC = () => {
       {selectedNotice && (
         <div
           onClick={() => setSelectedNotice(null)}
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto cursor-pointer"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-hidden cursor-pointer"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border animate-in fade-in zoom-in-95 duration-150 text-start relative my-auto max-h-[90vh] overflow-y-auto cursor-default ${
+            className={`rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border animate-in fade-in zoom-in-95 duration-150 text-start relative my-auto max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto modal-scroll-hidden cursor-default ${
               theme === 'dark' ? 'bg-[#16241F] border-[#243B32] text-white' : 'bg-white border-slate-200 text-slate-900 shadow-xl'
             }`}
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
             {/* High-Visibility Sticky Close Button (X) */}
             <button
@@ -328,6 +437,11 @@ export const NoticeBoard: React.FC = () => {
                     {t.notices.importantBadge}
                   </span>
                 )}
+                {selectedNotice.isPublished === false && (
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                    {t.notices.draftBadge}
+                  </span>
+                )}
               </div>
               <span className="text-xs font-mono text-[#6B7280] dark:text-[#9DB0A6]">{selectedNotice.date}</span>
             </div>
@@ -341,9 +455,9 @@ export const NoticeBoard: React.FC = () => {
                 {getTitle(selectedNotice)}
               </h3>
               <p
-                className={`text-sm sm:text-base leading-relaxed whitespace-pre-line ${
-                  theme === 'dark' ? 'text-[#9DB0A6]' : 'text-[#4A5B52]'
-                } ${language === 'ur' ? 'font-urdu leading-[1.8]' : ''}`}
+                className={`text-base leading-relaxed whitespace-pre-line ${
+                  theme === 'dark' ? 'text-[#D1E0D7]' : 'text-[#3D5245]'
+                } ${language === 'ur' ? 'font-urdu leading-[1.9]' : ''}`}
               >
                 {getContent(selectedNotice)}
               </p>
@@ -367,44 +481,72 @@ export const NoticeBoard: React.FC = () => {
         </div>
       )}
 
-      {/* Quick Add Notice Modal for Admin */}
+      {/* Add / Edit Notice Modal for Admin */}
       {isAddNoticeOpen && (
-        <AddNoticeModal onClose={() => setIsAddNoticeOpen(false)} />
+        <NoticeFormModal
+          editingNotice={editingNotice}
+          onClose={() => {
+            setIsAddNoticeOpen(false);
+            setEditingNotice(null);
+          }}
+          onSave={(data) => {
+            if (editingNotice) {
+              updateNotice(editingNotice.id, data);
+            } else {
+              addNotice(data);
+            }
+            setIsAddNoticeOpen(false);
+            setEditingNotice(null);
+          }}
+        />
       )}
     </section>
   );
 };
 
-// Internal Add Notice Modal Component
-const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { addNotice } = useSchool();
-  const [category, setCategory] = useState<'Admissions' | 'Academic' | 'Islamic' | 'Events'>(
-    'Admissions'
+// Internal Add / Edit Notice Modal Component
+interface NoticeFormModalProps {
+  onClose: () => void;
+  editingNotice?: NoticeItem | null;
+  onSave: (notice: Omit<NoticeItem, 'id'>) => void;
+}
+
+const NoticeFormModal: React.FC<NoticeFormModalProps> = ({
+  onClose,
+  editingNotice,
+  onSave,
+}) => {
+  const [category, setCategory] = useState<NoticeItem['category']>(
+    editingNotice?.category || 'Admissions'
   );
-  const [isImportant, setIsImportant] = useState(false);
+  const [isImportant, setIsImportant] = useState(editingNotice?.isImportant || false);
+  const [isPublished, setIsPublished] = useState(
+    editingNotice ? editingNotice.isPublished !== false : true
+  );
 
-  const [titleEn, setTitleEn] = useState('');
-  const [titleTa, setTitleTa] = useState('');
-  const [titleUr, setTitleUr] = useState('');
+  const [titleEn, setTitleEn] = useState(editingNotice?.titleEn || '');
+  const [titleTa, setTitleTa] = useState(editingNotice?.titleTa || '');
+  const [titleUr, setTitleUr] = useState(editingNotice?.titleUr || '');
 
-  const [contentEn, setContentEn] = useState('');
-  const [contentTa, setContentTa] = useState('');
-  const [contentUr, setContentUr] = useState('');
+  const [contentEn, setContentEn] = useState(editingNotice?.contentEn || '');
+  const [contentTa, setContentTa] = useState(editingNotice?.contentTa || '');
+  const [contentUr, setContentUr] = useState(editingNotice?.contentUr || '');
 
-  const handleAutofillDemo = () => {
-    setTitleEn('Admissions Open for Academic Year 2026-2027 (Pre-KG to 5th Std)');
-    setTitleTa('2026-2027 கல்வி ஆண்டுக்கான மாணவர் சேர்க்கை துவக்கம் (Pre-KG - 5th)');
-    setTitleUr('تعلیمی سال 2026-2027 کے لیے نئے داخلوں کا باقاعدہ آغاز');
+  const handleUseAdmissionsTemplate = () => {
+    setTitleEn('Admissions Open for Academic Year 2027-2028 (Pre-KG to 5th Std)');
+    setTitleTa('2027-2028 கல்வி ஆண்டுக்கான மாணவர் சேர்க்கை துவக்கம் (Pre-KG - 5th)');
+    setTitleUr('تعلیمی سال 2027-2028 کے لیے نئے داخلوں کا باقاعدہ آغاز');
 
     setContentEn(
-      'Admission forms are now available at the school campus during office hours (9:00 AM – 4:00 PM). Parents can also submit an online inquiry. Limited seats to preserve our 1:15 ratio.'
+      'Admission forms are now available at the school campus during office hours (9:00 AM – 4:00 PM on all working days). Parents can also submit an online inquiry via WhatsApp (+91 86101 13160). Limited seats per class to preserve our 1:15 ratio.'
     );
     setContentTa(
-      'பள்ளி வளாகத்தில் அலுவலக வேலை நேரங்களில் (காலை 9:00 - மாலை 4:00) சேர்க்கை படிவங்கள் பெறலாம். இணையதளம் மூலமாகவும் முன்பதிவு செய்யலாம்.'
+      'பள்ளி வளாகத்தில் அலுவலக வேலை நேரங்களில் (காலை 9:00 - மாலை 4:00) சேர்க்கை படிவங்கள் பெறலாம். இணையதளம் மற்றும் வாட்ஸ்அப் (+91 86101 13160) மூலமாகவும் முன்பதிவு செய்யலாம்.'
     );
     setContentUr(
-      'اسکول کیمپس میں دفتری اوقات (صبح 9:00 تا شام 4:00) داخلہ فارم دستیاب ہیں۔ والدین آن لائن بھی فارم پر کر سکتے ہیں۔'
+      'اسکول کیمپس میں دفتری اوقات (صبح 9:00 تا شام 4:00) داخلہ فارم دستیاب ہیں۔ والدین آن لائن اور واٹس ایپ (+91 86101 13160) پر بھی رابطہ کر سکتے ہیں۔'
     );
+    setCategory('Admissions');
     setIsImportant(true);
   };
 
@@ -412,10 +554,11 @@ const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     e.preventDefault();
     if (!titleEn || !contentEn) return;
 
-    addNotice({
-      date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+    onSave({
+      date: editingNotice?.date || new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
       category,
       isImportant,
+      isPublished,
       titleEn,
       titleTa: titleTa || titleEn,
       titleUr: titleUr || titleEn,
@@ -423,8 +566,6 @@ const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       contentTa: contentTa || contentEn,
       contentUr: contentUr || contentEn,
     });
-
-    onClose();
   };
 
   useEffect(() => {
@@ -438,11 +579,15 @@ const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto cursor-pointer"
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-hidden cursor-pointer"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-[#16241F] rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[90vh] overflow-y-auto text-start cursor-default"
+        className="bg-white dark:bg-[#16241F] rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto modal-scroll-hidden text-start cursor-default"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
         {/* High-Visibility Sticky Close Button (X) */}
         <button
@@ -456,30 +601,48 @@ const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
         <div className="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-[#243B32]">
           <div>
-            <h3 className="font-editorial text-2xl font-bold text-[#133829] dark:text-white">Publish School Circular</h3>
-            <p className="text-xs font-mono text-[#6B7280] dark:text-[#9DB0A6]">Official Bulletin Desk</p>
+            <h3 className="font-editorial text-2xl font-bold text-[#133829] dark:text-white">
+              {editingNotice ? 'Edit School Circular' : 'Publish School Circular'}
+            </h3>
+            <p className="text-xs font-mono text-[#6B7280] dark:text-[#9DB0A6]">
+              {editingNotice ? `Editing Circular ID: ${editingNotice.id}` : 'Official Bulletin Desk'}
+            </p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={handleAutofillDemo}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#E59A23]/15 text-[#92400E] dark:text-[#FDE68A] text-xs font-mono font-bold border border-[#E59A23]/30 hover:bg-[#E59A23]/25 transition-colors cursor-pointer"
-            >
-              <span>Auto-Fill Trilingual Translation (Demo)</span>
-            </button>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            {!editingNotice && (
+              <button
+                type="button"
+                onClick={handleUseAdmissionsTemplate}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#E59A23]/15 text-[#92400E] dark:text-[#FDE68A] text-xs font-mono font-bold border border-[#E59A23]/30 hover:bg-[#E59A23]/25 transition-colors cursor-pointer"
+              >
+                <span>Use Admissions Circular Template</span>
+              </button>
+            )}
 
-            <label className="flex items-center gap-2 text-xs font-bold text-[#D93829]">
-              <input
-                type="checkbox"
-                checked={isImportant}
-                onChange={(e) => setIsImportant(e.target.checked)}
-                className="rounded text-[#D93829] focus:ring-[#D93829]"
-              />
-              Mark as Urgent Circular
-            </label>
+            <div className="flex items-center gap-4 ml-auto">
+              <label className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isPublished}
+                  onChange={(e) => setIsPublished(e.target.checked)}
+                  className="rounded text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                />
+                <span>Publish Immediately</span>
+              </label>
+
+              <label className="flex items-center gap-1.5 text-xs font-bold text-[#D93829] cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={isImportant}
+                  onChange={(e) => setIsImportant(e.target.checked)}
+                  className="rounded text-[#D93829] focus:ring-[#D93829] cursor-pointer"
+                />
+                <span>Urgent</span>
+              </label>
+            </div>
           </div>
 
           <div>
@@ -500,7 +663,7 @@ const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
           <div>
             <label className="block text-xs font-mono font-bold text-[#6B7280] dark:text-[#9DB0A6] uppercase mb-1">
-              English Title & Content
+              English Title & Content *
             </label>
             <input
               type="text"
@@ -574,7 +737,7 @@ const AddNoticeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               type="submit"
               className="px-6 py-2.5 rounded-xl bg-[#D93829] hover:bg-[#b92c1e] text-white font-bold text-sm shadow-md cursor-pointer"
             >
-              Publish Circular
+              {editingNotice ? 'Save Changes' : isPublished ? 'Publish Circular' : 'Save as Draft'}
             </button>
           </div>
         </form>

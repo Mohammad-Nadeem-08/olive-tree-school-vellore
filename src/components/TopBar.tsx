@@ -21,7 +21,7 @@ export const TopBar: React.FC = () => {
         : siteConfig.tickerAnnouncementEn;
 
   return (
-    <div className="bg-[#133829] text-[#FBF9F5] border-b border-[#1E4D38] text-xs sm:text-sm py-1.5 sm:py-2 px-0 relative z-40 shadow-xs">
+    <div className="bg-[#133829] text-[#FBF9F5] border-b border-[#1E4D38] text-xs sm:text-sm py-1.5 sm:py-2 px-0 relative z-50 shadow-xs">
       <div className="w-full px-3 sm:px-6 lg:px-16">
         {/* ========================================================
             MOBILE VIEWPORT (< sm: < 640px): 2-Tier Responsive Layout
@@ -33,7 +33,7 @@ export const TopBar: React.FC = () => {
             <div className="flex items-center gap-1.5 flex-1 min-w-0 overflow-hidden">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-[11px] shrink-0 border border-[#E59A23]/40 tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#E59A23] animate-pulse" />
-                <span>2026–2027</span>
+                <span>2027–2028</span>
               </span>
 
               {/* Continuous Marquee on Mobile */}
@@ -63,8 +63,12 @@ export const TopBar: React.FC = () => {
               {isAdminAuthenticated ? (
                 <button
                   type="button"
-                  onClick={logoutAdmin}
-                  className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-200 hover:text-white bg-emerald-900/90 px-2 py-0.5 rounded-md border border-emerald-700/60 cursor-pointer shadow-xs active:scale-95 transition-all"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    logoutAdmin();
+                  }}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-200 hover:text-white bg-emerald-900/90 px-2 py-0.5 rounded-md border border-emerald-700/60 cursor-pointer shadow-xs active:scale-95 transition-all relative z-10 pointer-events-auto"
                   title="Admin Logged In (Tap to Logout)"
                 >
                   <ShieldCheck className="w-3 h-3 text-amber-300" />
@@ -73,8 +77,12 @@ export const TopBar: React.FC = () => {
               ) : (
                 <button
                   type="button"
-                  onClick={openAdminLoginModal}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-200 hover:text-white bg-emerald-900/60 hover:bg-emerald-800/80 px-2 py-0.5 rounded-md border border-emerald-700/50 transition-colors cursor-pointer active:scale-95"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openAdminLoginModal();
+                  }}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-200 hover:text-white bg-emerald-900/60 hover:bg-emerald-800/80 px-2 py-0.5 rounded-md border border-emerald-700/50 transition-colors cursor-pointer active:scale-95 relative z-10 pointer-events-auto"
                   title="Staff Admin Portal"
                   aria-label="Staff Admin Login"
                 >
@@ -137,7 +145,7 @@ export const TopBar: React.FC = () => {
           <div className="flex items-center gap-2.5 flex-1 min-w-0">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-xs shrink-0 border border-[#E59A23]/40 tracking-wider">
               <span className="w-1.5 h-1.5 rounded-full bg-[#E59A23] animate-pulse" />
-              <span>2026-2027</span>
+              <span>2027–2028</span>
             </span>
 
             {liveEditMode ? (
@@ -218,8 +226,12 @@ export const TopBar: React.FC = () => {
               {isAdminAuthenticated ? (
                 <button
                   type="button"
-                  onClick={logoutAdmin}
-                  className="inline-flex items-center gap-1 text-[11px] text-amber-200 hover:text-white bg-emerald-900/80 px-2 py-0.5 rounded-md border border-emerald-700/60 cursor-pointer shadow-xs"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    logoutAdmin();
+                  }}
+                  className="inline-flex items-center gap-1 text-[11px] text-amber-200 hover:text-white bg-emerald-900/80 px-2 py-0.5 rounded-md border border-emerald-700/60 cursor-pointer shadow-xs relative z-10 pointer-events-auto"
                   title="Admin Logged In (Click to Logout)"
                 >
                   <ShieldCheck className="w-3 h-3 text-amber-300" />
@@ -228,8 +240,12 @@ export const TopBar: React.FC = () => {
               ) : (
                 <button
                   type="button"
-                  onClick={openAdminLoginModal}
-                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-200 hover:text-white bg-emerald-900/60 hover:bg-emerald-800/80 px-2 py-0.5 rounded-md border border-emerald-700/50 transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openAdminLoginModal();
+                  }}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-200 hover:text-white bg-emerald-900/60 hover:bg-emerald-800/80 px-2 py-0.5 rounded-md border border-emerald-700/50 transition-colors cursor-pointer relative z-10 pointer-events-auto"
                   title="Staff Admin Portal"
                   aria-label="Staff Admin Login"
                 >

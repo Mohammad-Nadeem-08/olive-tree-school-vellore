@@ -3,16 +3,29 @@ import { MessageCircle } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 
 export const FloatingWhatsApp: React.FC = () => {
-  const { language, siteConfig, t, isAdminAuthenticated } = useSchool();
+  const {
+    language,
+    siteConfig,
+    t,
+    isAdminAuthenticated,
+    isAdminLoginModalOpen,
+    isAdmissionModalOpen,
+    isVisitModalOpen,
+  } = useSchool();
+
+  // Hide floating WhatsApp button whenever a modal overlay is active to prevent any hit-testing overlap
+  if (isAdminLoginModalOpen || isAdmissionModalOpen || isVisitModalOpen) {
+    return null;
+  }
 
   const getWhatsAppMessage = () => {
     if (language === 'ta') {
-      return 'அஸ்ஸலாமு அலைக்கும்! ஆலிவ் ட்ரீ பள்ளியில் 2026-2027 மாணவர் சேர்க்கை குறித்து அறிய விரும்புகிறேன் (வேலூர் வளாகம்).';
+      return 'அஸ்ஸலாமு அலைக்கும்! ஆலிவ் ட்ரீ பள்ளியில் 2027-2028 மாணவர் சேர்க்கை குறித்து அறிய விரும்புகிறேன் (வேலூர் வளாகம்).';
     }
     if (language === 'ur') {
-      return 'السلام علیکم! میں اولیو ٹری اسکول، ویلور میں تعلیمی سال 2026-2027 کے داخلوں کے متعلق معلومات حاصل کرنا چاہتا/چاہتی ہوں۔';
+      return 'السلام علیکم! میں اولیو ٹری اسکول، ویلور میں تعلیمی سال 2027-2028 کے داخلوں کے متعلق معلومات حاصل کرنا چاہتا/چاہتی ہوں۔';
     }
-    return `Assalamu Alaikum! I would like to inquire about Pre-KG to 5th Std admissions for 2026-2027 at Olive Tree School (with Brainy Stars International), Kaspa, Vellore.`;
+    return `Assalamu Alaikum! I would like to inquire about Pre-KG to 5th Std admissions for 2027-2028 at Olive Tree School (with Brainy Stars International), Kaspa, Vellore.`;
   };
 
   const cleanPhone = siteConfig.primaryPhone.replace(/\D/g, '') || '8610113160';
@@ -20,11 +33,12 @@ export const FloatingWhatsApp: React.FC = () => {
 
   return (
     <div
+      id="floating-whatsapp-desk"
       className={`fixed ${
         isAdminAuthenticated
-          ? 'bottom-20 end-3.5 sm:bottom-6 sm:end-6'
-          : 'bottom-4 end-3.5 sm:bottom-6 sm:end-6'
-      } z-40 flex items-center group transition-all duration-300`}
+          ? 'bottom-20 right-3.5 sm:bottom-6 sm:right-6 rtl:right-auto rtl:left-3.5 rtl:sm:left-6 end-3.5 sm:end-6'
+          : 'bottom-4 right-3.5 sm:bottom-6 sm:right-6 rtl:right-auto rtl:left-3.5 rtl:sm:left-6 end-3.5 sm:end-6'
+      } z-40 flex items-center group transition-all duration-300 pointer-events-none`}
     >
       {/* Tooltip on hover */}
       <div className="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#133829] text-white text-xs font-semibold me-3 shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
@@ -38,7 +52,10 @@ export const FloatingWhatsApp: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Direct WhatsApp Chat (+91 86101 13160)"
-        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl shadow-[#25D366]/40 hover:scale-110 active:scale-95 transition-all duration-300 relative border-2 border-white/80 cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl shadow-[#25D366]/40 hover:scale-110 active:scale-95 transition-all duration-300 relative border-2 border-white/80 cursor-pointer pointer-events-auto"
       >
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-30 pointer-events-none"></span>
         <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 fill-white text-[#25D366]" />

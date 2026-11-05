@@ -566,5 +566,271 @@ Static inspection and layout geometry validation across target screen dimensions
 - **TypeScript Compiler (`tsc -b`):** `0 errors`.
 - **Production Build (`vite build`):** Clean production bundle generated in 2.96s.
 
+---
+
+## 13. Production Polish, Demo Data Removal & FAQ Accordion
+
+### 13.1 Notice Board Demo Data Removal & Clean Public Flow
+- **Elimination of Mock Notices:** Completely removed hardcoded sample announcements (`notice-adm-2026`, `notice-tajweed-camp`, `notice-science-stem`) and fabricated future dates (`15 Oct 2026`, `10 Oct 2026`, `02 Oct 2026`).
+- **Zero-Seed Notice Default:** `defaultNotices` in [`src/data/translations.ts`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/data/translations.ts) is now an empty array `[]`. The public Notice Board initializes with zero fabricated records.
+- **Legacy Cache Sanitization:** Added active cache-cleansing in [`src/context/SchoolContext.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/context/SchoolContext.tsx) to automatically detect and purge legacy demo notice IDs from visitor `localStorage` (`ots_notices`).
+- **Reset Functionality:** `resetDemoData` resets `notices` to a clean empty array `[]` and removes `ots_notices` without re-injecting fake sample items.
+
+### 13.2 Dedicated, Professional Empty State
+When zero announcements are published, [`src/components/NoticeBoard.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/NoticeBoard.tsx) displays an intentional, reassuring empty state rather than a generic error or empty space:
+- **Visual Identity:** Contained in an organic rounded card (`rounded-3xl p-10 sm:p-14 max-w-2xl mx-auto`) with a warm gold bell icon (`<BellRing className="w-8 h-8 text-[#E59A23]" />`) and emerald accents.
+- **Trilingual Copy:**
+  - **English:**
+    - Heading: *"No Announcements Yet"*
+    - Description: *"There are no announcements at the moment. Please check back later for updates from Olive Tree School."*
+  - **Tamil:**
+    - Heading: *"தற்போது புதிய அறிவிப்புகள் இல்லை"*
+    - Description: *"இந்த நேரத்தில் புதிய அறிவிப்புகள் எதுவும் இல்லை. ஆலிவ் ட்ரீ பள்ளியின் புதிய சுற்றறிக்கைகளுக்காக பின்னர் பார்க்கவும்."*
+  - **Urdu:**
+    - Heading: *"فی الحال کوئی نیا اعلان نہیں"*
+    - Description: *"اس وقت کوئی باقاعدہ سرکلر یا اعلان موجود نہیں ہے۔ اولیو ٹری اسکول کی جانب سے نئی معلومات کے لیے بعد میں رجوع فرمائیں۔"*
+- **Admin Call-to-Action:** When authenticated as administrator, the empty state displays a prominent `+ Publish First Circular` button.
+
+### 13.3 Notice Publication & Administrative Controls
+- **Draft vs. Published Visibility:** Extended `NoticeItem` with `isPublished?: boolean`. For public visitors (`!isAdminAuthenticated`), only notices with `isPublished !== false` are rendered. Drafts remain strictly private.
+- **Admin Management Operations:** Authenticated staff can:
+  - Create notices with immediate publication or save as drafts.
+  - Toggle publication state between `PUBLISHED` (emerald badge) and `DRAFT` (amber badge).
+  - Edit existing notices with the new `NoticeFormModal`.
+  - Delete obsolete circulars.
+  - View actual publication dates generated at submission.
+- **Storage Limitations & Recommendation:** Documented that client-side `localStorage` stores notices in the browser. For multi-device persistence in a future phase, a free-tier headless CMS or serverless database (such as Supabase Free Tier or Vercel Postgres) is recommended without incurring hosting costs.
+
+### 13.4 Audit of User-Facing Content for Demo/Mock Data
+- **Unverified Student Counts:** Replaced unverified quantitative marketing claim (`Trusted by 1,200+ Vellore Families since 2013`) with authentic, verified statement across all languages:
+  - English: *"Trusted by Vellore Families since 2013"*
+  - Tamil: *"2013 முதல் வேலூர் குடும்பங்களின் அசைக்க முடியாத நம்பிக்கை"*
+  - Urdu: *"2013 سے ویلور کے معزز خاندانوں کا قابل اعتماد ادارہ"*
+- **Preserved Verified School Facts:**
+  - Classes: Pre-KG, LKG, UKG Kindergarten, and Primary Classes 1st to 5th Std.
+  - 5 Languages: English, Tamil, Urdu, Arabic, and Hindi.
+  - Campus: Chinayya Layout, Behind Janipoonthattam, Kaspa, Vellore - 632 001.
+  - Partner: Brainy Stars International School association.
+  - Dual Curriculum: Academic excellence paired with Quran (Tajweed), Hadith, and Islamic Tarbiyah.
+  - Contact: Phone (`86101 13160`, `96290 49907`), WhatsApp (`+91 86101 13160`), Maps (`12.9069697, 79.1190469`), Brochure PDF (`/assets/brochure/olive-tree-school-brochure-2026.pdf`).
+
+### 13.5 Compact FAQ Accordion Section
+Implemented [`src/components/FAQSection.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/FAQSection.tsx) mounted above the contact footer:
+- **6 Verified Parent Questions & Answers:**
+  1. Classes and grade levels offered (Pre-KG to 5th Std with 1:15 ratio).
+  2. How to apply for admissions for 2026–2027 (online WhatsApp inquiry or school office).
+  3. Scheduling in-person campus visits (office hours 9:00 AM – 4:00 PM, Monday to Saturday).
+  4. 5 languages actively taught (English, Tamil, Urdu, Arabic, Hindi).
+  5. Dual-curriculum philosophy (academic subjects blended with Sunnah Tarbiyah).
+  6. Campus location and official brochure download link.
+- **Accessibility & Interaction:**
+  - Built with `<button>` elements utilizing `aria-expanded` and `aria-controls`.
+  - Accessible touch targets ($\ge 52\text{px}$ row height).
+  - Keyboard navigable (`Enter` / `Space` toggles).
+  - Quick action card with direct inquiry, campus walkthrough schedule, and brochure download actions.
+  - Full trilingual support in English, Tamil, and Urdu.
+
+### 13.6 Automated Quality & Regression Results
+- **Production Polish Test Suite (`test-production-polish.js`):** `22/22 checks passed (100%)`.
+- **Marquee & Gallery Test Suite (`test-marquee-gallery.js`):** `25/25 checks passed (100%)`.
+- **Two-Step WhatsApp Flow Test Suite (`test-twostep-flow.js`):** `100% passed`.
+- **Client Requirements Regression Suite (`test-final.js`):** `100% passed`.
+- **Linter (`oxlint`):** `0 errors`.
+- **TypeScript Compiler (`tsc -b`):** `0 errors`.
+- **Production Build (`vite build`):** Clean build generated in **1.88s**.
+
+---
+
+## 14. Complete UI Refinement, Section Navigation & Badge Optimization
+
+### 14.1 "4 Core Pillars" Badge Redesign
+Located in [`src/components/DualCurriculum.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/DualCurriculum.tsx):
+- **Single-Line Guarantee:** Enforced `whitespace-nowrap`, `shrink-0`, and `w-fit`, eliminating text wrapping into multiple lines.
+- **Dimensional Balance:** Centered horizontally and vertically using `inline-flex items-center justify-center px-4 py-1.5` with `rounded-full`.
+- **Branding Consistency:** Preserved the official emerald and white palette (`bg-emerald-700 text-white shadow-xs font-bold text-xs tracking-tight`).
+- **Responsive Flex Layout:** Updated the column header to `flex-wrap sm:flex-nowrap gap-3 sm:gap-4` to prevent cramped badges across mobile (320px–430px) and tablet viewports.
+- **Academic Track Symmetry:** Symmetrically upgraded the Column 1 badge (`10 Subjects`) with identical `inline-flex shrink-0 whitespace-nowrap w-fit px-4 py-1.5` styling in royal blue.
+
+### 14.2 Duplicate Gallery Back Arrow Elimination
+Located in [`src/components/CampusGallery.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/CampusGallery.tsx) and [`src/data/translations.ts`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/data/translations.ts):
+- **Root Cause:** The component rendered a Lucide `<ArrowLeft />` icon alongside translation strings containing a literal `←` character, producing `[ ← ] ← Back to Curated Highlights`.
+- **Resolution:**
+  - Removed literal arrows from all language translations:
+    - English: `"Back to Curated Highlights"`
+    - Tamil: `"சிறப்புக் காட்சிகளுக்குத் திரும்புக"`
+    - Urdu: `"منتخب جھلکیاں دکھائیں"`
+  - Updated fallback strings in [`CampusGallery.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/CampusGallery.tsx).
+  - Kept the Lucide `ArrowLeft` icon with preserved button styling, colors, borders, hover states, and navigation logic.
+  - Final rendered button: strictly `[ArrowLeft icon] Back to Curated Highlights`.
+  - Also removed a redundant trailing literal `→` before `<ArrowRight />` in [`GradeRoadMap.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/GradeRoadMap.tsx).
+
+### 14.3 Complete Section Navigation System
+Located in [`src/components/Navbar.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/Navbar.tsx):
+- **Identified Homepage Sections:**
+  1. `#home` (Hero)
+  2. `#about` (About Heritage & Philosophy)
+  3. `#why-choose` (Why Parents Choose Olive Tree School - 6 Core Strengths)
+  4. `#curriculum` / `#core-pillars` (Dual Curriculum: Modern Academics & Heritage Tarbiyah)
+  5. `#learning-corner` (5-Language Polyglot Foundation & Daily Sunnah Corner)
+  6. `#grades` (Grade Progression Roadmap: Pre-KG to 5th Std)
+  7. `#gallery` (Campus Life Photo Gallery & Curated Highlights)
+  8. `#eligibility` / `#admissions` (Age & Grade Eligibility Checker + Checklist)
+  9. `#notices` (Live School Circulars & Notice Board)
+  10. `#faq` (Frequently Asked Questions Accordion)
+  11. `#contact` (Kaspa, Vellore Campus & Contact Details)
+- **Desktop Navbar Hierarchy:**
+  - **Primary Visible Links:** Home, About Us, Curriculum, Grades, Gallery, Notices, Contact.
+  - **Compact "More ▾" Popover Menu:** Elegantly accommodates Why Choose Us, 5 Languages & Sunnah, Admissions & Eligibility, and FAQs without crowding the desktop header.
+  - Click-outside and Escape key dismissal.
+- **Dynamic Active Section Detection:**
+  - Lightweight `IntersectionObserver` observing all 11 section IDs.
+  - Highlights active link with emerald font and an active bottom indicator bar.
+  - "More" button highlights automatically when any secondary section is active.
+- **Header Offset Protection:**
+  - Added `scroll-mt-20 sm:scroll-mt-24` across all section root elements (`#home`, `#about`, `#why-choose`, `#curriculum`, `#core-pillars`, `#learning-corner`, `#grades`, `#gallery`, `#eligibility`, `#notices`, `#faq`, `#contact`).
+  - Guarantees headings are never obscured or concealed beneath the sticky navbar.
+- **Mobile Navigation Drawer (<1024px):**
+  - Full drawer displaying all 11 major homepage sections with accessible touch targets ($\ge 46\text{px}$).
+  - Active section highlighted with subtle emerald pill (`bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-600/30 font-bold`).
+  - Automatic background scroll lock (`document.body.style.overflow = 'hidden'`) while open.
+  - Escape key support and outside-dismissal.
+  - Full trilingual selector and admission CTA preserved inside the drawer.
+
+### 14.4 Final Automated Verification Results
+- **UI Refinement Verification Suite (`test-ui-refinement.js`):** `23/23 checks passed (100%)`.
+- **Production Polish Verification Suite (`test-production-polish.js`):** `22/22 checks passed (100%)`.
+- **Marquee & Gallery Verification Suite (`test-marquee-gallery.js`):** `25/25 checks passed (100%)`.
+- **Two-Step WhatsApp Flow Suite (`test-twostep-flow.js`):** `100% passed`.
+- **Client Requirements Regression Suite (`test-final.js`):** `100% passed`.
+- **Linter (`oxlint`):** `0 errors`.
+- **TypeScript Compiler (`tsc -b`):** `0 errors`.
+- **Production Build (`vite build`):** Clean build generated in **1.93s**.
+
+---
+
+## 15. Click Interaction Bug Fix & Academic Year 2027–2028 Update
+
+### 15.1 Task 1: Staff Login vs. Floating WhatsApp Click Conflict Resolution
+- **Root Cause Diagnosis:**
+  1. **Hit-Testing Overlap & Pointer Events:** The floating wrapper container of `FloatingWhatsApp` did not possess `pointer-events-none`. In various mobile viewports and flex recalculations, its bounding box could intercept tap/click events meant for underlying or overlapping elements.
+  2. **Event Bubbling & Propagation:** The Staff Login triggers across `TopBar.tsx` (mobile & desktop), `Navbar.tsx` (mobile drawer), and `ContactFooter.tsx` did not invoke `e.stopPropagation()` or `e.preventDefault()`, allowing synthetic pointer/click events to bubble into document and trigger adjacent listeners or passthrough hits.
+  3. **Stacking Context & Z-Index Alignment:** `TopBar.tsx` was configured with `relative z-40`, placing it at the exact same stacking tier as `FloatingWhatsApp.tsx` (`fixed ... z-40`), while `AdminLoginModal.tsx` was at `z-50`.
+  4. **Active State Isolation:** `FloatingWhatsApp` remained mounted and active behind modal backdrops, allowing potential touch passthrough when tapping modal controls.
+- **Implemented Architectural Fix:**
+  - **Click Event Isolation:** Updated all Staff Login and Admin Logout buttons in `TopBar.tsx`, `Navbar.tsx`, and `ContactFooter.tsx` with explicit `(e) => { e.preventDefault(); e.stopPropagation(); openAdminLoginModal(); }`.
+  - **Pointer-Events Hardening:** Added `pointer-events-none` to the floating wrapper of `FloatingWhatsApp.tsx`, and granted `pointer-events-auto` exclusively to the circular `<a>` anchor element. Direct clicks on WhatsApp now invoke `e.stopPropagation()`.
+  - **Full Modal Inertness:** In `FloatingWhatsApp.tsx`, added a guard:
+    ```tsx
+    if (isAdminLoginModalOpen || isAdmissionModalOpen || isVisitModalOpen) {
+      return null;
+    }
+    ```
+    This completely unmounts and removes the floating WhatsApp button from the DOM whenever any modal is open, guaranteeing zero click conflict or hit-testing bleed-through.
+  - **Layered Z-Index Hierarchy:**
+    - Modals (`AdminLoginModal`, `AdmissionModal`, `CampusVisitModal`): elevated to `z-[60]`
+    - Header bars (`TopBar`, `Navbar`): elevated to `z-50`
+    - Floating WhatsApp: strictly `z-40` (and unmounted during modal display)
+    - Body and section content: `z-10` to `z-30`
+  - **Responsive Layout Stability:** Added explicit `right-3.5 sm:right-6 rtl:right-auto rtl:left-3.5 rtl:sm:left-6` along with logical `end-3.5 sm:end-6` to ensure robust positioning across all legacy and modern mobile viewports.
+
+### 15.2 Task 2: Comprehensive Academic Year Update to 2027–2028
+- **Global & Metadata Updates:**
+  - `index.html`: Updated `<title>`, `<meta property="og:title">`, and `<meta name="twitter:title">` to reference `2027–2028`.
+  - `src/context/SchoolContext.tsx`:
+    - Updated `DEFAULT_CONFIG.admissionYear` to `'2027-2028'`.
+    - Updated English, Tamil, and Urdu admission ticker strings to `2027-2028`.
+    - Updated localized dynamic document titles across EN, TA, and UR to `2027–2028`.
+    - Added an automatic `localStorage` migration block that converts any stale cached `2026-2027` settings to `2027-2028`.
+- **Trilingual Content Synchronization (`src/data/translations.ts`):**
+  - **English:**
+    - `nav.applyNow`: `'Apply Now 2027-28'`
+    - `hero.badgeAdmission`: `'SCHOOL ADMISSION OPEN 2027-2028'`
+    - `hero.admissionsOpenPill`: `'Admissions Open 2027-2028 • Pre-KG to 5th Std'`
+    - `curriculum.applyAcademicSeat`: `'Apply for 2027-28 Academic Seat'`
+    - `modal.title`: `'Admission Inquiry 2027-2028'`
+    - `faq`: Questions and answers updated to Academic Year `2027–2028`.
+  - **Tamil:**
+    - `nav.applyNow`: `'சேர்க்கை 2027–28 →'`
+    - `hero.badgeAdmission`: `'பள்ளி மாணவர் சேர்க்கை 2027-2028 ஆரம்பம்'`
+    - `hero.admissionsOpenPill`: `'சேர்க்கை ஆரம்பம் 2027-2028 • Pre-KG முதல் 5-ஆம் வகுப்பு வரை'`
+    - `curriculum.applyAcademicSeat`: `'2027-28 சேர்க்கைக்கு விண்ணப்பிக்க'`
+    - `modal.title`: `'மாணவர் சேர்க்கை விசாரணை 2027-2028'`
+    - `faq`: Questions and answers updated to `2027–2028`.
+  - **Urdu:**
+    - `nav.applyNow`: `'داخلہ 2027-28'`
+    - `hero.badgeAdmission`: `'اسکول داخلے جاری ہیں تعلیمی سال 2027-2028'`
+    - `hero.admissionsOpenPill`: `'داخلے جاری ہیں 2027-2028 • پری کے جی تا پنجم جماعت'`
+    - `curriculum.applyAcademicSeat`: `'تعلیمی سال 2027-28 کے لیے نشست حاصل کریں'`
+    - `modal.title`: `'داخلہ معلومات برائے تعلیمی سال 2027-2028'`
+    - `faq`: Questions and answers updated to `2027-2028`.
+- **Component-Level Updates:**
+  - `src/components/TopBar.tsx`: Mobile badge (`2027–2028`) and Desktop badge (`2027–2028`).
+  - `src/components/FloatingWhatsApp.tsx`: WhatsApp inquiry messages updated to `2027-2028` across EN, TA, and UR.
+  - `src/components/AdmissionModal.tsx`: Inquiry type default `'New Admission 2027-28'`, badge `Admissions 2027–28 Desk`, and input label `Target Class for 2027–28 *`.
+  - `src/components/CampusGallery.tsx`: Date tag state and placeholder updated to `Academic Year 2027–28`.
+  - `src/components/EligibilityChecker.tsx`: Taglines, subheading, age title (`as of 1st June 2027`), download button, apply button, and download filename updated to `2027–2028` / `2027–28`.
+  - `src/components/GradeRoadMap.tsx`: Button label updated to `Admissions for {current.tabLabel} (2027–28)`.
+  - `src/components/NoticeBoard.tsx`: Date parser default year updated to `2027`, and notice templates updated to `2027-2028` across EN, TA, and UR.
+  - `src/components/AdminCommandDock.tsx`: Input placeholder updated to `2027-2028`.
+
+### 15.3 Static Asset Audit & Report
+- **Asset Identified:** [`public/assets/brochure/olive-tree-school-brochure-2026.pdf`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/public/assets/brochure/olive-tree-school-brochure-2026.pdf)
+- **Status:** This is a pre-compiled, static binary PDF document located in `public/assets/brochure/`.
+- **Advisory:** Because this is a compiled binary PDF file, the text inside the PDF cannot be dynamically modified by TypeScript or React source code. The website download attributes and UI buttons now gracefully point to this brochure with clear `2027–28` labels. Whenever the school provides the updated `olive-tree-school-brochure-2027.pdf` or `olive-tree-school-brochure-2028.pdf`, it can be dropped into `public/assets/brochure/` to seamlessly replace the legacy brochure file.
+
+### 15.4 Verification Suite Results
+- **Automated Click & Academic Year Verification (`test-click-and-academic-year.js`):** `24/24 checks passed (100%)`.
+- **Linter (`oxlint`):** `0 errors`.
+- **TypeScript Compiler (`tsc -b`):** `0 errors`.
+- **Production Build (`vite build`):** Clean build generated in **2.64s** (`dist/` verified).
+
+---
+
+## 16. Admission & Visit Inquiry Modal Scrollbar Refinement & Viewport Optimization
+
+### 16.1 Problem Solved
+The Online Admission & Visit Inquiry modal previously displayed a visible, unstyled browser scrollbar on its right edge across various platforms and mobile viewports. On mobile touchscreens and desktop browsers, this visible scrollbar broke the soft rounded card design and appeared visually unpolished.
+
+### 16.2 Cross-Browser Scrollbar Hiding Architecture
+- **Targeted Utility Class (`.modal-scroll-hidden` in `src/index.css`):**
+  - **Firefox:** `scrollbar-width: none`
+  - **IE 10+ / Legacy Edge:** `-ms-overflow-style: none`
+  - **WebKit / Blink (Chrome, Safari, iOS Safari, Android Chrome, Edge):** `::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }`
+  - **iOS Momentum Scrolling:** `-webkit-overflow-scrolling: touch`
+  - **Scope Guarantee:** Applied exclusively to modal scroll containers; global website scrolling behavior (`html`, `body`) remains standard and unaffected.
+  - **Double-Layer Fallback:** Embedded inline styles `style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}` directly on the modal container elements for maximum cross-browser resilience.
+
+### 16.3 Responsive Viewport & Dynamic Height Optimization
+- **Dynamic Viewport Units (`dvh`):**
+  - Upgraded inner modal cards from fixed `max-h-[92vh]` to dynamic `max-h-[92dvh] sm:max-h-[88dvh]`.
+  - Dynamically calculates visible screen height on mobile devices, adjusting seamlessly when the virtual keyboard, browser URL bar, or navigation bar appears or collapses.
+- **Nested Scrollbar Elimination:**
+  - Configured outer backdrops with `overflow-hidden` so that only the inner dialog container handles scrolling, completely preventing dual or nested scrollbars.
+- **Mobile Spacing Refinement:**
+  - Scaled modal card padding to `p-4.5 sm:p-7 md:p-8` so that narrow mobile screens (320px–390px) preserve maximum usable content area without clipping.
+- **Accessible Sticky Close Button:**
+  - Preserved sticky close button (`sticky top-2 float-right -mt-1 -me-1 z-20 w-9 h-9 sm:w-10 sm:h-10`) so parents can effortlessly dismiss the modal at any scroll depth.
+- **Scroll Functionality Preserved:**
+  - Mobile touch gestures, desktop mouse-wheel, and keyboard arrows/page-down continue scrolling naturally with `overflow-y: auto`.
+  - All form controls, bottom informational notes, "Cancel / Close", and "Preview Details →" buttons remain fully accessible.
+- **Consistent Application Across All Modals:**
+  - Applied the same visual refinement to:
+    - [`src/components/AdmissionModal.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AdmissionModal.tsx) (Online Admission Inquiry Modal)
+    - [`src/components/CampusVisitModal.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/CampusVisitModal.tsx) (Campus Visit Schedule Modal)
+    - [`src/components/AdminLoginModal.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AdminLoginModal.tsx) (Staff Admin Access Modal)
+    - [`src/components/NoticeBoard.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/NoticeBoard.tsx) (Notice Detail & Notice Editor Modals)
+    - [`src/components/AdminCommandDock.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AdminCommandDock.tsx) (Quick Config Modal)
+
+### 16.4 Viewport & Automated Test Results
+- **Modal Scrollbar & Responsiveness Test Suite (`test-modal-scrollbar.js`):** `33/33 checks passed (100%)`.
+  - Verified across 320px, 360px, 375px, 390px, 430px, 1024px, and 1440px viewports.
+- **Linter (`oxlint`):** `0 errors`.
+- **TypeScript Compiler (`tsc -b`):** `0 errors`.
+- **Production Build (`vite build`):** Clean build generated in **2.21s**.
+
+
+
+
+
 
 

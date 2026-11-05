@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { Language, Theme, SiteConfig, NoticeItem, TranslationSchema, GalleryPhoto } from '../types';
-import { translations, defaultNotices } from '../data/translations';
+import { translations } from '../data/translations';
 import { defaultGalleryPhotos } from '../data/defaultGallery';
 
 const DEFAULT_CONFIG: SiteConfig = {
-  admissionYear: '2026-2027',
+  admissionYear: '2027-2028',
   yearsOfExcellence: '13+',
   primaryPhone: '86101 13160',
   secondaryPhone: '96290 49907',
@@ -13,11 +13,11 @@ const DEFAULT_CONFIG: SiteConfig = {
   address: 'Chinayya Layout, Behind Janipoonthattam, Kaspa, Vellore - 632 001',
   officeHours: '9:00 AM to 4:00 PM on all Working Days',
   tickerAnnouncementEn:
-    'Admissions Open 2026-2027 for Pre-KG to 5th Std • Office Hours: 9:00 AM – 4:00 PM on all Working Days • Call 86101 13160 / 96290 49907',
+    'Admissions Open 2027-2028 for Pre-KG to 5th Std • Office Hours: 9:00 AM – 4:00 PM on all Working Days • Call 86101 13160 / 96290 49907',
   tickerAnnouncementTa:
-    '2026-2027 மாணவர் சேர்க்கை ஆரம்பம் (Pre-KG முதல் 5-ஆம் வகுப்பு வரை) • அலுவலக நேரம்: காலை 9:00 - மாலை 4:00 • தொடர்பு: 86101 13160 / 96290 49907',
+    '2027-2028 மாணவர் சேர்க்கை ஆரம்பம் (Pre-KG முதல் 5-ஆம் வகுப்பு வரை) • அலுவலக நேரம்: காலை 9:00 - மாலை 4:00 • தொடர்பு: 86101 13160 / 96290 49907',
   tickerAnnouncementUr:
-    'تعلیمی سال 2026-2027 کے داخلے جاری ہیں (پری کے جی تا پنجم) • دفتری اوقات: صبح 9:00 تا شام 4:00 • رابطہ: 86101 13160 / 96290 49907',
+    'تعلیمی سال 2027-2028 کے داخلے جاری ہیں (پری کے جی تا پنجم) • دفتری اوقات: صبح 9:00 تا شام 4:00 • رابطہ: 86101 13160 / 96290 49907',
 };
 
 interface SchoolContextValue {
@@ -34,6 +34,8 @@ interface SchoolContextValue {
 
   notices: NoticeItem[];
   addNotice: (notice: Omit<NoticeItem, 'id'>) => void;
+  updateNotice: (id: string, partial: Partial<NoticeItem>) => void;
+  togglePublishNotice: (id: string) => void;
   deleteNotice: (id: string) => void;
 
   galleryPhotos: GalleryPhoto[];
@@ -116,14 +118,14 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     if (language === 'ur') {
       document.body.classList.add('lang-ur');
       document.body.classList.remove('lang-ta');
-      document.title = 'اولیو ٹری اسکول، ویلور | داخلے جاری ہیں تعلیمی سال 2026–2027 (عصری و دینی تعلیم)';
+      document.title = 'اولیو ٹری اسکول، ویلور | داخلے جاری ہیں تعلیمی سال 2027–2028 (عصری و دینی تعلیم)';
     } else if (language === 'ta') {
       document.body.classList.add('lang-ta');
       document.body.classList.remove('lang-ur');
-      document.title = 'ஆலிவ் ட்ரீ பள்ளி, வேலூர் | மாணவர் சேர்க்கை 2026–2027 (பொதுக்கல்வி & இஸ்லாமிய தர்பிய்யா)';
+      document.title = 'ஆலிவ் ட்ரீ பள்ளி, வேலூர் | மாணவர் சேர்க்கை 2027–2028 (பொதுக்கல்வி & இஸ்லாமிய தர்பிய்யா)';
     } else {
       document.body.classList.remove('lang-ta', 'lang-ur');
-      document.title = 'Olive Tree School, Vellore | Pre-KG to 5th Std Admissions Open 2026–2027 (Academic & Islamic Education)';
+      document.title = 'Olive Tree School, Vellore | Pre-KG to 5th Std Admissions Open 2027–2028 (Academic & Islamic Education)';
     }
   }, [language]);
 
@@ -131,7 +133,24 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [siteConfig, setSiteConfig] = useState<SiteConfig>(() => {
     try {
       const saved = localStorage.getItem('ots_site_config');
-      return saved ? { ...DEFAULT_CONFIG, ...JSON.parse(saved) } : DEFAULT_CONFIG;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.admissionYear === '2026-2027' || parsed.admissionYear === '2026–2027') {
+          parsed.admissionYear = '2027-2028';
+        }
+        if (parsed.tickerAnnouncementEn && parsed.tickerAnnouncementEn.includes('2026-2027')) {
+          parsed.tickerAnnouncementEn = parsed.tickerAnnouncementEn.replace(/2026-2027/g, '2027-2028');
+        }
+        if (parsed.tickerAnnouncementTa && parsed.tickerAnnouncementTa.includes('2026-2027')) {
+          parsed.tickerAnnouncementTa = parsed.tickerAnnouncementTa.replace(/2026-2027/g, '2027-2028');
+        }
+        if (parsed.tickerAnnouncementUr && parsed.tickerAnnouncementUr.includes('2026-2027')) {
+          parsed.tickerAnnouncementUr = parsed.tickerAnnouncementUr.replace(/2026-2027/g, '2027-2028');
+        }
+        localStorage.setItem('ots_site_config', JSON.stringify(parsed));
+        return { ...DEFAULT_CONFIG, ...parsed };
+      }
+      return DEFAULT_CONFIG;
     } catch {
       return DEFAULT_CONFIG;
     }
@@ -145,13 +164,30 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     });
   };
 
-  // 3. Notices
+  // 3. Notices (Clean production state: 0 seeded mock notices)
   const [notices, setNotices] = useState<NoticeItem[]>(() => {
     try {
       const saved = localStorage.getItem('ots_notices');
-      return saved ? JSON.parse(saved) : defaultNotices;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          // Permanently purge any legacy fabricated sample notice IDs
+          const cleaned = parsed.filter(
+            (n: any) =>
+              n &&
+              n.id !== 'notice-adm-2026' &&
+              n.id !== 'notice-tajweed-camp' &&
+              n.id !== 'notice-science-stem'
+          );
+          if (cleaned.length !== parsed.length) {
+            localStorage.setItem('ots_notices', JSON.stringify(cleaned));
+          }
+          return cleaned;
+        }
+      }
+      return [];
     } catch {
-      return defaultNotices;
+      return [];
     }
   });
 
@@ -159,9 +195,28 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const newNotice: NoticeItem = {
       ...notice,
       id: `notice-${Date.now()}`,
+      isPublished: notice.isPublished ?? true,
     };
     setNotices((prev) => {
       const updated = [newNotice, ...prev];
+      localStorage.setItem('ots_notices', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const updateNotice = (id: string, partial: Partial<NoticeItem>) => {
+    setNotices((prev) => {
+      const updated = prev.map((n) => (n.id === id ? { ...n, ...partial } : n));
+      localStorage.setItem('ots_notices', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const togglePublishNotice = (id: string) => {
+    setNotices((prev) => {
+      const updated = prev.map((n) =>
+        n.id === id ? { ...n, isPublished: !(n.isPublished ?? true) } : n
+      );
       localStorage.setItem('ots_notices', JSON.stringify(updated));
       return updated;
     });
@@ -252,7 +307,7 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   const resetDemoData = () => {
     setSiteConfig(DEFAULT_CONFIG);
-    setNotices(defaultNotices);
+    setNotices([]);
     setGalleryPhotos(defaultGalleryPhotos);
     localStorage.removeItem('ots_site_config');
     localStorage.removeItem('ots_notices');
@@ -273,6 +328,8 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         updateSiteConfig,
         notices,
         addNotice,
+        updateNotice,
+        togglePublishNotice,
         deleteNotice,
         galleryPhotos,
         addGalleryPhoto,

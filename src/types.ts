@@ -26,6 +26,7 @@ export interface NoticeItem {
   contentTa: string;
   contentUr: string;
   isImportant?: boolean;
+  isPublished?: boolean;
 }
 
 export interface AdmissionInquiry {
@@ -54,11 +55,16 @@ export interface TranslationSchema {
   nav: {
     home: string;
     about: string;
+    whyChoose: string;
     curriculum: string;
+    learningCorner: string;
     grades: string;
     gallery: string;
+    eligibility: string;
     notices: string;
+    faq: string;
     contact: string;
+    more: string;
     applyNow: string;
     adminLogin: string;
     adminLogout: string;
@@ -160,6 +166,13 @@ export interface TranslationSchema {
     noNotices: string;
     publishNotice: string;
     closeNotice: string;
+    emptyHeading: string;
+    emptyDescription: string;
+    draftBadge: string;
+    publishedBadge: string;
+    publishAction: string;
+    unpublishAction: string;
+    editNotice: string;
   };
   contact: {
     tagline: string;
@@ -244,5 +257,14 @@ export interface TranslationSchema {
     glimpseTitle: string;
     viewAllPhotos: string;
     showHighlights: string;
+  };
+  faq: {
+    tagline: string;
+    title: string;
+    description: string;
+    items: Array<{
+      question: string;
+      answer: string;
+    }>;
   };
 }

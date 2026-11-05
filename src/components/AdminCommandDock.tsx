@@ -149,15 +149,15 @@ export const AdminCommandDock: React.FC = () => {
                 <span className="hidden md:inline">Numbers & Year</span>
               </button>
 
-              {/* Reset Demo Data Button */}
+              {/* Reset to Verified Defaults Button */}
               <button
                 type="button"
                 onClick={() => setShowResetConfirm(true)}
                 className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-xl font-semibold bg-white/10 hover:bg-white/15 text-white/80 transition-colors cursor-pointer shrink-0"
-                title="Restore default demo notices and config"
+                title="Reset local configuration to verified defaults"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-amber-300" />
-                <span className="hidden lg:inline">Reset</span>
+                <span className="hidden lg:inline">Reset Defaults</span>
               </button>
 
               {/* Logout Button */}
@@ -191,11 +191,15 @@ export const AdminCommandDock: React.FC = () => {
       {isQuickConfigOpen && (
         <div
           onClick={() => setIsQuickConfigOpen(false)}
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto cursor-pointer"
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-hidden cursor-pointer"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#FBF9F5] dark:bg-[#16241F] rounded-3xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-[#243B32] text-stone-900 dark:text-[#FBF9F5] animate-in fade-in zoom-in-95 duration-150 relative my-auto max-h-[90vh] overflow-y-auto cursor-default"
+            className="bg-[#FBF9F5] dark:bg-[#16241F] rounded-3xl max-w-md w-full p-6 shadow-2xl border border-stone-200 dark:border-[#243B32] text-stone-900 dark:text-[#FBF9F5] animate-in fade-in zoom-in-95 duration-150 relative my-auto max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto modal-scroll-hidden cursor-default"
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
           >
             {/* High-Visibility Sticky Close Button (X) */}
             <button
@@ -223,7 +227,7 @@ export const AdminCommandDock: React.FC = () => {
                   type="text"
                   value={tempAdmissionYear}
                   onChange={(e) => setTempAdmissionYear(e.target.value)}
-                  placeholder="2026-2027"
+                  placeholder="2027-2028"
                   className="w-full px-3 py-2.5 rounded-xl border border-stone-300 dark:border-[#243B32] bg-white dark:bg-[#0E1714] text-stone-900 dark:text-[#FBF9F5] text-xs focus:ring-2 focus:ring-[#133829] focus:outline-hidden"
                 />
               </div>
@@ -315,9 +319,11 @@ export const AdminCommandDock: React.FC = () => {
             <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 mx-auto flex items-center justify-center mb-3">
               <RotateCcw className="w-6 h-6 text-amber-600 dark:text-amber-400" />
             </div>
-            <h3 className="font-editorial text-lg font-bold text-[#133829] dark:text-[#FBF9F5] mb-1">Reset Demo Data?</h3>
+            <h3 className="font-editorial text-lg font-bold text-[#133829] dark:text-[#FBF9F5] mb-1">
+              Reset Configuration & Cache?
+            </h3>
             <p className="text-xs text-stone-600 dark:text-stone-400 mb-6">
-              This will restore all default notices, phone numbers, and gallery photos.
+              This will restore official school numbers, clear custom notices, and reload verified photos.
             </p>
             <div className="flex items-center justify-center gap-3">
               <button

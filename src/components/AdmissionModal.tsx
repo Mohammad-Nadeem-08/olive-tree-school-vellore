@@ -38,7 +38,7 @@ export const AdmissionModal: React.FC = () => {
   const [grade, setGrade] = useState('Pre-KG');
   const [parentName, setParentName] = useState('');
   const [phone, setPhone] = useState('');
-  const [inquiryType, setInquiryType] = useState<'New Admission 2026-27' | 'Schedule Campus Visit'>('New Admission 2026-27');
+  const [inquiryType, setInquiryType] = useState<'New Admission 2027-28' | 'Schedule Campus Visit'>('New Admission 2027-28');
   const [message, setMessage] = useState('');
 
   // Confirmation & Feedback State
@@ -48,7 +48,7 @@ export const AdmissionModal: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [validationError, setValidationError] = useState('');
 
-  const academicYear = siteConfig?.admissionYear || '2026–2027';
+  const academicYear = siteConfig?.admissionYear || '2027–2028';
 
   const handleResetAndClose = useCallback(() => {
     setStep('form');
@@ -57,7 +57,7 @@ export const AdmissionModal: React.FC = () => {
     setGrade('Pre-KG');
     setParentName('');
     setPhone('');
-    setInquiryType('New Admission 2026-27');
+    setInquiryType('New Admission 2027-28');
     setMessage('');
     setFormattedWaMessage('');
     setIsOpening(false);
@@ -95,7 +95,7 @@ export const AdmissionModal: React.FC = () => {
   const getAdditionalDetails = () => {
     return [
       age.trim() ? `Child's Age/DOB: ${age.trim()}` : '',
-      inquiryType !== 'New Admission 2026-27' ? `Inquiry: ${inquiryType}` : '',
+      inquiryType !== 'New Admission 2027-28' ? `Inquiry: ${inquiryType}` : '',
       message.trim() ? message.trim() : '',
     ].filter(Boolean).join(' | ') || 'None provided';
   };
@@ -187,18 +187,30 @@ Thank you.`;
 
   return (
     <div
-      onClick={handleResetAndClose}
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto cursor-pointer"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleResetAndClose();
+      }}
+      className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-hidden cursor-pointer"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-2xl sm:rounded-3xl max-w-xl w-full p-4.5 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[92vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-200 text-start cursor-default"
+        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-2xl sm:rounded-3xl max-w-xl w-full p-4.5 sm:p-7 md:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto modal-scroll-hidden animate-in fade-in zoom-in-95 duration-200 text-start cursor-default"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
         {/* High-Visibility Sticky Close Button (X) */}
         <button
           type="button"
-          onClick={handleResetAndClose}
-          className="sticky top-2 float-right -mt-1 -me-1 z-20 w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleResetAndClose();
+          }}
+          className="sticky top-2 float-right -mt-1 -me-1 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
@@ -212,7 +224,7 @@ Thank you.`;
             <div className="text-start mb-6 pe-8">
               <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-700 text-white font-mono text-xs font-bold mb-3 shadow-xs">
                 <GraduationCap className="w-4 h-4 text-amber-300" />
-                <span>Admissions 2026–27 Desk</span>
+                <span>Admissions 2027–28 Desk</span>
               </div>
               <h3
                 className={`font-editorial text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white ${
@@ -246,9 +258,9 @@ Thank you.`;
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => setInquiryType('New Admission 2026-27')}
+                    onClick={() => setInquiryType('New Admission 2027-28')}
                     className={`py-2.5 px-3 rounded-xl border text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                      inquiryType === 'New Admission 2026-27'
+                      inquiryType === 'New Admission 2027-28'
                         ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
                         : 'bg-slate-50 dark:bg-[#0E1714] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-[#243B32] hover:bg-slate-100'
                     }`}
@@ -309,7 +321,7 @@ Thank you.`;
               <div>
                 <label className="block text-xs font-mono font-bold text-slate-700 dark:text-slate-300 uppercase mb-1.5 flex items-center gap-1.5">
                   <GraduationCap className="w-3.5 h-3.5 text-blue-700 dark:text-blue-400" />
-                  <span>Target Class for 2026–27 *</span>
+                  <span>Target Class for 2027–28 *</span>
                 </label>
                 <select
                   value={grade}
@@ -597,7 +609,10 @@ Thank you.`;
                   )}
                 </button>
               </div>
-              <pre className="text-xs font-mono text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed max-h-40 overflow-y-auto">
+              <pre
+                className="text-xs font-mono text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed max-h-40 overflow-y-auto modal-scroll-hidden"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
                 {formattedWaMessage}
               </pre>
             </div>

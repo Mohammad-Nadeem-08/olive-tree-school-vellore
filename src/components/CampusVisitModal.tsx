@@ -223,18 +223,30 @@ Thank you.`;
 
   return (
     <div
-      onClick={handleClose}
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto cursor-pointer"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleClose();
+      }}
+      className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 overflow-hidden cursor-pointer"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-2xl sm:rounded-3xl max-w-md w-full p-4.5 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[92vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150 text-start cursor-default"
+        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-2xl sm:rounded-3xl max-w-md w-full p-4.5 sm:p-7 md:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto modal-scroll-hidden animate-in fade-in zoom-in-95 duration-150 text-start cursor-default"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
         {/* High-Visibility Sticky Close Button (X) */}
         <button
           type="button"
-          onClick={handleClose}
-          className="sticky top-2 float-right -mt-1 -me-1 z-20 w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleClose();
+          }}
+          className="sticky top-2 float-right -mt-1 -me-1 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
@@ -541,7 +553,10 @@ Thank you.`;
                   )}
                 </button>
               </div>
-              <pre className="text-xs font-mono text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed max-h-36 overflow-y-auto">
+              <pre
+                className="text-xs font-mono text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed max-h-36 overflow-y-auto modal-scroll-hidden"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
                 {formattedWaMessage}
               </pre>
             </div>

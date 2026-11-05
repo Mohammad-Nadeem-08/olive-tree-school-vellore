@@ -1,16 +1,21 @@
-import type { Language, TranslationSchema } from '../types';
+import type { Language, TranslationSchema, NoticeItem } from '../types';
 
 export const translations: Record<Language, TranslationSchema> = {
   en: {
     nav: {
       home: 'Home',
       about: 'About',
+      whyChoose: 'Why Us',
       curriculum: 'Curriculum',
+      learningCorner: '5 Languages',
       grades: 'Grades',
       gallery: 'Campus Life',
+      eligibility: 'Admissions',
       notices: 'Notice Board',
+      faq: 'FAQs',
       contact: 'Contact Us',
-      applyNow: 'Apply Now 2026-27',
+      more: 'More',
+      applyNow: 'Apply Now 2027-28',
       adminLogin: 'Admin Portal',
       adminLogout: 'Logout Admin',
       adminMode: 'Live Admin On',
@@ -26,7 +31,7 @@ export const translations: Record<Language, TranslationSchema> = {
       coBrandBadge: 'In association with Brainy Stars International School • Nurturing Leaders',
     },
     hero: {
-      badgeAdmission: 'SCHOOL ADMISSION OPEN 2026-2027',
+      badgeAdmission: 'SCHOOL ADMISSION OPEN 2027-2028',
       yearsExcellence: '13+ Years of Excellence in Education',
       headline: 'Building a Foundation for a Lifetime of Learning',
       subheadline:
@@ -35,8 +40,8 @@ export const translations: Record<Language, TranslationSchema> = {
       applyCta: 'Online Admission Inquiry',
       visitCta: 'Schedule Campus Visit',
       watchTour: 'Explore Campus',
-      trustedBy: 'Trusted by 1,200+ Vellore Families since 2013',
-      admissionsOpenPill: 'Admissions Open 2026-2027 • Pre-KG to 5th Std',
+      trustedBy: 'Trusted by Vellore Families since 2013',
+      admissionsOpenPill: 'Admissions Open 2027-2028 • Pre-KG to 5th Std',
       trustAdmissions: 'Pre-KG to 5th Std Admissions',
       trustQuran: 'Quran with Tajweed & Akhlaq',
       trustCampus: 'Kaspa, Vellore Campus',
@@ -68,7 +73,7 @@ export const translations: Record<Language, TranslationSchema> = {
       sunnahFoundation: 'Nurtured in a Proper Sunnah Way',
       exploreFullSyllabus: 'Request Detailed Curriculum Prospectus',
       filterBoth: 'All 14 Syllabi & Pillars',
-      applyAcademicSeat: 'Apply for 2026-27 Academic Seat',
+      applyAcademicSeat: 'Apply for 2027-28 Academic Seat',
       joinTarbiyahCohort: 'Enroll in Islamic Tarbiyah',
       integratedSyllabus: 'Integrated Dual Syllabus',
       sunnahDaily: 'Daily Sunnah Habituation',
@@ -118,6 +123,14 @@ export const translations: Record<Language, TranslationSchema> = {
       noNotices: 'No notices published in this category yet.',
       publishNotice: '+ Publish New Circular (Admin)',
       closeNotice: 'Close',
+      emptyHeading: 'No Announcements Yet',
+      emptyDescription:
+        'There are no announcements at the moment. Please check back later for updates from Olive Tree School.',
+      draftBadge: 'DRAFT',
+      publishedBadge: 'PUBLISHED',
+      publishAction: 'Publish',
+      unpublishAction: 'Unpublish',
+      editNotice: 'Edit Notice',
     },
     contact: {
       tagline: 'GET IN TOUCH',
@@ -143,7 +156,7 @@ export const translations: Record<Language, TranslationSchema> = {
       bookCampusTour: 'Schedule Campus Visit Today',
     },
     modal: {
-      title: 'Admission Inquiry 2026-2027',
+      title: 'Admission Inquiry 2027-2028',
       subtitle: 'Take the first step toward your child’s joyful and values-based educational journey.',
       studentNameLabel: 'Student Full Name',
       studentNamePlaceholder: 'e.g. Mohammed Rayan / Fatima Zahra',
@@ -204,7 +217,44 @@ export const translations: Record<Language, TranslationSchema> = {
       lightboxClose: 'Close Lightbox (Esc)',
       glimpseTitle: 'A Glimpse Into Olive Tree School',
       viewAllPhotos: 'View All Photos (12)',
-      showHighlights: '← Back to Curated Highlights',
+      showHighlights: 'Back to Curated Highlights',
+    },
+    faq: {
+      tagline: 'FREQUENTLY ASKED QUESTIONS',
+      title: 'Questions Parents Often Ask',
+      description: 'Authentic information regarding our classes, admissions, dual curriculum, and campus visits.',
+      items: [
+        {
+          question: 'Which classes and grade levels are offered at Olive Tree School?',
+          answer:
+            'We offer Kindergarten (Pre-KG, LKG, UKG) and Primary Standards from 1st to 5th Std, maintaining a caring 1:15 teacher-to-student ratio.',
+        },
+        {
+          question: 'How can parents apply for admission?',
+          answer:
+            'Parents can submit an online inquiry through our website to immediately connect with our admissions desk on WhatsApp (+91 86101 13160), or visit our campus office in person on working days.',
+        },
+        {
+          question: 'Can parents arrange an in-person campus visit before applying?',
+          answer:
+            'Yes, parents are warmly invited to schedule a campus walkthrough using the "Schedule Campus Visit" button or by contacting our office. Our campus is open Monday to Saturday, 9:00 AM – 4:00 PM.',
+        },
+        {
+          question: 'Which languages are actively taught to students?',
+          answer:
+            'Students learn five languages actively: English, Tamil, Urdu, Arabic, and Hindi, fostering multilingual fluency, linguistic dexterity, and confident communication.',
+        },
+        {
+          question: 'What is the school’s dual-curriculum philosophy?',
+          answer:
+            'In association with Brainy Stars International School, we blend 10 modern academic subjects with 4 essential Sunnah Tarbiyah pillars (daily tilawat with Tajweed, Hadith memorization, Masnoon Duas, and Islamic manners/Akhlaq).',
+        },
+        {
+          question: 'Where is the campus located and how can I download the official brochure?',
+          answer:
+            'We are located at Chinayya Layout, Behind Janipoonthattam, Kaspa, Vellore - 632 001. You can download the official 2027–2028 school brochure directly from the website header or footer.',
+        },
+      ],
     },
   },
 
@@ -212,12 +262,17 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       home: 'முகப்பு',
       about: 'பள்ளியைப் பற்றி',
+      whyChoose: 'ஏன் எங்கள் பள்ளி?',
       curriculum: 'பாடத்திட்டம்',
+      learningCorner: '5 மொழிகள்',
       grades: 'வகுப்புகள்',
       gallery: 'வளாகம்',
+      eligibility: 'சேர்க்கை தகுதி',
       notices: 'அறிவிப்புகள்',
+      faq: 'கேள்வி பதில்',
       contact: 'தொடர்பு',
-      applyNow: 'சேர்க்கை 2026–27 →',
+      more: 'மேலும்',
+      applyNow: 'சேர்க்கை 2027–28 →',
       adminLogin: 'நிர்வாக உள்நுழைவு',
       adminLogout: 'வெளியேறு',
       adminMode: 'நேரலை நிர்வாகம்',
@@ -233,7 +288,7 @@ export const translations: Record<Language, TranslationSchema> = {
       coBrandBadge: 'பிரைனி ஸ்டார்ஸ் இன்டர்நேஷனல் பள்ளியுடன் இணைந்து • ★ சிறந்த தலைவர்கள்',
     },
     hero: {
-      badgeAdmission: 'பள்ளி மாணவர் சேர்க்கை 2026-2027 ஆரம்பம்',
+      badgeAdmission: 'பள்ளி மாணவர் சேர்க்கை 2027-2028 ஆரம்பம்',
       yearsExcellence: '13+ ஆண்டுகால கல்விச் சிறப்பு',
       headline: 'வாழ்நாள் கல்விக்கான வலுவான அடித்தளம்',
       subheadline:
@@ -242,8 +297,8 @@ export const translations: Record<Language, TranslationSchema> = {
       applyCta: 'ஆன்லைன் சேர்க்கை விசாரணை',
       visitCta: 'பள்ளி வளாக பார்வை முன்பதிவு',
       watchTour: 'பள்ளியை பார்வையிடுங்கள்',
-      trustedBy: '2013 முதல் 1,200-க்கும் மேற்பட்ட வேலூர் குடும்பங்களின் நம்பிக்கை',
-      admissionsOpenPill: 'சேர்க்கை ஆரம்பம் 2026-2027 • Pre-KG முதல் 5-ஆம் வகுப்பு வரை',
+      trustedBy: '2013 முதல் வேலூர் குடும்பங்களின் அசைக்க முடியாத நம்பிக்கை',
+      admissionsOpenPill: 'சேர்க்கை ஆரம்பம் 2027-2028 • Pre-KG முதல் 5-ஆம் வகுப்பு வரை',
       trustAdmissions: 'Pre-KG முதல் 5-ஆம் வகுப்பு வரை சேர்க்கை',
       trustQuran: 'தஜ்வீதுடன் குர்ஆன் மற்றும் நற்பண்புகள்',
       trustCampus: 'கஸ்பா, வேலூர் வளாகம்',
@@ -275,7 +330,7 @@ export const translations: Record<Language, TranslationSchema> = {
       sunnahFoundation: 'நேரிய சுன்னாஹ் வழியில் வளர்த்தல்',
       exploreFullSyllabus: 'முழு பாடத்திட்ட கையேட்டைப் பெறுக',
       filterBoth: 'அனைத்து 14 பாடங்கள் & நெறிகள்',
-      applyAcademicSeat: '2026-27 சேர்க்கைக்கு விண்ணப்பிக்க',
+      applyAcademicSeat: '2027-28 சேர்க்கைக்கு விண்ணப்பிக்க',
       joinTarbiyahCohort: 'தர்பிய்யா வகுப்பில் இணைய',
       integratedSyllabus: 'ஒருங்கிணைந்த இருவழி பாடத்திட்டம்',
       sunnahDaily: 'தினசரி சுன்னாஹ் நடைமுறைகள்',
@@ -325,6 +380,14 @@ export const translations: Record<Language, TranslationSchema> = {
       noNotices: 'இந்த பிரிவில் தற்சமயம் புதிய அறிவிப்புகள் இல்லை.',
       publishNotice: '+ புதிய சுற்றறிக்கை வெளியிடு (நிர்வாகம்)',
       closeNotice: 'மூடுக',
+      emptyHeading: 'தற்போது புதிய அறிவிப்புகள் இல்லை',
+      emptyDescription:
+        'இந்த நேரத்தில் புதிய அறிவிப்புகள் எதுவும் இல்லை. ஆலிவ் ட்ரீ பள்ளியின் புதிய சுற்றறிக்கைகளுக்காக பின்னர் பார்க்கவும்.',
+      draftBadge: 'வரைவு',
+      publishedBadge: 'வெளியிடப்பட்டது',
+      publishAction: 'வெளியிடுக',
+      unpublishAction: 'மறைக்க',
+      editNotice: 'திருத்துக',
     },
     contact: {
       tagline: 'எங்களைத் தொடர்பு கொள்ள',
@@ -350,7 +413,7 @@ export const translations: Record<Language, TranslationSchema> = {
       bookCampusTour: 'வளாக பார்வைக்கு இப்போதே முன்பதிவு செய்யவும்',
     },
     modal: {
-      title: 'மாணவர் சேர்க்கை விசாரணை 2026-2027',
+      title: 'மாணவர் சேர்க்கை விசாரணை 2027-2028',
       subtitle: 'உங்கள் குழந்தையின் ஒளிமயமான எதிர்காலத்திற்கான முதல் படியை இப்போதே தொடங்குங்கள்.',
       studentNameLabel: 'மாணவர் முழு பெயர்',
       studentNamePlaceholder: 'எ.கா. முஹம்மது ரயான் / பாத்திமா ஜஹ்ரா',
@@ -411,7 +474,44 @@ export const translations: Record<Language, TranslationSchema> = {
       lightboxClose: 'மூடுக (Esc)',
       glimpseTitle: 'ஆலிவ் ட்ரீ பள்ளியின் ஒரு பார்வை',
       viewAllPhotos: 'அனைத்து புகைப்படங்களையும் காண்க (12)',
-      showHighlights: '← சிறப்புக் காட்சிகளுக்குத் திரும்புக',
+      showHighlights: 'சிறப்புக் காட்சிகளுக்குத் திரும்புக',
+    },
+    faq: {
+      tagline: 'அடிக்கடி கேட்கப்படும் கேள்விகள்',
+      title: 'பெற்றோர்கள் அதிகம் கேட்கும் கேள்விகள்',
+      description: 'எங்கள் வகுப்புகள், சேர்க்கை முறை, இருமுனை பாடத்திட்டம் மற்றும் பள்ளி வளாக வருகை பற்றிய அதிகாரப்பூர்வ விவரங்கள்.',
+      items: [
+        {
+          question: 'ஆலிவ் ட்ரீ பள்ளியில் எந்தெந்த வகுப்புகள் உள்ளன?',
+          answer:
+            'எங்கள் பள்ளியில் மழலையர் பள்ளி (Pre-KG, LKG, UKG) மற்றும் தொடக்கப் பள்ளி 1-ஆம் வகுப்பு முதல் 5-ஆம் வகுப்பு வரை உள்ளன. வகுப்பறையில் 1:15 ஆசிரியர்-மாணவர் விகிதம் உறுதி செய்யப்படுகிறது.',
+        },
+        {
+          question: '2027–2028 கல்வி ஆண்டுக்கான மாணவர் சேர்க்கைக்கு எவ்வாறு விண்ணப்பிப்பது?',
+          answer:
+            'பெற்றோர்கள் எங்கள் இணையதளம் வழியாக ஆன்லைன் சேர்க்கை விசாரணையை சமர்ப்பித்து வாட்ஸ்அப் (+91 86101 13160) வாயிலாக நேரடியாக தொடர்பு கொள்ளலாம் அல்லது வேலை நாட்களில் பள்ளி அலுவலகத்திற்கு நேரடியாக வரலாம்.',
+        },
+        {
+          question: 'விண்ணப்பிக்கும் முன் பெற்றோர்கள் பள்ளி வளாகத்தை பார்வையிடலாமா?',
+          answer:
+            'ஆம், பெற்றோர்கள் "பள்ளி வளாக பார்வை முன்பதிவு" பொத்தானைப் பயன்படுத்தி வளாகத்தை பார்வையிட திட்டமிடலாம். பள்ளி அலுவலகம் திங்கள் முதல் சனி வரை காலை 9:00 மணி முதல் மாலை 4:00 மணி வரை இயங்கும்.',
+        },
+        {
+          question: 'பள்ளியில் எந்தெந்த மொழிகள் கற்பிக்கப்படுகின்றன?',
+          answer:
+            'ஆங்கிலம், தமிழ், உருது, அரபி மற்றும் இந்தி ஆகிய ஐந்து மொழிகள் தொடக்கத்திலிருந்தே தீவிரமாக கற்பிக்கப்பட்டு பன்மொழிப் புலமை வளர்க்கப்படுகிறது.',
+        },
+        {
+          question: 'பள்ளியின் இருமுனை பாடத்திட்ட முறைமை என்றால் என்ன?',
+          answer:
+            'பிரைனி ஸ்டார்ஸ் இன்டர்நேஷனல் பள்ளியின் கூட்டுடன், 10 நவீன கல்வி பாடங்களுடன் 4 சுன்னாஹ் தர்பிய்யா தூண்கள் (தஜ்வீதுடன் குர்ஆன் ஓதுதல், ஹதீஸ் மனனம், அன்றாட துஆக்கள், நற்பண்புகள்) இணைக்கப்பட்டு கற்பிக்கப்படுகிறது.',
+        },
+        {
+          question: 'பள்ளி எங்கு அமைந்துள்ளது மற்றும் தகவல் கையேட்டை எவ்வாறு பதிவிறக்கம் செய்வது?',
+          answer:
+            'எங்கள் பள்ளி சின்னையா லேஅவுட், ஜானிபூந்தோட்டம் பின்புறம், கஸ்பா, வேலூர் - 632 001 என்ற முகவரியில் அமைந்துள்ளது. அதிகாரப்பூர்வ 2027–2028 தகவல் கையேட்டை இணையதளத்தில் நேரடியாக பதிவிறக்கம் செய்து கொள்ளலாம்.',
+        },
+      ],
     },
   },
 
@@ -419,12 +519,17 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       home: 'صفحۂ اول',
       about: 'تعارفِ مکتب',
+      whyChoose: 'ہمارا انتخاب کیوں؟',
       curriculum: 'نصابِ تعلیم',
+      learningCorner: '5 زبانیں و تربیت',
       grades: 'درجات',
       gallery: 'کیمپس کی جھلکیاں',
+      eligibility: 'داخلہ و اہلیت',
       notices: 'نوٹس بورڈ',
+      faq: 'عمومی سوالات',
       contact: 'رابطہ کریں',
-      applyNow: 'داخلہ 2026-27',
+      more: 'مزید',
+      applyNow: 'داخلہ 2027-28',
       adminLogin: 'انتظامی پورٹل',
       adminLogout: 'لاگ آؤٹ',
       adminMode: 'لائیو ایڈمن موڈ',
@@ -440,7 +545,7 @@ export const translations: Record<Language, TranslationSchema> = {
       coBrandBadge: 'برینی اسٹارز انٹرنیشنل اسکول کے اشتراک سے • مستقبل کے رہنماؤں کی پرورش',
     },
     hero: {
-      badgeAdmission: 'اسکول داخلے جاری ہیں تعلیمی سال 2026-2027',
+      badgeAdmission: 'اسکول داخلے جاری ہیں تعلیمی سال 2027-2028',
       yearsExcellence: 'تعلیم میں 13+ سالہ شاندار خدمات اور فضیلت',
       headline: 'زندگی بھر سیکھنے کے لیے ایک مضبوط بنیاد',
       subheadline:
@@ -449,8 +554,8 @@ export const translations: Record<Language, TranslationSchema> = {
       applyCta: 'آن لائن داخلہ فارم',
       visitCta: 'کیمپس دورے کا وقت لیں',
       watchTour: 'کیمپس کا معائنہ',
-      trustedBy: '2013 سے ویلور کے 1200 سے زائد خاندانوں کا قابل اعتماد ادارہ',
-      admissionsOpenPill: 'داخلے جاری ہیں 2026-2027 • پری کے جی تا پنجم جماعت',
+      trustedBy: '2013 سے ویلور کے معزز خاندانوں کا قابل اعتماد ادارہ',
+      admissionsOpenPill: 'داخلے جاری ہیں 2027-2028 • پری کے جی تا پنجم جماعت',
       trustAdmissions: 'پری کے جی تا پنجم داخلے جاری',
       trustQuran: 'تجوید کے ساتھ قرآن و حسنِ اخلاق',
       trustCampus: 'کاسپا، ویلور کیمپس',
@@ -482,7 +587,7 @@ export const translations: Record<Language, TranslationSchema> = {
       sunnahFoundation: 'سنتِ نبویؐ کے سائے میں پرورش',
       exploreFullSyllabus: 'مکمل تعلیمی پراسپیکٹس حاصل کریں',
       filterBoth: 'تمام 14 مضامین اور اسلامی ستون',
-      applyAcademicSeat: 'تعلیمی سال 2026-27 کے لیے نشست حاصل کریں',
+      applyAcademicSeat: 'تعلیمی سال 2027-28 کے لیے نشست حاصل کریں',
       joinTarbiyahCohort: 'اسلامی تربیت پروگرام میں داخلہ لیں',
       integratedSyllabus: 'مربوط دوطرفہ نصابِ تعلیم',
       sunnahDaily: 'روزمرہ سنتِ نبویؐ کا عملی اہتمام',
@@ -532,6 +637,14 @@ export const translations: Record<Language, TranslationSchema> = {
       noNotices: 'فی الوقت اس زمرے میں کوئی نیا نوٹس نہیں ہے۔',
       publishNotice: '+ نیا سرکلر جاری کریں (ایڈمن)',
       closeNotice: 'بند کریں',
+      emptyHeading: 'فی الحال کوئی نیا اعلان نہیں',
+      emptyDescription:
+        'اس وقت کوئی باقاعدہ سرکلر یا اعلان موجود نہیں ہے۔ اولیو ٹری اسکول کی جانب سے نئی معلومات کے لیے بعد میں رجوع فرمائیں۔',
+      draftBadge: 'ڈرافٹ',
+      publishedBadge: 'شائع شدہ',
+      publishAction: 'شائع کریں',
+      unpublishAction: 'غیر شائع کریں',
+      editNotice: 'ترمیم کریں',
     },
     contact: {
       tagline: 'ہم سے رابطہ فرمائیں',
@@ -557,7 +670,7 @@ export const translations: Record<Language, TranslationSchema> = {
       bookCampusTour: 'آج ہی کیمپس دورے کا وقت مقرر کریں',
     },
     modal: {
-      title: 'داخلہ معلومات برائے تعلیمی سال 2026-2027',
+      title: 'داخلہ معلومات برائے تعلیمی سال 2027-2028',
       subtitle: 'اپنے بچے کے شاندار اور باکردار مستقبل کے سفر کا آغاز کیجیے۔',
       studentNameLabel: 'طالب علم کا مکمل نام',
       studentNamePlaceholder: 'مثلاً: محمد ریان / فاطمہ زہرا',
@@ -618,7 +731,44 @@ export const translations: Record<Language, TranslationSchema> = {
       lightboxClose: 'بند کریں (Esc)',
       glimpseTitle: 'اولیو ٹری اسکول کی ایک جھلک',
       viewAllPhotos: 'تمام تصاویر دیکھیں (12)',
-      showHighlights: '← منتخب جھلکیاں دکھائیں',
+      showHighlights: 'منتخب جھلکیاں دکھائیں',
+    },
+    faq: {
+      tagline: 'عمومی سوالات و جوابات',
+      title: 'والدین کی جانب سے اکثر پوچھے جانے والے سوالات',
+      description: 'داخلہ طریقہ کار، درجات، دوہرے تعلیمی نصاب اور کیمپس دورے سے متعلق مستند معلومات۔',
+      items: [
+        {
+          question: 'اولیو ٹری اسکول میں کن کلاسز کے لیے داخلے دستیاب ہیں؟',
+          answer:
+            'ہمارے ہاں کنڈرگارٹن (پری کے جی، ایل کے جی، یو کے جی) اور پرائمری پہلی تا پانچویں جماعت تک معیاری تعلیم دی جاتی ہے، جس میں 1:15 کا مثالی تناسب برقرار رکھا جاتا ہے۔',
+        },
+        {
+          question: 'تعلیمی سال 2027-2028 کے لیے داخلے کی درخواست کیسے جمع کروائیں؟',
+          answer:
+            'والدین ویب سائٹ پر آن لائن انکوائری فارم بھر کر براہِ راست واٹس ایپ (+91 86101 13160) پر رابطہ کر سکتے ہیں یا دفتری اوقات میں اسکول تشریف لا سکتے ہیں۔',
+        },
+        {
+          question: 'کیا داخلے سے قبل والدین اسکول کیمپس کا معائنہ کر سکتے ہیں؟',
+          answer:
+            'جی ہاں، والدین "کیمپس دورے کا وقت لیں" کے ذریعے تشریف لا سکتے ہیں۔ اسکول کیمپس پیر تا ہفتہ صبح 9:00 تا شام 4:00 بجے کھلا رہتا ہے۔',
+        },
+        {
+          question: 'اسکول میں کون کون سی تدریسی زبانیں سکھائی جاتی ہیں؟',
+          answer:
+            'پانچ زبانیں باقاعدگی سے سکھائی جاتی ہیں: انگریزی، اردو، تمل، عربی اور ہندی تاکہ بچوں میں کثیر لسانی اعتماد اور روانی پیدا ہو۔',
+        },
+        {
+          question: 'دوہرے تعلیمی نصاب (Dual Curriculum) کی کیا خصوصیات ہیں؟',
+          answer:
+            'برینی اسٹارز انٹرنیشنل اسکول کے تعاون سے ہم 10 جدید عصری مضامین کے ساتھ 4 مسنون اسلامی تربیت کے ستون (تجوید کے ساتھ قرآن، حفظِ احادیث، مسنون دعائیں اور حسنِ اخلاق) کا حسین امتزاج پیش کرتے ہیں۔',
+        },
+        {
+          question: 'اسکول کیمپس کہاں واقع ہے اور بروشر کیسے حاصل کیا جائے؟',
+          answer:
+            'اسکول کا پتہ چنیا لے آؤٹ، پیچھے جانی پون تھوٹم، کاسپا، ویلور - 632001 ہے۔ آپ ویب سائٹ کے ہیڈر یا فوٹر سے 2027-2028 کا آفیشل بروشر پی ڈی ایف ڈاؤن لوڈ کر سکتے ہیں۔',
+        },
+      ],
     },
   },
 };
@@ -798,50 +948,4 @@ export const curriculumData = {
   ],
 };
 
-export const defaultNotices: Array<any> = [
-  {
-    id: 'notice-adm-2026',
-    date: '15 Oct 2026',
-    category: 'Admissions',
-    titleEn: 'Admissions Open for Academic Year 2026-2027 (Pre-KG to 5th Std)',
-    titleTa: '2026-2027 கல்வி ஆண்டுக்கான மாணவர் சேர்க்கை துவக்கம் (Pre-KG - 5th)',
-    titleUr: 'تعلیمی سال 2026-2027 کے لیے نئے داخلوں کا باقاعدہ آغاز (پری کے جی تا پنجم)',
-    contentEn:
-      'Registration forms are now available at the school office from 9:00 AM to 4:00 PM on all working days. Parents can also submit inquiries online. Limited seats per batch to preserve our 1:15 ratio.',
-    contentTa:
-      'பள்ளி அலுவலகத்தில் காலை 9:00 மணி முதல் மாலை 4:00 மணி வரை விண்ணப்பப் படிவங்கள் வழங்கப்படுகின்றன. இணையதளம் மூலமாகவும் முன்பதிவு செய்யலாம். 1:15 ஆசிரியர்-மாணவர் விகிதத்தை உறுதிப்படுத்த வரையறுக்கப்பட்ட இடங்கள் மட்டுமே உள்ளன.',
-    contentUr:
-      'اسکول آفس میں صبح 9:00 تا شام 4:00 بجے داخلہ فارم دستیاب ہیں۔ والدین آن لائن بھی رابطہ کر سکتے ہیں۔ کلاس میں 1:15 کا تناسب برقرار رکھنے کے لیے محدود نشستیں دستیاب ہیں۔',
-    isImportant: true,
-  },
-  {
-    id: 'notice-tajweed-camp',
-    date: '10 Oct 2026',
-    category: 'Islamic',
-    titleEn: 'Annual Quran Tajweed & Hadees Recitation Showcase',
-    titleTa: 'வருடாந்திர தஜ்வீத் குர்ஆன் மற்றும் ஹதீஸ் ஓதும் நிகழ்ச்சி',
-    titleUr: 'سالانہ مسابقۂ حسنِ قرات و حفظِ احادیثِ مبارکہ',
-    contentEn:
-      'Students from UKG to 5th Std will demonstrate their Tajweed mastery and Hadith memorization with meaning before parents and scholars. Date: 28th October 2026.',
-    contentTa:
-      'UKG முதல் 5-ஆம் வகுப்பு வரையிலான மாணவர்கள் தங்கள் தஜ்வீத் மற்றும் ஹதீஸ் மனனத் திறமையை பெற்றோர் முன்னிலையில் வெளிப்படுத்துவர். நாள்: 28 அக்டோபர் 2026.',
-    contentUr:
-      'یو کے جی تا پنجم جماعت کے طلباء والدین اور علماء کے سامنے اپنے تجوید و حفظ احادیث کا عملی مظاہرہ پیش کریں گے۔ تاریخ: 28 اکتوبر 2026ء۔',
-    isImportant: false,
-  },
-  {
-    id: 'notice-science-stem',
-    date: '02 Oct 2026',
-    category: 'Academic',
-    titleEn: 'Little Scientists & Smart Computer Lab Exhibition',
-    titleTa: 'இளம் விஞ்ஞானிகள் & கணினி ஆய்வக கண்காட்சி',
-    titleUr: 'نوجوان سائنسدان اور اسمارٹ کمپیوٹر نمائش',
-    contentEn:
-      'Hands-on experimental science projects and interactive computer coding projects prepared by Primary standard students will be showcased for parents.',
-    contentTa:
-      'தொடக்கப் பள்ளி மாணவர்களால் உருவாக்கப்பட்ட அறிவியல் செய்முறை படைப்புகள் மற்றும் கணினி திட்டங்கள் பெற்றோரின் பார்வைக்காக காட்சிப்படுத்தப்படும்.',
-    contentUr:
-      'پرائمری اسکول کے طلباء کے تیار کردہ عملی سائنسی ماڈلز اور کمپیوٹر پروجیکٹس کی نمائش منعقد کی جائے گی۔',
-    isImportant: false,
-  },
-];
+export const defaultNotices: NoticeItem[] = [];

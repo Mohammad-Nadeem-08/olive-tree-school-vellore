@@ -72,7 +72,7 @@ export const DualCurriculum: React.FC = () => {
   return (
     <section
       id="curriculum"
-      className={`py-12 sm:py-20 relative overflow-hidden transition-colors ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
@@ -164,11 +164,11 @@ export const DualCurriculum: React.FC = () => {
 
               <div>
                 {/* Column Banner */}
-                <div className={`flex items-center justify-between pb-6 border-b ${
+                <div className={`flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 sm:gap-4 pb-6 border-b ${
                   theme === 'dark' ? 'border-[#243B32]' : 'border-slate-200'
                 }`}>
                   <div className="flex items-center gap-3.5">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-700 flex items-center justify-center text-white shadow-sm">
+                    <div className="w-14 h-14 rounded-2xl bg-blue-700 flex items-center justify-center text-white shadow-sm shrink-0">
                       <BookOpen className="w-7 h-7" />
                     </div>
                     <div>
@@ -182,7 +182,7 @@ export const DualCurriculum: React.FC = () => {
                       </h3>
                     </div>
                   </div>
-                  <span className="px-3.5 py-1.5 bg-blue-700 text-white rounded-full text-xs font-bold tracking-tight shadow-xs">
+                  <span className="inline-flex items-center justify-center px-4 py-1.5 bg-blue-700 text-white rounded-full text-xs font-bold tracking-tight shadow-xs shrink-0 whitespace-nowrap w-fit">
                     10 Subjects
                   </span>
                 </div>
@@ -306,12 +306,13 @@ export const DualCurriculum: React.FC = () => {
               <div>
                 {/* Column Banner */}
                 <div
-                  className={`flex items-center justify-between pb-6 border-b ${
+                  id="core-pillars"
+                  className={`scroll-mt-24 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 sm:gap-4 pb-6 border-b ${
                     theme === 'dark' ? 'border-[#243B32]' : 'border-slate-200'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
-                    <div className="w-14 h-14 rounded-2xl bg-emerald-700 flex items-center justify-center text-amber-300 shadow-sm">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-700 flex items-center justify-center text-amber-300 shadow-sm shrink-0">
                       <Sun className="w-7 h-7 text-amber-300" />
                     </div>
                     <div>
@@ -327,7 +328,7 @@ export const DualCurriculum: React.FC = () => {
                       </h3>
                     </div>
                   </div>
-                  <span className="px-3.5 py-1.5 bg-emerald-700 text-white rounded-full text-xs font-bold tracking-tight shadow-xs">
+                  <span className="inline-flex items-center justify-center px-4 py-1.5 bg-emerald-700 text-white rounded-full text-xs font-bold tracking-tight shadow-xs shrink-0 whitespace-nowrap w-fit">
                     4 Core Pillars
                   </span>
                 </div>

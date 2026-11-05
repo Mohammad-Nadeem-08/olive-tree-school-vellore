@@ -64,7 +64,7 @@ export const CampusGallery: React.FC = () => {
   const [captionTa, setCaptionTa] = useState('');
   const [captionUr, setCaptionUr] = useState('');
   const [category, setCategory] = useState<'classrooms' | 'tarbiyah' | 'activities'>('classrooms');
-  const [dateTag, setDateTag] = useState('Academic Year 2026–27');
+  const [dateTag, setDateTag] = useState('Academic Year 2027–28');
   const [isCompressing, setIsCompressing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -248,7 +248,7 @@ export const CampusGallery: React.FC = () => {
       captionTa: captionTa.trim() || captionEn.trim(),
       captionUr: captionUr.trim() || captionEn.trim(),
       category,
-      date: dateTag.trim() || 'Academic Year 2026–27',
+      date: dateTag.trim() || 'Academic Year 2027–28',
     });
 
     // Reset form
@@ -257,7 +257,7 @@ export const CampusGallery: React.FC = () => {
     setCaptionEn('');
     setCaptionTa('');
     setCaptionUr('');
-    setDateTag('Academic Year 2026–27');
+    setDateTag('Academic Year 2027–28');
     setIsAddModalOpen(false);
     setErrorMsg('');
   };
@@ -284,7 +284,7 @@ export const CampusGallery: React.FC = () => {
   return (
     <section
       id="gallery"
-      className={`py-12 sm:py-20 relative overflow-hidden transition-colors ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#121E19] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
@@ -328,7 +328,7 @@ export const CampusGallery: React.FC = () => {
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-white dark:bg-[#16241F] text-emerald-800 dark:text-emerald-300 border border-emerald-700/40 hover:bg-emerald-50 dark:hover:bg-[#1E2E28] font-bold text-xs sm:text-sm shadow-xs transition-all cursor-pointer active:scale-95"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>{t.gallery.showHighlights || '← Back to Curated Highlights'}</span>
+                <span>{t.gallery.showHighlights || 'Back to Curated Highlights'}</span>
               </button>
             ) : (
               <button
@@ -761,7 +761,7 @@ export const CampusGallery: React.FC = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-white dark:bg-[#16241F] text-emerald-800 dark:text-emerald-300 border border-emerald-700/40 hover:bg-emerald-50 dark:hover:bg-[#1E2E28] font-bold text-sm shadow-xs transition-all cursor-pointer active:scale-95"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>{t.gallery.showHighlights || '← Back to Curated Highlights'}</span>
+                <span>{t.gallery.showHighlights || 'Back to Curated Highlights'}</span>
               </button>
             </div>
           </div>
@@ -1032,7 +1032,7 @@ export const CampusGallery: React.FC = () => {
                   type="text"
                   value={dateTag}
                   onChange={(e) => setDateTag(e.target.value)}
-                  placeholder="e.g. Academic Year 2026–27"
+                  placeholder="e.g. Academic Year 2027–28"
                   className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-[#243B32] bg-white dark:bg-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>

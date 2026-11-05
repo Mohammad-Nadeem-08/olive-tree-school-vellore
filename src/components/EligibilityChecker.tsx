@@ -265,9 +265,9 @@ export const EligibilityChecker: React.FC = () => {
 
   const labels = {
     tagline: {
-      en: 'ADMISSIONS 2026-2027 • AGE & GRADE ELIGIBILITY',
-      ta: 'சேர்க்கை 2026-2027 • வயது & வகுப்பு தகுதி',
-      ur: 'داخلہ 2026-2027 • عمر اور جماعت کی اہلیت',
+      en: 'ADMISSIONS 2027-2028 • AGE & GRADE ELIGIBILITY',
+      ta: 'சேர்க்கை 2027-2028 • வயது & வகுப்பு தகுதி',
+      ur: 'داخلہ 2027-2028 • عمر اور جماعت کی اہلیت',
     },
     heading: {
       en: 'Age-to-Grade Eligibility Calculator & Document Checklist',
@@ -275,14 +275,14 @@ export const EligibilityChecker: React.FC = () => {
       ur: 'عمر کے مطابق جماعت کی اہلیت کا جائزہ اور مطلوبہ دستاویزات',
     },
     subheading: {
-      en: 'Select your child’s age to immediately see the eligible class, key learning milestones, and required documents for the 2026-2027 admission session.',
+      en: 'Select your child’s age to immediately see the eligible class, key learning milestones, and required documents for the 2027-2028 admission session.',
       ta: 'உங்கள் குழந்தையின் வயதைத் தேர்ந்தெடுத்து, தகுதியான வகுப்பு, முக்கிய கற்றல் மைல்கற்கள் மற்றும் தேவையான ஆவணங்களை உடனடியாக அறிந்திடுங்கள்.',
       ur: 'اپنے بچے کی عمر منتخب کریں اور فوری طور پر اہل جماعت، نصابی خصوصیات اور داخلے کے لیے ضروری کاغذات جانیے۔',
     },
     selectAgeTitle: {
-      en: 'Select Child’s Age (as of 1st June 2026):',
-      ta: 'குழந்தையின் வயதைத் தேர்ந்தெடுக்கவும் (1 ஜூன் 2026 நிலவரப்படி):',
-      ur: 'بچے کی عمر منتخب کیجئے (یکم جون 2026 کے مطابق):',
+      en: 'Select Child’s Age (as of 1st June 2027):',
+      ta: 'குழந்தையின் வயதைத் தேர்ந்தெடுக்கவும் (1 ஜூன் 2027 நிலவரப்படி):',
+      ur: 'بچے کی عمر منتخب کیجئے (یکم جون 2027 کے مطابق):',
     },
     milestonesTitle: {
       en: 'Key Learning Milestones for this Grade:',
@@ -320,9 +320,9 @@ export const EligibilityChecker: React.FC = () => {
       ur: 'داخلے کے لیے درخواست دیں برائے',
     },
     downloadBtn: {
-      en: '📥 Download Official 2026–27 Admission Pamphlet',
-      ta: '📥 அதிகாரப்பூர்வ 2026–27 சேர்க்கை சிற்றேட்டைப் பதிவிறக்குக',
-      ur: '📥 سرکاری تعلیمی بروشر 2026–27 ڈاؤنلوڈ کیجئے',
+      en: '📥 Download Official 2027–28 Admission Pamphlet',
+      ta: '📥 அதிகாரப்பூர்வ 2027–28 சேர்க்கை சிற்றேட்டைப் பதிவிறக்குக',
+      ur: '📥 سرکاری تعلیمی بروشر 2027–28 ڈاؤنلوڈ کیجئے',
     },
     pamphletSub: {
       en: 'Includes complete dual-curriculum syllabus breakdown, fee guidelines & campus facilities.',
@@ -334,10 +334,12 @@ export const EligibilityChecker: React.FC = () => {
   return (
     <section
       id="eligibility"
-      className={`py-12 sm:py-20 relative transition-colors ${
+      className={`py-12 sm:py-20 relative transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
+      {/* Anchor alias for #admissions shortcut */}
+      <div id="admissions" className="scroll-mt-20 sm:scroll-mt-24 pointer-events-none" />
       <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
@@ -549,7 +551,7 @@ export const EligibilityChecker: React.FC = () => {
                 className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-2xl bg-[#D93829] hover:bg-[#b92c1e] text-white font-bold text-base transition-all shadow-md hover:shadow-lg cursor-pointer group"
               >
                 <span>
-                  {labels.applyBtn[language]} {selected.gradeKey} (2026–27)
+                  {labels.applyBtn[language]} {selected.gradeKey} (2027–28)
                 </span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
               </button>
@@ -720,7 +722,7 @@ export const EligibilityChecker: React.FC = () => {
               </div>
             </div>
 
-            {/* Download Official 2026-27 Admission Pamphlet Action */}
+            {/* Download Official 2027-28 Admission Pamphlet Action */}
             <div
               className={`mt-8 p-5 rounded-2xl border-2 flex flex-col sm:flex-row items-center justify-between gap-4 ${
                 theme === 'dark'
@@ -743,7 +745,7 @@ export const EligibilityChecker: React.FC = () => {
                 href="/assets/brochure/olive-tree-school-brochure-2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                download="Olive_Tree_School_Admission_Brochure_2026-27.pdf"
+                download="Olive_Tree_School_Admission_Brochure_2027-28.pdf"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#D97706] hover:bg-[#b45309] text-white font-extrabold text-xs sm:text-sm shadow-md transition-all shrink-0 cursor-pointer"
               >
                 <Download className="w-4 h-4" />

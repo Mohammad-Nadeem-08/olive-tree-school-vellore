@@ -116,7 +116,7 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className={`relative overflow-hidden pt-4 sm:pt-6 pb-4 transition-colors duration-200 ${
+      className={`relative overflow-hidden pt-4 sm:pt-6 pb-4 transition-colors duration-200 scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >

@@ -85,7 +85,7 @@ export const AboutSection: React.FC = () => {
   return (
     <section
       id="about"
-      className={`py-12 sm:py-20 relative overflow-hidden transition-colors duration-200 ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors duration-200 scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#121E19] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
@@ -216,7 +216,7 @@ export const AboutSection: React.FC = () => {
           </div>
 
           {/* Right Column: Mission & 4 Core Strengths */}
-          <div className="lg:col-span-7 text-start">
+          <div id="why-choose" className="lg:col-span-7 text-start scroll-mt-20 sm:scroll-mt-24">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase mb-3 bg-amber-100 text-amber-950 border border-amber-300 shadow-xs">
               <Award className="w-4 h-4 text-amber-700" />
               <span>{c.badge}</span>

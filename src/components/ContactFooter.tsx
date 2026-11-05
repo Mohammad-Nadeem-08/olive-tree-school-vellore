@@ -27,7 +27,7 @@ export const ContactFooter: React.FC = () => {
   return (
     <footer
       id="contact"
-      className={`relative pt-12 sm:pt-20 pb-12 overflow-hidden border-t transition-colors ${
+      className={`relative pt-12 sm:pt-20 pb-12 overflow-hidden border-t transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark'
           ? 'bg-[#0E1714] text-[#F3F7F4] border-[#243B32]'
           : 'bg-[#F4F7F5] text-slate-900 border-slate-200'
@@ -315,7 +315,11 @@ export const ContactFooter: React.FC = () => {
             {isAdminAuthenticated ? (
               <button
                 type="button"
-                onClick={logoutAdmin}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  logoutAdmin();
+                }}
                 className="inline-flex items-center gap-1.5 text-[#D93829] hover:underline font-bold transition-colors cursor-pointer"
               >
                 <Lock className="w-4 h-4" />
@@ -324,7 +328,11 @@ export const ContactFooter: React.FC = () => {
             ) : (
               <button
                 type="button"
-                onClick={openAdminLoginModal}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  openAdminLoginModal();
+                }}
                 className={`inline-flex items-center gap-1.5 font-bold transition-colors border px-3.5 py-1.5 rounded-xl shadow-xs cursor-pointer ${
                   theme === 'dark'
                     ? 'bg-[#16241F] hover:bg-[#243B32] text-[#9DB0A6] border-[#243B32]'

@@ -10,6 +10,7 @@ import { GradeRoadMap } from './components/GradeRoadMap';
 import { CampusGallery } from './components/CampusGallery';
 import { EligibilityChecker } from './components/EligibilityChecker';
 import { NoticeBoard } from './components/NoticeBoard';
+import { FAQSection } from './components/FAQSection';
 import { ContactFooter } from './components/ContactFooter';
 import { AdmissionModal } from './components/AdmissionModal';
 import { CampusVisitModal } from './components/CampusVisitModal';
@@ -59,6 +60,9 @@ export function AppContent() {
 
         {/* Live School Notice Board */}
         <NoticeBoard />
+
+        {/* Verified Frequently Asked Questions Accordion */}
+        <FAQSection />
       </main>
 
       {/* Contact & Kaspa Vellore Location Footer */}

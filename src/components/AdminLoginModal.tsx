@@ -17,7 +17,7 @@ export const AdminLoginModal: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isAdminLoginModalOpen]);
+  }, [isAdminLoginModalOpen, closeAdminLoginModal]);
 
   if (!isAdminLoginModalOpen) return null;
 
@@ -42,17 +42,30 @@ export const AdminLoginModal: React.FC = () => {
 
   return (
     <div
-      onClick={closeAdminLoginModal}
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto cursor-pointer"
+      id="admin-login-modal-overlay"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        closeAdminLoginModal();
+      }}
+      className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-hidden cursor-pointer"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[90vh] overflow-y-auto animate-in fade-in zoom-in-95 duration-150 text-start cursor-default"
+        className="bg-white dark:bg-[#16241F] text-slate-900 dark:text-[#F3F7F4] rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-[#243B32] relative my-auto max-h-[92dvh] sm:max-h-[88dvh] overflow-y-auto modal-scroll-hidden animate-in fade-in zoom-in-95 duration-150 text-start cursor-default"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
         {/* High-Visibility Sticky Close Button (X) */}
         <button
           type="button"
-          onClick={closeAdminLoginModal}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            closeAdminLoginModal();
+          }}
           className="sticky top-2 float-right -mt-1 -me-1 z-20 w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-600 text-rose-700 hover:text-white flex items-center justify-center shadow-md transition-all cursor-pointer"
           aria-label="Close modal"
         >

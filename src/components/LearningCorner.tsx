@@ -316,7 +316,7 @@ export const LearningCorner: React.FC = () => {
   return (
     <section
       id="learning-corner"
-      className={`py-12 sm:py-20 relative overflow-hidden transition-colors ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors scroll-mt-20 sm:scroll-mt-24 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
