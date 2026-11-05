@@ -21,8 +21,8 @@ export const TopBar: React.FC = () => {
         : siteConfig.tickerAnnouncementEn;
 
   return (
-    <div className="bg-[#133829] text-[#FBF9F5] border-b border-[#1E4D38] text-xs sm:text-sm py-1.5 sm:py-2 px-0 relative z-50 shadow-xs">
-      <div className="w-full px-3 sm:px-6 lg:px-16">
+    <div className="bg-[#133829] text-[#FBF9F5] border-b border-[#1E4D38] text-xs sm:text-sm py-1 sm:py-1.5 px-0 relative z-50 shadow-xs">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-5 xl:px-8 2xl:px-12">
         {/* ========================================================
             MOBILE VIEWPORT (< sm: < 640px): 2-Tier Responsive Layout
             With Continuous Smooth Horizontal Marquee
@@ -196,13 +196,13 @@ export const TopBar: React.FC = () => {
           </div>
 
           {/* Right: Office Hours & Fast Contact without overlapping */}
-          <div className="flex items-center gap-4 shrink-0 text-xs sm:text-sm font-semibold">
-            <div className="hidden lg:flex items-center gap-1.5 text-emerald-100 bg-emerald-900/50 px-2.5 py-0.5 rounded-lg border border-emerald-700/50">
+          <div className="flex items-center gap-2.5 lg:gap-3 xl:gap-4 shrink-0 text-xs sm:text-sm font-semibold">
+            <div className="hidden xl:flex items-center gap-1.5 text-emerald-100 bg-emerald-900/50 px-2.5 py-0.5 rounded-lg border border-emerald-700/50">
               <Clock className="w-3.5 h-3.5 text-amber-300" />
               <span>{siteConfig.officeHours}</span>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <a
                 href={`tel:+91${siteConfig.primaryPhone.replace(/\s+/g, '')}`}
                 className="inline-flex items-center gap-1.5 text-amber-300 hover:text-amber-200 font-bold transition-colors"
@@ -213,10 +213,10 @@ export const TopBar: React.FC = () => {
 
               {siteConfig.secondaryPhone && (
                 <>
-                  <span className="text-emerald-400/60">•</span>
+                  <span className="hidden xl:inline text-emerald-400/60">•</span>
                   <a
                     href={`tel:+91${siteConfig.secondaryPhone.replace(/\D/g, '')}`}
-                    className="hidden md:inline-flex items-center text-emerald-100 hover:text-white transition-colors"
+                    className="hidden xl:inline-flex items-center text-emerald-100 hover:text-white transition-colors"
                   >
                     <span>{siteConfig.secondaryPhone}</span>
                   </a>

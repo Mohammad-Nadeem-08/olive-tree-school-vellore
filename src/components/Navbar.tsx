@@ -21,25 +21,41 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>('home');
+  const [isXl, setIsXl] = useState(
+    typeof window !== 'undefined' ? window.innerWidth >= 1280 : false
+  );
   const moreRef = useRef<HTMLDivElement>(null);
 
+  // Track window resize to adapt "More" dropdown and nav link visibility dynamically
+  useEffect(() => {
+    const handleResize = () => {
+      setIsXl(window.innerWidth >= 1280);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Primary desktop navigation links
+  // Note: Gallery and Notices are promoted to main bar on xl: (>=1280px),
+  // but accessible in "More ▾" on lg: (1024px–1279px) to prevent horizontal crowding.
   const primaryNavLinks = [
-    { href: '#home', id: 'home', label: t.nav.home },
-    { href: '#about', id: 'about', label: t.nav.about },
-    { href: '#curriculum', id: 'curriculum', label: t.nav.curriculum },
-    { href: '#grades', id: 'grades', label: t.nav.grades },
-    { href: '#gallery', id: 'gallery', label: t.nav.gallery },
-    { href: '#notices', id: 'notices', label: t.nav.notices },
-    { href: '#contact', id: 'contact', label: t.nav.contact },
+    { href: '#home', id: 'home', label: t.nav.home, showOnlyXl: false },
+    { href: '#about', id: 'about', label: t.nav.about, showOnlyXl: false },
+    { href: '#curriculum', id: 'curriculum', label: t.nav.curriculum, showOnlyXl: false },
+    { href: '#grades', id: 'grades', label: t.nav.grades, showOnlyXl: false },
+    { href: '#gallery', id: 'gallery', label: t.nav.gallery, showOnlyXl: true },
+    { href: '#notices', id: 'notices', label: t.nav.notices, showOnlyXl: true },
+    { href: '#contact', id: 'contact', label: t.nav.contact, showOnlyXl: false },
   ];
 
   // Secondary desktop navigation links inside "More" dropdown
   const secondaryNavLinks = [
-    { href: '#why-choose', id: 'why-choose', label: t.nav.whyChoose },
-    { href: '#learning-corner', id: 'learning-corner', label: t.nav.learningCorner },
-    { href: '#eligibility', id: 'eligibility', label: t.nav.eligibility },
-    { href: '#faq', id: 'faq', label: t.nav.faq },
+    { href: '#gallery', id: 'gallery', label: t.nav.gallery, hideOnXl: true },
+    { href: '#notices', id: 'notices', label: t.nav.notices, hideOnXl: true },
+    { href: '#why-choose', id: 'why-choose', label: t.nav.whyChoose, hideOnXl: false },
+    { href: '#learning-corner', id: 'learning-corner', label: t.nav.learningCorner, hideOnXl: false },
+    { href: '#eligibility', id: 'eligibility', label: t.nav.eligibility, hideOnXl: false },
+    { href: '#faq', id: 'faq', label: t.nav.faq, hideOnXl: false },
   ];
 
   // All navigation links displayed inside the mobile drawer
@@ -153,7 +169,10 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  const isSecondaryActive = secondaryNavLinks.some((l) => l.id === activeSection);
+  const isSecondaryActive = secondaryNavLinks.some((l) => {
+    if (l.hideOnXl && isXl) return false;
+    return l.id === activeSection;
+  });
 
   return (
     <header
@@ -163,7 +182,7 @@ export const Navbar: React.FC = () => {
           : 'bg-white/95 border-b border-slate-200 text-slate-900 shadow-xs'
       }`}
     >
-      <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-14 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-3 xl:gap-6">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-5 xl:px-8 2xl:px-12 h-16 sm:h-[68px] lg:h-[68px] xl:h-[72px] flex items-center justify-between gap-2 lg:gap-3 xl:gap-4 2xl:gap-6">
         {/* Brand Left: Official Logo from public/assets/branding/olive-tree-logo.jpeg */}
         <a
           href="#home"
@@ -179,7 +198,7 @@ export const Navbar: React.FC = () => {
               src="/assets/branding/olive-tree-logo.jpeg"
               alt="Olive Tree Nursery and Primary School"
               fetchPriority="high"
-              className="h-8 xs:h-9 sm:h-12 md:h-13 w-auto max-w-[130px] xs:max-w-none object-contain group-hover:scale-102 transition-transform duration-200 shrink-0"
+              className="h-8 xs:h-9 sm:h-10 md:h-10.5 lg:h-10.5 xl:h-11 w-auto max-w-[130px] xs:max-w-none object-contain group-hover:scale-102 transition-transform duration-200 shrink-0"
             />
           </div>
         </a>
@@ -188,8 +207,8 @@ export const Navbar: React.FC = () => {
         <nav
           className={`hidden lg:flex items-center shrink-0 ${
             language === 'ta'
-              ? 'gap-3 xl:gap-5 text-[13px] font-semibold'
-              : 'gap-4 xl:gap-6 text-[14px] font-semibold'
+              ? 'gap-1.5 xl:gap-3 2xl:gap-4.5 text-xs xl:text-[13px] 2xl:text-sm font-semibold'
+              : 'gap-2 xl:gap-3.5 2xl:gap-5 text-xs xl:text-[13px] 2xl:text-sm font-semibold'
           }`}
           aria-label="Main Navigation"
         >
@@ -203,7 +222,7 @@ export const Navbar: React.FC = () => {
                   e.preventDefault();
                   handleSectionClick(link.href);
                 }}
-                className={`py-2 px-1 whitespace-nowrap shrink-0 transition-all border-b-2 cursor-pointer ${
+                className={`${link.showOnlyXl ? 'hidden xl:inline-flex ' : ''}py-2 px-1 lg:px-1 xl:px-1.5 2xl:px-2 whitespace-nowrap shrink-0 transition-all border-b-2 cursor-pointer ${
                   isActive
                     ? 'text-emerald-700 dark:text-emerald-400 font-bold border-emerald-600 dark:border-emerald-400'
                     : 'text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-300 border-transparent'
@@ -221,7 +240,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setIsMoreOpen(!isMoreOpen)}
               aria-expanded={isMoreOpen}
               aria-haspopup="true"
-              className={`py-2 px-2.5 rounded-lg whitespace-nowrap inline-flex items-center gap-1 transition-all border-b-2 cursor-pointer ${
+              className={`py-1.5 px-2 xl:px-2.5 rounded-lg whitespace-nowrap inline-flex items-center gap-1 transition-all border-b-2 cursor-pointer text-xs xl:text-[13px] 2xl:text-sm ${
                 isSecondaryActive
                   ? 'text-emerald-700 dark:text-emerald-400 font-bold border-emerald-600 dark:border-emerald-400 bg-emerald-50/50 dark:bg-emerald-950/30'
                   : 'text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-300 border-transparent hover:bg-slate-100/60 dark:hover:bg-[#16241F]'
@@ -253,7 +272,7 @@ export const Navbar: React.FC = () => {
                         e.preventDefault();
                         handleSectionClick(sLink.href);
                       }}
-                      className={`block px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                      className={`${sLink.hideOnXl ? 'xl:hidden ' : ''}block px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
                         isActive
                           ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300 font-bold'
                           : 'hover:bg-slate-100 dark:hover:bg-[#0E1714] text-slate-700 dark:text-slate-200'
@@ -269,10 +288,10 @@ export const Navbar: React.FC = () => {
         </nav>
 
         {/* Right Action Cluster: Language Switcher + Theme Toggle + Admin Badge + Apply CTA */}
-        <div className="hidden sm:flex items-center gap-3.5 shrink-0">
+        <div className="hidden sm:flex items-center gap-2 lg:gap-2 xl:gap-3 2xl:gap-3.5 shrink-0">
           {/* Segmented Trilingual Selector */}
           <div
-            className={`p-1 rounded-xl flex items-center border ${
+            className={`p-0.5 xl:p-1 rounded-lg xl:rounded-xl flex items-center border ${
               theme === 'dark'
                 ? 'bg-[#16241F] border-[#243B32]'
                 : 'bg-slate-100 border-slate-200'
@@ -281,15 +300,15 @@ export const Navbar: React.FC = () => {
             aria-label="Language Selector"
           >
             {[
-              { code: 'en' as const, label: 'English', font: '' },
-              { code: 'ta' as const, label: 'தமிழ்', font: 'font-tamil' },
-              { code: 'ur' as const, label: 'اردو', font: 'font-urdu' },
+              { code: 'en' as const, fullLabel: 'English', shortLabel: 'EN', font: '' },
+              { code: 'ta' as const, fullLabel: 'தமிழ்', shortLabel: 'தமிழ்', font: 'font-tamil' },
+              { code: 'ur' as const, fullLabel: 'اردو', shortLabel: 'اردو', font: 'font-urdu' },
             ].map((lang) => (
               <button
                 key={lang.code}
                 type="button"
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all shrink-0 cursor-pointer ${lang.font}`}
+                className={`px-2 xl:px-2.5 2xl:px-3 py-1 xl:py-1.5 text-xs font-bold rounded-md xl:rounded-lg transition-all shrink-0 cursor-pointer ${lang.font}`}
                 style={
                   language === lang.code
                     ? { backgroundColor: '#133829', color: '#FFFFFF' }
@@ -299,7 +318,8 @@ export const Navbar: React.FC = () => {
                       }
                 }
               >
-                {lang.label}
+                <span className="hidden xl:inline">{lang.fullLabel}</span>
+                <span className="inline xl:hidden">{lang.shortLabel}</span>
               </button>
             ))}
           </div>
@@ -310,23 +330,23 @@ export const Navbar: React.FC = () => {
             onClick={toggleTheme}
             aria-label={t.nav.themeToggle}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            className={`p-2.5 rounded-xl border transition-colors shadow-xs active:scale-95 cursor-pointer ${
+            className={`p-2 xl:p-2.5 rounded-lg xl:rounded-xl border transition-colors shadow-xs active:scale-95 cursor-pointer ${
               theme === 'dark'
                 ? 'bg-[#16241F] text-[#FBBF24] border-[#243B32] hover:bg-[#1E2E28]'
                 : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-100'
             }`}
           >
             {theme === 'dark' ? (
-              <Sun className="w-5 h-5 text-[#FBBF24] transition-transform rotate-0" />
+              <Sun className="w-4 h-4 xl:w-5 xl:h-5 text-[#FBBF24] transition-transform rotate-0" />
             ) : (
-              <Moon className="w-5 h-5 text-[#123524] transition-transform -rotate-12" />
+              <Moon className="w-4 h-4 xl:w-5 xl:h-5 text-[#123524] transition-transform -rotate-12" />
             )}
           </button>
 
           {/* Admin Indicator pill if authenticated */}
           {isAdminAuthenticated && (
             <span
-              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold border ${
+              className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1 xl:py-1.5 rounded-lg text-xs font-bold border ${
                 liveEditMode
                   ? theme === 'dark'
                     ? 'bg-amber-950/80 text-amber-300 border-amber-700'
@@ -337,7 +357,7 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>{liveEditMode ? 'Live Mode' : 'Admin'}</span>
+              <span>{liveEditMode ? 'Live' : 'Admin'}</span>
             </span>
           )}
 
@@ -345,7 +365,7 @@ export const Navbar: React.FC = () => {
           <button
             type="button"
             onClick={openAdmissionModal}
-            className="shrink-0 whitespace-nowrap px-4 xl:px-5 py-2.5 rounded-xl font-bold text-xs xl:text-sm shadow-md transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer group hover:opacity-90"
+            className="shrink-0 whitespace-nowrap px-3 lg:px-3.5 xl:px-4 2xl:px-5 py-2 xl:py-2.5 rounded-lg xl:rounded-xl font-bold text-xs xl:text-sm shadow-md transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer group hover:opacity-90"
             style={{ backgroundColor: '#D93829', color: '#FFFFFF' }}
           >
             <span style={{ color: '#FFFFFF' }}>{t.nav.applyNow.replace(/→/g, '').trim()}</span>
