@@ -28,7 +28,7 @@ export const Hero: React.FC = () => {
     if (language === 'ta') {
       return (
         <h1
-          className={`text-[28px] xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.2] font-tamil ${
+          className={`text-[25px] xs:text-[28px] sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.25] font-tamil ${
             theme === 'dark' ? 'text-[#F3F7F4]' : 'text-[#133829]'
           }`}
         >
@@ -40,7 +40,7 @@ export const Hero: React.FC = () => {
                 viewBox="0 0 200 12"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute left-0 -bottom-2 w-full h-3 text-[#E59A23] stroke-current"
+                className="absolute left-0 -bottom-1 sm:-bottom-2 w-full h-2.5 sm:h-3 text-[#E59A23] stroke-current"
                 preserveAspectRatio="none"
               >
                 <path
@@ -57,7 +57,7 @@ export const Hero: React.FC = () => {
     if (language === 'ur') {
       return (
         <h1
-          className={`text-[28px] xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.25] font-urdu py-1 ${
+          className={`text-[25px] xs:text-[28px] sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.3] font-urdu py-1 ${
             theme === 'dark' ? 'text-[#F3F7F4]' : 'text-[#133829]'
           }`}
         >
@@ -69,7 +69,7 @@ export const Hero: React.FC = () => {
                 viewBox="0 0 200 12"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                className="absolute left-0 -bottom-2 w-full h-3 text-[#E59A23] stroke-current"
+                className="absolute left-0 -bottom-1 sm:-bottom-2 w-full h-2.5 sm:h-3 text-[#E59A23] stroke-current"
                 preserveAspectRatio="none"
               >
                 <path
@@ -85,7 +85,7 @@ export const Hero: React.FC = () => {
     }
     return (
       <h1
-        className={`text-[32px] xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.15] ${
+        className={`text-[27px] xs:text-[32px] sm:text-5xl lg:text-6xl font-extrabold leading-[1.18] sm:leading-[1.15] ${
           theme === 'dark' ? 'text-[#F3F7F4]' : 'text-[#133829]'
         }`}
       >
@@ -98,7 +98,7 @@ export const Hero: React.FC = () => {
               viewBox="0 0 200 12"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="absolute left-0 -bottom-2 w-full h-3 text-[#E59A23] stroke-current"
+              className="absolute left-0 -bottom-1 sm:-bottom-2 w-full h-2.5 sm:h-3 text-[#E59A23] stroke-current"
               preserveAspectRatio="none"
             >
               <path
@@ -124,10 +124,11 @@ export const Hero: React.FC = () => {
       <div className="w-full px-4 sm:px-8 lg:px-16 py-6 sm:py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-20 items-center text-start">
         {/* Left Column (lg:col-span-7) */}
         <div className="lg:col-span-7 flex flex-col items-start text-start">
-          {/* Institutional Partnership Co-Branding Header */}
-          <div className="mb-6 flex flex-wrap items-center gap-3">
+          {/* Institutional Partnership Co-Branding Header & Admission Year Banner */}
+          <div className="mb-4 sm:mb-6 flex flex-wrap items-center gap-2.5 sm:gap-3 max-w-full">
+            {/* Brainy Stars Association Banner */}
             <div
-              className={`inline-flex items-center gap-3 px-3.5 py-2 h-14 rounded-2xl border transition-colors shadow-sm shrink-0 whitespace-nowrap ${
+              className={`inline-flex items-center gap-2.5 sm:gap-3 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl sm:rounded-2xl border transition-colors shadow-xs max-w-full ${
                 theme === 'dark'
                   ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4]'
                   : 'bg-white border-slate-200/90 text-slate-900'
@@ -138,58 +139,60 @@ export const Hero: React.FC = () => {
                 alt="Brainy Stars International School"
                 loading="eager"
                 decoding="async"
-                className="h-9 w-auto object-contain rounded-md shrink-0"
+                className="h-7 xs:h-8 sm:h-9 w-auto object-contain rounded-md shrink-0"
               />
-              <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block shrink-0" />
-              <div className="flex flex-col text-start justify-center">
-                <span className={`text-[11px] font-bold tracking-wide uppercase whitespace-nowrap leading-none ${theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-500'}`}>
+              <div className="h-5 sm:h-6 w-px bg-slate-200 dark:bg-slate-700 shrink-0" />
+              <div className="flex flex-col text-start justify-center min-w-0">
+                <span className={`text-[10px] sm:text-[11px] font-bold tracking-wide uppercase truncate leading-tight ${theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-500'}`}>
                   {t.branding.coBrandPrefix}
                 </span>
                 <span
-                  className={`font-heading font-extrabold text-xs sm:text-sm leading-tight whitespace-nowrap mt-0.5 ${
+                  className={`font-heading font-extrabold text-xs sm:text-sm leading-tight truncate mt-0.5 ${
                     theme === 'dark' ? 'text-[#93C5FD]' : 'text-blue-700'
                   }`}
                 >
                   {t.branding.coBrandName}
                 </span>
               </div>
-              <span className="font-bold px-2.5 py-0.5 rounded-full text-xs sm:text-sm hidden md:inline ml-1 bg-amber-100 text-amber-950 border border-amber-300 shadow-xs whitespace-nowrap shrink-0">
+              <span className="font-bold px-2 py-0.5 rounded-full text-[10px] sm:text-xs hidden xs:inline ml-1 bg-amber-100 text-amber-950 border border-amber-300 shadow-xs whitespace-nowrap shrink-0">
                 {t.branding.coBrandMotto.startsWith('★') ? t.branding.coBrandMotto : `★ ${t.branding.coBrandMotto}`}
               </span>
             </div>
 
-            {/* Admission Year Pill - Solid Deep Forest Green */}
+            {/* Admission Year Pill - Responsive Solid Deep Forest Green */}
             <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl border text-xs sm:text-sm font-bold shadow-sm bg-emerald-700 text-white border-emerald-800"
+              className="inline-flex flex-wrap items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border text-xs sm:text-sm font-bold shadow-xs bg-emerald-700 text-white border-emerald-800 max-w-full"
             >
-              <span className="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-amber-300 animate-pulse shrink-0"></span>
               {liveEditMode ? (
-                <div className="flex items-center gap-1.5">
-                  <span>{t.hero.badgeAdmission}:</span>
+                <div className="flex flex-wrap items-center gap-1.5 max-w-full">
+                  <span className="shrink-0">{t.hero.badgeAdmission}:</span>
                   <input
                     type="text"
                     value={siteConfig.admissionYear}
                     onChange={(e) => updateSiteConfig({ admissionYear: e.target.value })}
-                    className={`border rounded px-2 py-0.5 text-xs font-bold w-24 ${
+                    className={`border rounded px-2 py-0.5 text-xs font-bold w-24 max-w-[110px] focus:outline-none focus:ring-1 focus:ring-amber-300 ${
                       theme === 'dark'
                         ? 'bg-[#0E1714] text-[#A7F3D0] border-[#243B32]'
                         : 'bg-white text-slate-900 border-slate-300'
                     }`}
                   />
-                  <Edit3 className="w-3.5 h-3.5 text-white" />
+                  <span className="inline-flex items-center gap-0.5 text-[10px] bg-emerald-900/90 text-amber-300 px-1.5 py-0.5 rounded border border-amber-400/30 shrink-0">
+                    <Edit3 className="w-2.5 h-2.5 text-amber-300" /> Live
+                  </span>
                 </div>
               ) : (
-                <span>{t.hero.admissionsOpenPill}</span>
+                <span className="leading-snug text-start">{t.hero.admissionsOpenPill}</span>
               )}
             </div>
           </div>
 
           {/* Main Headline */}
-          <div className="mb-6">{renderHeadline()}</div>
+          <div className="mb-4 sm:mb-6">{renderHeadline()}</div>
 
           {/* Sub-headline */}
           <p
-            className={`text-lg sm:text-xl font-medium leading-relaxed mb-8 max-w-2xl ${
+            className={`text-base sm:text-lg lg:text-xl font-medium leading-relaxed mb-6 sm:mb-8 max-w-2xl ${
               theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-600'
             } ${language === 'ur' ? 'font-urdu leading-[2.1]' : ''}`}
           >
@@ -197,12 +200,12 @@ export const Hero: React.FC = () => {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto mb-8 sm:mb-10">
             {/* Primary Terracotta Red CTA Button */}
             <button
               type="button"
               onClick={openAdmissionModal}
-              className="bg-[#D93829] hover:bg-[#C22F21] text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-lg inline-flex items-center justify-center gap-3 transition active:scale-95 group cursor-pointer"
+              className="bg-[#D93829] hover:bg-[#C22F21] text-white font-bold text-base sm:text-lg px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg inline-flex items-center justify-center gap-2.5 sm:gap-3 transition active:scale-95 group cursor-pointer"
             >
               <span>{t.hero.applyCta}</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform" />
@@ -212,7 +215,7 @@ export const Hero: React.FC = () => {
             <button
               type="button"
               onClick={openVisitModal}
-              className={`border px-7 py-4 rounded-2xl font-bold text-lg transition active:scale-95 inline-flex items-center justify-center gap-2 cursor-pointer shadow-xs ${
+              className={`border px-6 sm:px-7 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg transition active:scale-95 inline-flex items-center justify-center gap-2 cursor-pointer shadow-xs ${
                 theme === 'dark'
                   ? 'bg-[#16241F] text-[#A7F3D0] border-[#243B32] hover:bg-[#1E2E28]'
                   : 'bg-white text-slate-800 border-slate-300 hover:bg-slate-50'

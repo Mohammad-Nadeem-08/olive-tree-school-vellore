@@ -80,12 +80,12 @@ export const AdminCommandDock: React.FC = () => {
   return (
     <>
       {/* Floating Bottom Admin Dock */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 w-auto max-w-[95vw]">
-        <div className="bg-[#133829]/95 text-[#FBF9F5] rounded-2xl sm:rounded-3xl p-2 sm:p-2.5 shadow-2xl border border-[#E59A23]/30 backdrop-blur-md flex items-center gap-1 sm:gap-2 text-xs">
+      <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-auto max-w-[96vw]">
+        <div className="bg-[#133829]/95 text-[#FBF9F5] rounded-2xl sm:rounded-3xl p-1.5 sm:p-2.5 shadow-2xl border border-[#E59A23]/30 backdrop-blur-md flex items-center gap-1 sm:gap-2 text-xs">
           {/* Admin Identity Badge */}
-          <div className="flex items-center gap-2 pl-2 pr-1 sm:pr-2 border-r border-white/15">
-            <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-[#E59A23] to-amber-200 text-[#133829] flex items-center justify-center font-black shadow-xs">
-              <ShieldAlert className="w-4 h-4" />
+          <div className="flex items-center gap-1.5 sm:gap-2 pl-1.5 sm:pl-2 pr-1 sm:pr-2 border-r border-white/15 shrink-0">
+            <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg sm:rounded-xl bg-gradient-to-tr from-[#E59A23] to-amber-200 text-[#133829] flex items-center justify-center font-black shadow-xs shrink-0">
+              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
             <div className="hidden sm:block text-left">
               <div className="text-[11px] font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
@@ -101,7 +101,7 @@ export const AdminCommandDock: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setLiveEditMode(!liveEditMode)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                className={`flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer shrink-0 ${
                   liveEditMode
                     ? 'bg-[#E59A23] text-[#133829] shadow-md shadow-[#E59A23]/25'
                     : 'bg-white/10 text-white/90 hover:bg-white/15'
@@ -117,30 +117,33 @@ export const AdminCommandDock: React.FC = () => {
               <button
                 type="button"
                 onClick={() => document.getElementById('notices')?.scrollIntoView({ behavior: 'smooth' })}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold bg-[#123524] hover:bg-[#1a4b33] text-white transition-colors border border-emerald-600/40 cursor-pointer shadow-xs"
+                className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl font-bold bg-[#123524] hover:bg-[#1a4b33] text-white transition-colors border border-emerald-600/40 cursor-pointer shadow-xs shrink-0"
                 title="Scroll to Notice Board to Publish/Manage Circulars"
+                aria-label="Notice Board"
               >
                 <BellRing className="w-3.5 h-3.5 text-amber-300" />
-                <span>Notice Board</span>
+                <span className="hidden xs:inline">Notices</span>
               </button>
 
               {/* Campus Gallery Manager Button */}
               <button
                 type="button"
                 onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold bg-[#1E3A8A] hover:bg-[#1e40af] text-white transition-colors border border-blue-500/40 cursor-pointer shadow-xs"
+                className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-xl font-bold bg-[#1E3A8A] hover:bg-[#1e40af] text-white transition-colors border border-blue-500/40 cursor-pointer shadow-xs shrink-0"
                 title="Scroll to Campus Gallery to Add/Manage Photos"
+                aria-label="Campus Gallery"
               >
                 <ImageIcon className="w-3.5 h-3.5 text-blue-200" />
-                <span>Gallery</span>
+                <span className="hidden xs:inline">Gallery</span>
               </button>
 
               {/* Quick Config Modal Trigger */}
               <button
                 type="button"
                 onClick={handleOpenConfig}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl font-semibold bg-white/10 hover:bg-white/15 text-white/90 transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-2 sm:px-2.5 py-1.5 rounded-xl font-semibold bg-white/10 hover:bg-white/15 text-white/90 transition-colors cursor-pointer shrink-0"
                 title="Quick Edit Admissions Year & Phones"
+                aria-label="Settings"
               >
                 <Settings className="w-3.5 h-3.5 text-amber-300" />
                 <span className="hidden md:inline">Numbers & Year</span>
@@ -150,7 +153,7 @@ export const AdminCommandDock: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowResetConfirm(true)}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl font-semibold bg-white/10 hover:bg-white/15 text-white/80 transition-colors cursor-pointer"
+                className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-xl font-semibold bg-white/10 hover:bg-white/15 text-white/80 transition-colors cursor-pointer shrink-0"
                 title="Restore default demo notices and config"
               >
                 <RotateCcw className="w-3.5 h-3.5 text-amber-300" />
@@ -161,10 +164,11 @@ export const AdminCommandDock: React.FC = () => {
               <button
                 type="button"
                 onClick={logoutAdmin}
-                className="p-1.5 rounded-xl text-white/70 hover:text-rose-300 hover:bg-white/10 transition-colors cursor-pointer"
+                className="p-1.5 rounded-xl text-white/70 hover:text-rose-300 hover:bg-white/10 transition-colors cursor-pointer shrink-0"
                 title="Logout from Admin Mode"
+                aria-label="Logout"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
             </>
           ) : (
@@ -175,7 +179,8 @@ export const AdminCommandDock: React.FC = () => {
           <button
             type="button"
             onClick={() => setMinimized(!minimized)}
-            className="p-1 text-slate-400 hover:text-white rounded-lg"
+            className="p-1 text-slate-400 hover:text-white rounded-lg shrink-0 cursor-pointer"
+            title={minimized ? "Expand Dock" : "Minimize Dock"}
           >
             {minimized ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>

@@ -3,7 +3,7 @@ import { MessageCircle } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 
 export const FloatingWhatsApp: React.FC = () => {
-  const { language, siteConfig, t } = useSchool();
+  const { language, siteConfig, t, isAdminAuthenticated } = useSchool();
 
   const getWhatsAppMessage = () => {
     if (language === 'ta') {
@@ -19,7 +19,13 @@ export const FloatingWhatsApp: React.FC = () => {
   const waUrl = `https://wa.me/91${cleanPhone}?text=${encodeURIComponent(getWhatsAppMessage())}`;
 
   return (
-    <div className="fixed bottom-5 end-4 sm:bottom-6 sm:end-6 z-40 flex items-center group">
+    <div
+      className={`fixed ${
+        isAdminAuthenticated
+          ? 'bottom-20 end-3.5 sm:bottom-6 sm:end-6'
+          : 'bottom-4 end-3.5 sm:bottom-6 sm:end-6'
+      } z-40 flex items-center group transition-all duration-300`}
+    >
       {/* Tooltip on hover */}
       <div className="hidden md:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#133829] text-white text-xs font-semibold me-3 shadow-lg border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
         <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse inline-block" />
@@ -32,13 +38,13 @@ export const FloatingWhatsApp: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Direct WhatsApp Chat (+91 86101 13160)"
-        className="w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl shadow-[#25D366]/40 hover:scale-110 active:scale-95 transition-all duration-300 relative border-2 border-white/80"
+        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl shadow-[#25D366]/40 hover:scale-110 active:scale-95 transition-all duration-300 relative border-2 border-white/80 cursor-pointer"
       >
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-30 pointer-events-none"></span>
-        <MessageCircle className="w-7 h-7 fill-white text-[#25D366]" />
+        <MessageCircle className="w-6 h-6 sm:w-7 sm:h-7 fill-white text-[#25D366]" />
 
         {/* Live indicator dot */}
-        <span className="absolute top-1 end-1 w-3 h-3 bg-amber-300 rounded-full border-2 border-[#25D366]"></span>
+        <span className="absolute top-0.5 end-0.5 sm:top-1 sm:end-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-300 rounded-full border-2 border-[#25D366]"></span>
       </a>
     </div>
   );

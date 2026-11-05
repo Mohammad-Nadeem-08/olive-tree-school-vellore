@@ -431,3 +431,67 @@ The deployment configuration has been fully validated for seamless deployment on
 - **Commit Message:** `feat: optimize mobile responsiveness and finalize school website`
 - **Status:** Staged, committed, and pushed to `origin main`.
 
+---
+
+## 11. Mobile Navbar, Utility Bar and Floating Action UI Improvements
+
+### 11.1 Root Causes Identified
+
+A comprehensive Android device audit and DOM inspection identified the following root causes:
+1. **Top Utility Bar Overlap & Duplication:**
+   - In `TopBar.tsx`, both the announcement ticker (which contained `"Call 86101 13160"`) and the right-hand contact cluster (which contained `86101 13160`) fought for space on a single horizontal row. On mobile screens (<400px), text truncation and inline wrapping forced the phone number to appear duplicated and collide with the academic year badge.
+2. **Unexplained Empty Square Control:**
+   - In `TopBar.tsx`, the staff admin login button was rendered as `<Lock className="w-3.5 h-3.5" />` inside a `p-1 rounded` button without a visible label. On low-DPI Android screens, the outline SVG icon rendered faintly and appeared as an empty, cryptic square consuming horizontal space.
+3. **Main Navbar Squeezing & Overflow:**
+   - In `Navbar.tsx`, placing the school logo, theme toggle button, full 3-button language switcher, and hamburger menu on a single line within ~330px of usable width caused flex-shrink to compress the logo container and squeeze the controls against each other.
+4. **Floating Action Bar & WhatsApp Button Collision:**
+   - In `FloatingWhatsApp.tsx` (`bottom-5 end-4`) and `AdminCommandDock.tsx` (`bottom-4 left-1/2`), both elements occupied the same vertical offset at the bottom of the viewport. On mobile devices, the floating WhatsApp action directly overlapped and blocked the "Gallery" button on the right side of the admin dock.
+5. **Hero Section & Announcement Spacing:**
+   - The Brainy Stars partnership banner had fixed height `h-14` and `whitespace-nowrap`, causing horizontal crowding. The admission announcement banner input collided with labels in `liveEditMode`. Hero headlines took up excessive vertical height.
+
+---
+
+### 11.2 Components Modified
+
+| Component | File Path | Key Architectural Fixes |
+|---|---|---|
+| **TopBar** | [`src/components/TopBar.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/TopBar.tsx) | Rebuilt with responsive 2-tier mobile layout (<640px) and preserved 1-row desktop layout. Row 1 hosts the academic year badge, status, and clearly labeled "Staff" button with lock icon (never an empty square). Row 2 hosts a single clickable phone CTA (`Call / WhatsApp: 86101 13160`) and office hours. |
+| **Navbar** | [`src/components/Navbar.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/Navbar.tsx) | Enforced `shrink-0` on the logo container with responsive height scaling (`h-8 xs:h-9 sm:h-12 md:h-13`). Re-engineered mobile controls to fit inside ~166px total width. Added a prominent, full-width 3-column language selector inside the mobile drawer menu with auto-close on selection. |
+| **Hero** | [`src/components/Hero.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/Hero.tsx) | Removed restrictive `h-14` and `whitespace-nowrap` on partnership banner. Made admission year pill fluid with responsive input sizing and aligned `Live` badge in `liveEditMode`. Optimized headline font scale and line-height. |
+| **Admin Dock** | [`src/components/AdminCommandDock.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/AdminCommandDock.tsx) | Adjusted mobile button padding and condensed labels on ultra-narrow screens (`<360px`) to prevent dock overflow. |
+| **Floating WhatsApp** | [`src/components/FloatingWhatsApp.tsx`](file:///c:/Users/ELCOT/Desktop/School_Website/website01/src/components/FloatingWhatsApp.tsx) | Coordinated vertical offset with `isAdminAuthenticated`. When admin dock is present on mobile, WhatsApp automatically floats at `bottom-20 end-3.5`, providing clean vertical clearance above the dock. |
+
+---
+
+### 11.3 Detailed Verification Across Viewports
+
+Static inspection and layout geometry validation across target screen dimensions:
+
+| Viewport | Device Representation | TopBar & Navbar Behavior | Floating Dock & WhatsApp Clearance |
+|---|---|---|---|
+| **320 × 640** | Compact Smartphones (iPhone SE 1st gen) | TopBar Row 1 (Badge + Staff button) + Row 2 (Single phone dialer) fit perfectly. Navbar logo (85px) + compact controls (166px) fit cleanly within 300px available width. | WhatsApp floats at `bottom-20` (80px from bottom); dock rests at `bottom-3` (~44px height). Zero overlap. |
+| **360 × 800** | Standard Android (Samsung Galaxy A/M) | Spacious 2-tier TopBar. Logo undistorted. Theme toggle and language selector easily tapable. | 24px vertical separation between WhatsApp button and bottom dock. All buttons clickable. |
+| **375 × 812** | Standard iOS (iPhone X / 11 Pro / 12 mini) | Crisp layout, zero horizontal overflow, balanced typography. | Full clearance between floating actions. |
+| **390 × 844** | Modern Smartphones (iPhone 12/13/14/15) | Fluid headline fits in 2 lines; Brainy Stars and admission banners wrap gracefully. | Floating WhatsApp and admin dock well-separated. |
+| **430 × 932** | Large Smartphones (iPhone Pro Max, Galaxy Plus) | Ample breathing room, generous touch targets ($\ge 44\text{px}$). | WhatsApp and dock completely non-colliding. |
+| **768 × 1024** | Tablets in Portrait (iPad) | Desktop 1-row TopBar active; Navbar switches to expanded navigation. | WhatsApp rests at `sm:bottom-6 sm:end-6` while dock is centered. No collision. |
+| **1366 × 768** | Standard Laptop / Desktop | Full desktop layout with dual-column hero, trilingual segmented control, and office hours. | Wide separation between centered dock and corner WhatsApp action. |
+
+---
+
+### 11.4 Quality Checks & Production Build Verification
+
+- **Automated Tests:**
+  - `test-twostep-flow.js`: 4/4 suites passed (100%).
+  - `test-final.js`: 6/6 test groups passed (100%).
+- **Linter (`oxlint`):** 0 errors across 27 files.
+- **TypeScript Compiler (`tsc -b`):** 0 errors.
+- **Production Build (`vite build`):**
+  ```text
+  dist/index.html                   4.96 kB │ gzip:   1.71 kB
+  dist/assets/index-iOFsnEja.css   88.30 kB │ gzip:  15.02 kB
+  dist/assets/index-CKPgqZN6.js   535.72 kB │ gzip: 142.60 kB
+  ✓ built in 2.11s
+  ```
+
+

@@ -40,15 +40,15 @@ export const Navbar: React.FC = () => {
           : 'bg-white/95 border-b border-slate-200 text-slate-900 shadow-xs'
       }`}
     >
-      <div className="w-full px-3.5 sm:px-6 lg:px-8 xl:px-14 h-18 sm:h-20 flex items-center justify-between gap-2 sm:gap-3 xl:gap-6">
+      <div className="w-full px-3 sm:px-6 lg:px-8 xl:px-14 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-3 xl:gap-6">
         {/* Brand Left: Official Logo from public/assets/branding/olive-tree-logo.jpeg */}
         <a href="#home" className="flex items-center gap-2 sm:gap-3 shrink-0 group" aria-label="Olive Tree School Home">
-          <div className="bg-white rounded-xl p-1 sm:p-1.5 shadow-xs flex items-center justify-center border border-slate-200/50 dark:border-slate-800">
+          <div className="bg-white rounded-xl p-1 sm:p-1.5 shadow-xs flex items-center justify-center border border-slate-200/50 dark:border-slate-800 shrink-0">
             <img
               src="/assets/branding/olive-tree-logo.jpeg"
               alt="Olive Tree Nursery and Primary School"
               fetchPriority="high"
-              className="h-9 sm:h-12 md:h-13 w-auto object-contain group-hover:scale-102 transition-transform duration-200"
+              className="h-8 xs:h-9 sm:h-12 md:h-13 w-auto max-w-[130px] xs:max-w-none object-contain group-hover:scale-102 transition-transform duration-200 shrink-0"
             />
           </div>
         </a>
@@ -156,27 +156,30 @@ export const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* Mobile Menu Button & Mobile Controls */}
-        <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
+        {/* Mobile Menu Button & Compact Mobile Controls */}
+        <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-2 lg:hidden shrink-0">
           {/* Mobile Theme Toggle */}
           <button
             type="button"
             onClick={toggleTheme}
             aria-label={t.nav.themeToggle}
-            className={`p-2 rounded-xl border cursor-pointer transition-colors ${
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg sm:rounded-xl border cursor-pointer transition-colors shrink-0 active:scale-95 ${
               theme === 'dark'
                 ? 'bg-[#16241F] text-[#FBBF24] border-[#243B32]'
                 : 'bg-[#F2F6F3] text-[#133829] border-[#E8E4DC]'
             }`}
           >
-            {theme === 'dark' ? <Sun className="w-4 h-4 text-[#FBBF24]" /> : <Moon className="w-4 h-4 text-[#133829]" />}
+            {theme === 'dark' ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FBBF24]" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#133829]" />}
           </button>
 
-          {/* Mobile Language Switcher */}
+          {/* Mobile Language Switcher (Compact & never squished) */}
           <div
-            className={`p-0.5 rounded-xl flex items-center border text-[11px] sm:text-xs ${
+            className={`p-0.5 rounded-lg sm:rounded-xl flex items-center border text-[10px] xs:text-[11px] sm:text-xs shrink-0 ${
               theme === 'dark' ? 'bg-[#16241F] border-[#243B32]' : 'bg-[#F2F6F3] border-[#E8E4DC]'
             }`}
+            role="group"
+            aria-label="Language Selector"
           >
             {([
               { code: 'en' as const, label: 'EN', font: '' },
@@ -187,7 +190,7 @@ export const Navbar: React.FC = () => {
                 key={lang.code}
                 type="button"
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`px-1.5 sm:px-2 py-1 rounded-lg transition-all shrink-0 cursor-pointer ${lang.font}`}
+                className={`px-1.5 xs:px-2 py-0.5 sm:py-1 rounded-md sm:rounded-lg font-bold transition-all shrink-0 cursor-pointer ${lang.font}`}
                 style={
                   language === lang.code
                     ? { backgroundColor: '#133829', color: '#FFFFFF' }
@@ -199,17 +202,18 @@ export const Navbar: React.FC = () => {
             ))}
           </div>
 
+          {/* Hamburger Menu Toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`p-2 rounded-xl transition-colors cursor-pointer ${
+            className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg sm:rounded-xl transition-colors cursor-pointer shrink-0 active:scale-95 ${
               theme === 'dark'
                 ? 'text-[#F3F7F4] hover:bg-[#16241F]'
                 : 'text-[#133829] hover:bg-[#F2F6F3]'
             }`}
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
           </button>
         </div>
       </div>
@@ -223,6 +227,40 @@ export const Navbar: React.FC = () => {
               : 'border-slate-200 bg-white text-slate-900'
           }`}
         >
+          {/* Dedicated Full Language Switcher inside Drawer */}
+          <div className="mb-4 pb-3 border-b border-slate-200 dark:border-[#243B32]">
+            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-2 uppercase tracking-wider">
+              {language === 'ta' ? 'மொழியைத் தேர்வு செய்க' : language === 'ur' ? 'زبان منتخب کریں' : 'Choose Language'}
+            </div>
+            <div
+              className={`p-1 rounded-xl grid grid-cols-3 gap-1 border ${
+                theme === 'dark' ? 'bg-[#16241F] border-[#243B32]' : 'bg-slate-100 border-slate-200'
+              }`}
+            >
+              {([
+                { code: 'en' as const, label: 'English', font: '' },
+                { code: 'ta' as const, label: 'தமிழ்', font: 'font-tamil' },
+                { code: 'ur' as const, label: 'اردو', font: 'font-urdu' },
+              ]).map((lang) => (
+                <button
+                  key={lang.code}
+                  type="button"
+                  onClick={() => {
+                    handleLanguageChange(lang.code);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`py-2 px-1 text-center rounded-lg font-bold text-xs transition-all cursor-pointer ${lang.font}`}
+                  style={
+                    language === lang.code
+                      ? { backgroundColor: '#133829', color: '#FFFFFF' }
+                      : { backgroundColor: 'transparent', color: theme === 'dark' ? '#E2E8F0' : '#334155' }
+                  }
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="flex flex-col space-y-1.5">
             {navLinks.map((link) => (
               <a
