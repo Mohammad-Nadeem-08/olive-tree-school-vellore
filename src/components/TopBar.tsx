@@ -22,7 +22,7 @@ export const TopBar: React.FC = () => {
 
   return (
     <div className="bg-[#133829] text-[#FBF9F5] border-b border-[#1E4D38] text-xs sm:text-sm py-2 px-0 relative z-40 shadow-xs">
-      <div className="w-full px-6 lg:px-16 flex items-center justify-between gap-4">
+      <div className="w-full px-3.5 sm:px-6 lg:px-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Left: Announcement ticker */}
         <div className="flex items-center gap-2.5 flex-1 min-w-0">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#E59A23]/20 text-[#FDE68A] font-bold text-xs shrink-0 border border-[#E59A23]/40 tracking-wider">

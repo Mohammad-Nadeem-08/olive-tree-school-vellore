@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, TreePine, CheckCircle } from 'lucide-react';
+import { Award, TreePine, CheckCircle, Brain, Trophy, Activity, Mic } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 
 export const AboutSection: React.FC = () => {
@@ -21,10 +21,14 @@ export const AboutSection: React.FC = () => {
       f1Desc: 'Five languages taught actively — English, Tamil, Urdu, Arabic, and Hindi to build confident communicative mastery.',
       f2Title: 'Quran with Tajweed & Hadith',
       f2Desc: 'Daily tilawat with accurate phonetics (Makharij), short Surahs memorization, and practical Sunnah Duas for everyday life.',
-      f3Title: 'Akhlaq Towards Parents',
-      f3Desc: 'Instilling deep reverence, gentleness, empathy, and gratitude towards parents and elders as a daily living habit.',
-      f4Title: 'Interactive Smart Lab & STEM',
-      f4Desc: 'Touch typing, foundational computer logic, scientific experiments, and mental math in modern air-conditioned learning rooms.',
+      f3Title: 'Quizzes & Brain Games',
+      f3Desc: 'Fun quizzes, puzzles and general knowledge activities that encourage curiosity, memory and logical thinking.',
+      f4Title: 'Sports & Team Activities',
+      f4Desc: 'Indoor and outdoor games that develop teamwork, sportsmanship, confidence and a healthy competitive spirit.',
+      f5Title: 'Physical Exercises & Yoga',
+      f5Desc: 'Simple exercises, yoga, stretching and movement activities that promote physical fitness and healthy habits.',
+      f6Title: 'Debates & Public Speaking',
+      f6Desc: 'Group discussions, storytelling, simple debates and speaking activities that build communication skills and self-confidence.',
     },
     ta: {
       estBadge: 'தொடக்கம் 2013 • கஸ்பா, வேலூர்',
@@ -41,10 +45,14 @@ export const AboutSection: React.FC = () => {
       f1Desc: '5 மொழிகள் தொடக்கத்திலிருந்தே பயிற்றுவிக்கப்படுகின்றன — ஆங்கிலம், தமிழ், உருது, அரபி, இந்தி.',
       f2Title: 'தஜ்வீதுடன் குர்ஆன் & ஹதீஸ்',
       f2Desc: 'துல்லியமான உச்சரிப்புடன் கூடிய தினசரி குர்ஆன் திலாவத், சூராக்கள் மனனம் மற்றும் அன்றாட மஸ்னூன் துஆக்கள்.',
-      f3Title: 'பெற்றோர் மீதான நற்பண்பு',
-      f3Desc: 'பெற்றோரை கண்ணியப்படுத்துதல், கனிவாகப் பேசுதல், பணிவிடை செய்தல் மற்றும் நன்றியுணர்வை வளர்த்தல்.',
-      f4Title: 'ஸ்மார்ட் கணினி ஆய்வகம் & அறிவியல்',
-      f4Desc: 'கணினி அடிப்படைகள், தட்டச்சு பயிற்சி, எளிய அறிவியல் சோதனைகள் மற்றும் மனக்கணக்கு பயிற்சி.',
+      f3Title: 'வினாடி வினா & புத்தி கூர்மை விளையாட்டுகள்',
+      f3Desc: 'ஆர்வத்தையும், நினைவாற்றலையும், தர்க்கரீதியான சிந்தனையையும் தூண்டும் வினாடி வினாக்கள், புதிர்கள் மற்றும் பொது அறிவு செயல்பாடுகள்.',
+      f4Title: 'விளையாட்டு & குழு செயல்பாடுகள்',
+      f4Desc: 'குழுப்பணி, விளையாட்டு உணர்வு, தன்னம்பிக்கை மற்றும் ஆரோக்கியமான போட்டி மனப்பான்மையை வளர்க்கும் உள்ளரங்கு மற்றும் வெளியரங்கு விளையாட்டுகள்.',
+      f5Title: 'உடற்பயிற்சிகள் & யோகா',
+      f5Desc: 'உடல் ஆரோக்கியத்தையும் நற்பழக்கங்களையும் ஊக்குவிக்கும் எளிய பயிற்சிகள், யோகா, நீட்சி மற்றும் உடலியக்க செயல்பாடுகள்.',
+      f6Title: 'விவாதங்கள் & பொதுப் பேச்சு',
+      f6Desc: 'தொடர்பாடல் திறன் மற்றும் தன்னம்பிக்கையை வளர்க்கும் குழு விவாதங்கள், கதை சொல்லுதல், எளிய விவாதங்கள் மற்றும் பேச்சு செயல்பாடுகள்.',
     },
     ur: {
       estBadge: 'قیام: 2013 • کاسپا، ویلور',
@@ -61,10 +69,14 @@ export const AboutSection: React.FC = () => {
       f1Desc: 'ابتدائی کلاسز سے ہی 5 زبانوں کی عملی تدریس — انگریزی، اردو، تمل، عربی اور ہندی تاکہ خود اعتمادی پیدا ہو۔',
       f2Title: 'تجوید کے ساتھ قرآن و احادیث',
       f2Desc: 'درست مخارج کے ساتھ روزانہ تلاوت، سورتوں کا حفظ اور روزمرہ زندگی کی مسنون دعائیں اور آداب۔',
-      f3Title: 'والدین کا ادب و احترام',
-      f3Desc: 'والدین کی دل سے تعظیم، ان کے سامنے نرم گفتاری، خدمت گزاری اور شکر گزاری کو روزمرہ عمل بنانا۔',
-      f4Title: 'اسمارٹ کمپیوٹر لیب و سائنس',
-      f4Desc: 'کمپیوٹر کی بنیادی تعلیم، ٹائپنگ کی مشق، سائنسی تجربات اور ذہنی ریاضی کے پریکٹیکلز۔',
+      f3Title: 'کوئز اور ذہنی کھیل',
+      f3Desc: 'دلچسپ کوئز، پہیلیاں اور معلوماتِ عامہ کی سرگرمیاں جو جستجو، یادداشت اور منطقی سوچ کو فروغ دیتی ہیں۔',
+      f4Title: 'کھیل کود اور اجتماعی سرگرمیاں',
+      f4Desc: 'انڈور اور آؤٹ ڈور کھیل جو ٹیم ورک، اسپورٹس مین شپ، خود اعتمادی اور صحت مند مسابقتی جذبے کو ابھارتے ہیں۔',
+      f5Title: 'جسمانی ورزش اور یوگا',
+      f5Desc: 'سادہ ورزشیں، یوگا، اسٹریچنگ اور حرکاتی مشقیں جو جسمانی تندرستی اور صحت بخش عادات کو پروان چڑھاتی ہیں۔',
+      f6Title: 'مباحثے اور تقریری سرگرمیاں',
+      f6Desc: 'گروہی مباحثے، کہانی سنانا، سادہ مباحثے اور تقریری سرگرمیاں جو ابلاغی صلاحیت اور خود اعتمادی پیدا کرتی ہیں۔',
     },
   };
 
@@ -73,16 +85,16 @@ export const AboutSection: React.FC = () => {
   return (
     <section
       id="about"
-      className={`py-20 relative overflow-hidden transition-colors duration-200 ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors duration-200 ${
         theme === 'dark' ? 'bg-[#121E19] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center text-start">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center text-start">
           {/* Left Column: Academic Heritage Showcase */}
           <div className="lg:col-span-5 relative">
             <div
-              className={`relative rounded-3xl p-8 sm:p-10 border shadow-md shadow-slate-900/5 overflow-hidden transition-colors ${
+              className={`relative rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 border shadow-md shadow-slate-900/5 overflow-hidden transition-colors ${
                 theme === 'dark'
                   ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4]'
                   : 'bg-white border-slate-200/90 text-slate-900'
@@ -226,9 +238,9 @@ export const AboutSection: React.FC = () => {
               {c.description}
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8">
               <div
-                className={`p-5 rounded-3xl border transition-colors shadow-sm text-start ${
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-colors shadow-sm text-start flex flex-col justify-between ${
                   theme === 'dark'
                     ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4] hover:border-[#385B4D]'
                     : 'bg-white border-slate-200/90 text-slate-900 hover:border-emerald-700'
@@ -252,7 +264,7 @@ export const AboutSection: React.FC = () => {
               </div>
 
               <div
-                className={`p-5 rounded-3xl border transition-colors shadow-sm text-start ${
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-colors shadow-sm text-start flex flex-col justify-between ${
                   theme === 'dark'
                     ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4] hover:border-[#385B4D]'
                     : 'bg-white border-slate-200/90 text-slate-900 hover:border-emerald-700'
@@ -275,8 +287,9 @@ export const AboutSection: React.FC = () => {
                 </p>
               </div>
 
+              {/* Row 2 - Card 3: Quizzes & Brain Games */}
               <div
-                className={`p-5 rounded-3xl border transition-colors shadow-sm text-start ${
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-colors shadow-sm text-start flex flex-col justify-between ${
                   theme === 'dark'
                     ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4] hover:border-[#385B4D]'
                     : 'bg-white border-slate-200/90 text-slate-900 hover:border-emerald-700'
@@ -287,7 +300,7 @@ export const AboutSection: React.FC = () => {
                     theme === 'dark' ? 'text-[#A7F3D0]' : 'text-emerald-800'
                   }`}
                 >
-                  <CheckCircle className="w-5 h-5 text-emerald-700 dark:text-[#A7F3D0] shrink-0" />
+                  <Brain className="w-5 h-5 text-emerald-700 dark:text-[#A7F3D0] shrink-0" />
                   <span>{c.f3Title}</span>
                 </div>
                 <p
@@ -299,8 +312,9 @@ export const AboutSection: React.FC = () => {
                 </p>
               </div>
 
+              {/* Row 2 - Card 4: Sports & Team Activities */}
               <div
-                className={`p-5 rounded-3xl border transition-colors shadow-sm text-start ${
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-colors shadow-sm text-start flex flex-col justify-between ${
                   theme === 'dark'
                     ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4] hover:border-[#385B4D]'
                     : 'bg-white border-slate-200/90 text-slate-900 hover:border-emerald-700'
@@ -311,15 +325,65 @@ export const AboutSection: React.FC = () => {
                     theme === 'dark' ? 'text-[#A7F3D0]' : 'text-emerald-800'
                   }`}
                 >
-                  <CheckCircle className="w-5 h-5 text-emerald-700 dark:text-[#A7F3D0] shrink-0" />
+                  <Trophy className="w-5 h-5 text-emerald-700 dark:text-[#A7F3D0] shrink-0" />
                   <span>{c.f4Title}</span>
                 </div>
                 <p
                   className={`text-sm sm:text-base leading-normal ${
-                    theme === 'dark' ? 'text-slate-300' : 'text-slate-600'
+                    theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-600'
                   }`}
                 >
                   {c.f4Desc}
+                </p>
+              </div>
+
+              {/* Row 3 - Card 5: Physical Exercises & Yoga */}
+              <div
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-colors shadow-sm text-start flex flex-col justify-between ${
+                  theme === 'dark'
+                    ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4] hover:border-[#385B4D]'
+                    : 'bg-white border-slate-200/90 text-slate-900 hover:border-emerald-700'
+                }`}
+              >
+                <div
+                  className={`flex items-center gap-2.5 font-bold text-base mb-1.5 ${
+                    theme === 'dark' ? 'text-[#A7F3D0]' : 'text-emerald-800'
+                  }`}
+                >
+                  <Activity className="w-5 h-5 text-emerald-700 dark:text-[#A7F3D0] shrink-0" />
+                  <span>{c.f5Title}</span>
+                </div>
+                <p
+                  className={`text-sm sm:text-base leading-normal ${
+                    theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-600'
+                  }`}
+                >
+                  {c.f5Desc}
+                </p>
+              </div>
+
+              {/* Row 3 - Card 6: Debates & Public Speaking */}
+              <div
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-colors shadow-sm text-start flex flex-col justify-between ${
+                  theme === 'dark'
+                    ? 'bg-[#16241F] border-[#243B32] text-[#F3F7F4] hover:border-[#385B4D]'
+                    : 'bg-white border-slate-200/90 text-slate-900 hover:border-emerald-700'
+                }`}
+              >
+                <div
+                  className={`flex items-center gap-2.5 font-bold text-base mb-1.5 ${
+                    theme === 'dark' ? 'text-[#A7F3D0]' : 'text-emerald-800'
+                  }`}
+                >
+                  <Mic className="w-5 h-5 text-emerald-700 dark:text-[#A7F3D0] shrink-0" />
+                  <span>{c.f6Title}</span>
+                </div>
+                <p
+                  className={`text-sm sm:text-base leading-normal ${
+                    theme === 'dark' ? 'text-[#9DB0A6]' : 'text-slate-600'
+                  }`}
+                >
+                  {c.f6Desc}
                 </p>
               </div>
             </div>

@@ -181,7 +181,8 @@ export const SchoolProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       const saved = localStorage.getItem('ots_gallery');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length === 6 && parsed[0]?.id === 'gallery-1') {
+        if (Array.isArray(parsed) && (parsed.some((p: any) => p.url && p.url.includes('unsplash.com')) || parsed.length <= 3)) {
+          localStorage.setItem('ots_gallery', JSON.stringify(defaultGalleryPhotos));
           return defaultGalleryPhotos;
         }
         return parsed;

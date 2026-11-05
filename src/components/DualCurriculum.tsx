@@ -72,11 +72,11 @@ export const DualCurriculum: React.FC = () => {
   return (
     <section
       id="curriculum"
-      className={`py-20 relative overflow-hidden transition-colors ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 relative z-10">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100 text-amber-950 border border-amber-300 text-xs sm:text-sm font-extrabold tracking-wider uppercase mb-3 shadow-xs">
@@ -153,7 +153,7 @@ export const DualCurriculum: React.FC = () => {
           {/* COLUMN 1: Academic Education (10 Subjects) */}
           {(activeTab === 'both' || activeTab === 'academic') && (
             <div
-              className={`rounded-3xl p-8 sm:p-10 border transition-all flex flex-col justify-between text-start relative overflow-hidden ${
+              className={`rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 border transition-all flex flex-col justify-between text-start relative overflow-hidden ${
                 theme === 'dark'
                   ? 'bg-[#16241F] border-[#243B32] text-white shadow-xl'
                   : 'bg-white border-slate-200/90 text-slate-900 shadow-md shadow-slate-900/5'
@@ -294,7 +294,7 @@ export const DualCurriculum: React.FC = () => {
           {/* COLUMN 2: Islamic Education in Proper Sunnah Way (4 Pillars) */}
           {(activeTab === 'both' || activeTab === 'islamic') && (
             <div
-              className={`rounded-3xl p-8 sm:p-10 border transition-all flex flex-col justify-between relative overflow-hidden text-start ${
+              className={`rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 border transition-all flex flex-col justify-between relative overflow-hidden text-start ${
                 theme === 'dark'
                   ? 'bg-[#16241F] border-[#133829] text-white shadow-xl'
                   : 'bg-white border-slate-200/90 text-slate-900 shadow-md shadow-slate-900/5'

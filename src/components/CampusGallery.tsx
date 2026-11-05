@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Camera,
   Plus,
@@ -9,6 +9,8 @@ import {
   Check,
   Calendar,
   Maximize2,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 import type { GalleryPhoto } from '../types';
@@ -49,17 +51,36 @@ export const CampusGallery: React.FC = () => {
     return p.category === activeCategory;
   });
 
+  // Navigation between photos in Lightbox
+  const handlePrevPhoto = useCallback(() => {
+    if (!lightboxPhoto || filteredPhotos.length <= 1) return;
+    const currentIndex = filteredPhotos.findIndex((p) => p.id === lightboxPhoto.id);
+    const prevIndex = (currentIndex - 1 + filteredPhotos.length) % filteredPhotos.length;
+    setLightboxPhoto(filteredPhotos[prevIndex]);
+  }, [lightboxPhoto, filteredPhotos]);
+
+  const handleNextPhoto = useCallback(() => {
+    if (!lightboxPhoto || filteredPhotos.length <= 1) return;
+    const currentIndex = filteredPhotos.findIndex((p) => p.id === lightboxPhoto.id);
+    const nextIndex = (currentIndex + 1) % filteredPhotos.length;
+    setLightboxPhoto(filteredPhotos[nextIndex]);
+  }, [lightboxPhoto, filteredPhotos]);
+
   // Lightbox keyboard listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setLightboxPhoto(null);
         setIsAddModalOpen(false);
+      } else if (e.key === 'ArrowLeft') {
+        handlePrevPhoto();
+      } else if (e.key === 'ArrowRight') {
+        handleNextPhoto();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [handlePrevPhoto, handleNextPhoto]);
 
   // HTML5 Canvas image compressor
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,11 +185,11 @@ export const CampusGallery: React.FC = () => {
   return (
     <section
       id="gallery"
-      className={`py-20 relative overflow-hidden transition-colors ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors ${
         theme === 'dark' ? 'bg-[#121E19] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-start">
           <div>
@@ -272,7 +293,7 @@ export const CampusGallery: React.FC = () => {
             <p className="text-base font-semibold text-slate-600 dark:text-[#9DB0A6]">{t.gallery.empty}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredPhotos.map((photo) => {
               const caption = getLocalizedCaption(photo);
               return (
@@ -378,10 +399,13 @@ export const CampusGallery: React.FC = () => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Lightbox Header Bar */}
-            <div className="p-4 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#0E1714]/60">
-              <div className="flex items-center gap-2.5">
+            <div className="p-3.5 sm:p-5 flex items-center justify-between border-b border-white/10 bg-[#0E1714]/60">
+              <div className="flex items-center gap-2 sm:gap-2.5">
                 <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-[#133829] text-[#34D399] border border-emerald-500/30">
                   {getCategoryBadgeLabel(lightboxPhoto.category)}
+                </span>
+                <span className="text-xs text-stone-300 font-mono">
+                  {filteredPhotos.findIndex((p) => p.id === lightboxPhoto.id) + 1} / {filteredPhotos.length}
                 </span>
                 <span className="text-xs text-stone-300 font-mono hidden sm:inline">
                   • {lightboxPhoto.date}
@@ -398,33 +422,63 @@ export const CampusGallery: React.FC = () => {
               </button>
             </div>
 
-            {/* Lightbox Image Stage */}
-            <div className="relative max-h-[65vh] flex items-center justify-center bg-black/60 overflow-hidden">
+            {/* Lightbox Image Stage with Previous & Next Controls */}
+            <div className="relative max-h-[65vh] flex items-center justify-center bg-black/70 overflow-hidden">
               <img
                 src={lightboxPhoto.url}
                 alt={getLocalizedCaption(lightboxPhoto)}
                 className="max-h-[65vh] w-auto object-contain mx-auto"
               />
+
+              {/* Prev / Next Navigation Controls */}
+              {filteredPhotos.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handlePrevPhoto();
+                    }}
+                    className="absolute start-2 sm:start-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 active:scale-95 shadow-lg"
+                    aria-label="Previous Photo"
+                    title="Previous Photo (←)"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNextPhoto();
+                    }}
+                    className="absolute end-2 sm:end-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20 active:scale-95 shadow-lg"
+                    aria-label="Next Photo"
+                    title="Next Photo (→)"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              )}
             </div>
 
             {/* Lightbox Caption Footer */}
-            <div className="p-5 sm:p-6 bg-[#16241F] text-start border-t border-white/10 flex items-center justify-between gap-4">
+            <div className="p-4 sm:p-6 bg-[#16241F] text-start border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
                 <h3
-                  className={`font-editorial text-lg sm:text-xl font-bold text-white ${
+                  className={`font-editorial text-base sm:text-xl font-bold text-white ${
                     language === 'ur' ? 'font-urdu leading-[1.6]' : ''
                   }`}
                 >
                   {getLocalizedCaption(lightboxPhoto)}
                 </h3>
-                <p className="text-xs text-stone-400 mt-1">
+                <p className="text-[11px] sm:text-xs text-stone-400 mt-0.5">
                   Olive Tree School Campus Archive • Kaspa, Vellore
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setLightboxPhoto(null)}
-                className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer shrink-0"
+                className="px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-colors cursor-pointer self-start sm:self-auto shrink-0"
               >
                 Close (Esc)
               </button>

@@ -316,11 +316,11 @@ export const LearningCorner: React.FC = () => {
   return (
     <section
       id="learning-corner"
-      className={`py-20 relative overflow-hidden transition-colors ${
+      className={`py-12 sm:py-20 relative overflow-hidden transition-colors ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 relative z-10">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-700 text-white text-xs sm:text-sm font-bold tracking-wider uppercase mb-3 shadow-xs">
@@ -348,7 +348,7 @@ export const LearningCorner: React.FC = () => {
         {/* Centerpiece Showcase Container */}
         <div className="max-w-4xl mx-auto">
           <div
-            className={`rounded-3xl p-6 sm:p-10 border transition-all text-start relative overflow-hidden ${
+            className={`rounded-2xl sm:rounded-3xl p-4.5 sm:p-10 border transition-all text-start relative overflow-hidden ${
               theme === 'dark'
                 ? 'bg-[#16241F] border-[#243B32] text-white shadow-2xl'
                 : 'bg-white border-slate-200/90 text-slate-900 shadow-md shadow-slate-900/5'

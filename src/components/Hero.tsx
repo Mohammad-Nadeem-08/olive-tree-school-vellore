@@ -28,7 +28,7 @@ export const Hero: React.FC = () => {
     if (language === 'ta') {
       return (
         <h1
-          className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.2] font-tamil ${
+          className={`text-[28px] xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.2] font-tamil ${
             theme === 'dark' ? 'text-[#F3F7F4]' : 'text-[#133829]'
           }`}
         >
@@ -57,7 +57,7 @@ export const Hero: React.FC = () => {
     if (language === 'ur') {
       return (
         <h1
-          className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.25] font-urdu py-1 ${
+          className={`text-[28px] xs:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-[1.25] font-urdu py-1 ${
             theme === 'dark' ? 'text-[#F3F7F4]' : 'text-[#133829]'
           }`}
         >
@@ -85,7 +85,7 @@ export const Hero: React.FC = () => {
     }
     return (
       <h1
-        className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.15] ${
+        className={`text-[32px] xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.15] ${
           theme === 'dark' ? 'text-[#F3F7F4]' : 'text-[#133829]'
         }`}
       >
@@ -116,12 +116,12 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="home"
-      className={`relative overflow-hidden pt-6 pb-4 transition-colors duration-200 ${
+      className={`relative overflow-hidden pt-4 sm:pt-6 pb-4 transition-colors duration-200 ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
       {/* Hero Grid Container: Perfectly balanced 2-column layout */}
-      <div className="w-full px-6 lg:px-16 py-10 grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-20 items-center text-start">
+      <div className="w-full px-4 sm:px-8 lg:px-16 py-6 sm:py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-20 items-center text-start">
         {/* Left Column (lg:col-span-7) */}
         <div className="lg:col-span-7 flex flex-col items-start text-start">
           {/* Institutional Partnership Co-Branding Header */}
@@ -262,30 +262,30 @@ export const Hero: React.FC = () => {
 
             <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-[#0E1714]">
               <img
-                src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1000&q=80"
-                alt="Happy primary school children learning at Olive Tree School"
+                src="/assets/school/exterior/school-entrance-gate.jpeg"
+                alt="Olive Tree Nursery and Primary School campus entrance in Kaspa, Vellore"
                 fetchPriority="high"
                 className="w-full h-full object-cover object-center transform hover:scale-102 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-black/10 pointer-events-none" />
 
               {/* Floating Badge: Dual Curriculum */}
-              <div className="absolute top-4 end-4 z-20">
+              <div className="absolute top-2.5 end-2.5 sm:top-4 sm:end-4 z-20">
                 <div
-                  className={`backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-lg border flex items-center gap-2.5 ${
+                  className={`backdrop-blur-md px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl sm:rounded-2xl shadow-lg border flex items-center gap-2 sm:gap-2.5 ${
                     theme === 'dark'
                       ? 'bg-[#0E1714]/90 text-white border-[#243B32]'
                       : 'bg-white/95 text-slate-900 border-slate-200/90'
                   }`}
                 >
-                  <div className="w-8 h-8 rounded-xl bg-emerald-700 text-amber-300 flex items-center justify-center shrink-0">
-                    <GraduationCap className="w-4 h-4" />
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-emerald-700 text-amber-300 flex items-center justify-center shrink-0">
+                    <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
                   <div className="text-start">
-                    <div className="text-xs font-extrabold leading-tight">
+                    <div className="text-[10px] sm:text-xs font-extrabold leading-tight">
                       {t.hero.floatingDualCurriculum}
                     </div>
-                    <div className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">
+                    <div className="text-[9px] sm:text-[10px] text-emerald-700 dark:text-emerald-400 font-bold">
                       Academic + Tarbiyah
                     </div>
                   </div>
@@ -293,24 +293,24 @@ export const Hero: React.FC = () => {
               </div>
 
               {/* Floating Badge: 5 Active Languages */}
-              <div className="absolute bottom-4 end-4 z-20">
+              <div className="absolute bottom-2.5 end-2.5 sm:bottom-4 sm:end-4 z-20">
                 <div
-                  className={`backdrop-blur-md px-3.5 py-1.5 rounded-xl shadow-lg border flex items-center gap-2 ${
+                  className={`backdrop-blur-md px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl shadow-lg border flex items-center gap-1.5 sm:gap-2 ${
                     theme === 'dark'
                       ? 'bg-[#0E1714]/90 text-white border-[#243B32]'
                       : 'bg-white/95 text-slate-900 border-slate-200/90'
                   }`}
                 >
-                  <Languages className="w-4 h-4 text-blue-700 dark:text-[#93C5FD]" />
-                  <span className="text-xs font-bold">5 Languages</span>
+                  <Languages className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-700 dark:text-[#93C5FD]" />
+                  <span className="text-[10px] sm:text-xs font-bold">5 Languages</span>
                 </div>
               </div>
             </div>
 
             {/* Circular Academic Stamp Badge (13+ Years of Excellence) */}
-            <div className="absolute -bottom-5 -start-5 z-30">
+            <div className="absolute -bottom-3 -start-3 sm:-bottom-5 sm:-start-5 z-30">
               <div
-                className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-dashed flex flex-col items-center justify-center p-1.5 text-center shadow-xl transform rotate-[-8deg] hover:rotate-0 transition-transform ${
+                className={`w-20 h-20 sm:w-28 sm:h-28 rounded-full border-2 border-dashed flex flex-col items-center justify-center p-1 sm:p-1.5 text-center shadow-xl transform rotate-[-8deg] hover:rotate-0 transition-transform ${
                   theme === 'dark'
                     ? 'bg-[#123524] text-[#FDE68A] border-[#D97706]'
                     : 'bg-white text-slate-900 border-amber-500'

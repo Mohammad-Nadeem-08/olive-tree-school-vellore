@@ -231,11 +231,11 @@ export const GradeRoadMap: React.FC = () => {
   return (
     <section
       id="grades"
-      className={`py-20 relative transition-colors ${
+      className={`py-12 sm:py-20 relative transition-colors ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-700 text-white text-xs sm:text-sm font-bold tracking-wider uppercase mb-3 shadow-xs">
@@ -303,7 +303,7 @@ export const GradeRoadMap: React.FC = () => {
 
         {/* Selected Grade Detailed Showcase Card */}
         <div
-          className={`rounded-3xl border p-8 sm:p-12 shadow-md shadow-slate-900/5 relative overflow-hidden ${
+          className={`rounded-2xl sm:rounded-3xl border p-5 sm:p-8 lg:p-12 shadow-md shadow-slate-900/5 relative overflow-hidden ${
             theme === 'dark'
               ? 'bg-[#16241F] border-[#243B32] text-white shadow-xl'
               : 'bg-white border-slate-200/90 text-slate-900'

@@ -5,7 +5,9 @@ import {
   RotateCcw,
   CheckCheck,
   Lock,
+  MessageSquare,
 } from 'lucide-react';
+import { createWhatsAppUrl } from '../utils/whatsapp';
 
 export interface WhatsAppSimulatorProps {
   isOpen: boolean;
@@ -30,6 +32,12 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
   onSendAnother,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [currentTime] = useState(() => {
+    return new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  });
 
   if (!isOpen) return null;
 
@@ -57,11 +65,6 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
     }
   };
 
-  const currentTime = new Date().toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
   return (
     <div className="w-full text-start animate-in fade-in zoom-in-95 duration-200">
       {/* Toast Notification for Copy Action */}
@@ -80,7 +83,7 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
           <div className="flex items-center gap-3">
             <div className="relative">
               <img
-                src="/olive-logo.jpeg"
+                src="/assets/branding/olive-tree-emblem.png"
                 alt="Olive Tree School Logo"
                 className="w-10 h-10 rounded-full object-cover border-2 border-white/20 bg-white shadow-xs"
               />
@@ -121,11 +124,11 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
 
         {/* Chat Canvas / Message Area */}
         <div className="p-4 sm:p-6 space-y-4 min-h-[260px] max-h-[380px] overflow-y-auto bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]">
-          {/* Encryption Notice */}
+          {/* Status Notice */}
           <div className="flex justify-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#FFEECD] dark:bg-[#182229] text-[#54656F] dark:text-[#8696A0] text-[11px] font-medium shadow-2xs max-w-sm text-center">
               <Lock className="w-3 h-3 text-amber-700 dark:text-amber-400 shrink-0" />
-              <span>End-to-end encrypted inquiry simulation.</span>
+              <span>Review your message below and send via WhatsApp (+91 86101 13160).</span>
             </div>
           </div>
 
@@ -150,35 +153,46 @@ export const WhatsAppSimulatorModal: React.FC<WhatsAppSimulatorProps> = ({
           </div>
         </div>
 
-        {/* Action Buttons: 2 Clean Buttons (Copy Message to Clipboard + Submit Another Inquiry) */}
+        {/* Action Buttons: Open WhatsApp + Copy Message + New Inquiry */}
         <div className="p-4 bg-white dark:bg-[#16241F] border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-3">
-          {/* Button 1: Copy Message to Clipboard */}
+          {/* Button 1: Open WhatsApp Directly */}
+          <a
+            href={createWhatsAppUrl(formattedMessage)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] active:scale-98 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4 text-white" />
+            <span>📲 Open WhatsApp (+91 86101 13160)</span>
+          </a>
+
+          {/* Button 2: Copy Message to Clipboard */}
           <button
             type="button"
             onClick={handleCopy}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 active:scale-98 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer ring-4 ring-emerald-500/20"
+            className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 active:scale-98 text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
           >
             {copied ? (
               <>
                 <Check className="w-4 h-4 text-emerald-200" />
-                <span>Copied to Clipboard!</span>
+                <span>Copied!</span>
               </>
             ) : (
               <>
                 <Copy className="w-4 h-4 text-emerald-200" />
-                <span>📋 Copy Message to Clipboard</span>
+                <span>📋 Copy</span>
               </>
             )}
           </button>
 
-          {/* Button 2: Submit Another Inquiry */}
+          {/* Button 3: Submit Another Inquiry */}
           <button
             type="button"
             onClick={onSendAnother}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-98 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm border border-slate-300 dark:border-slate-700 shadow-xs transition-all cursor-pointer"
+            className="inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-98 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm border border-slate-300 dark:border-slate-700 shadow-xs transition-all cursor-pointer"
           >
             <RotateCcw className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-            <span>✏️ Submit Another Inquiry</span>
+            <span>✏️ New Inquiry</span>
           </button>
         </div>
       </div>

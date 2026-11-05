@@ -89,7 +89,7 @@ export const NoticeBoard: React.FC = () => {
   return (
     <section
       id="notices"
-      className={`py-20 relative transition-colors ${
+      className={`py-12 sm:py-20 relative transition-colors ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#EBF2EE] text-slate-900'
       }`}
     >
@@ -107,7 +107,7 @@ export const NoticeBoard: React.FC = () => {
         </svg>
       </div>
 
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 text-start">
           <div>
@@ -183,13 +183,13 @@ export const NoticeBoard: React.FC = () => {
             <p className="text-base font-medium">{t.notices.noNotices}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-start">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 text-start">
             {filteredNotices.map((notice) => {
               const dateInfo = parseNoticeDate(notice.date);
               return (
                 <div
                   key={notice.id}
-                  className={`rounded-3xl p-7 border transition-all flex flex-col justify-between group hover:shadow-xl text-start relative overflow-hidden ${
+                  className={`rounded-2xl sm:rounded-3xl p-5 sm:p-7 border transition-all flex flex-col justify-between group hover:shadow-xl text-start relative overflow-hidden ${
                     theme === 'dark'
                       ? 'bg-[#16241F] text-white shadow-lg'
                       : 'bg-white text-slate-900 shadow-md shadow-slate-900/5'

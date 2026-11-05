@@ -40,15 +40,17 @@ export const Navbar: React.FC = () => {
           : 'bg-white/95 border-b border-slate-200 text-slate-900 shadow-xs'
       }`}
     >
-      <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-14 h-20 flex items-center justify-between gap-3 xl:gap-6">
-        {/* Brand Left: Real Logo from public/olive-logo.jpeg without duplicate text */}
-        <a href="#home" className="flex items-center gap-3 shrink-0 group" aria-label="Olive Tree School Home">
-          <img
-            src="/olive-logo.jpeg"
-            alt="Olive Tree School"
-            fetchPriority="high"
-            className="h-14 sm:h-16 w-auto object-contain rounded-xl shadow-xs group-hover:scale-102 transition-transform duration-200"
-          />
+      <div className="w-full px-3.5 sm:px-6 lg:px-8 xl:px-14 h-18 sm:h-20 flex items-center justify-between gap-2 sm:gap-3 xl:gap-6">
+        {/* Brand Left: Official Logo from public/assets/branding/olive-tree-logo.jpeg */}
+        <a href="#home" className="flex items-center gap-2 sm:gap-3 shrink-0 group" aria-label="Olive Tree School Home">
+          <div className="bg-white rounded-xl p-1 sm:p-1.5 shadow-xs flex items-center justify-center border border-slate-200/50 dark:border-slate-800">
+            <img
+              src="/assets/branding/olive-tree-logo.jpeg"
+              alt="Olive Tree Nursery and Primary School"
+              fetchPriority="high"
+              className="h-9 sm:h-12 md:h-13 w-auto object-contain group-hover:scale-102 transition-transform duration-200"
+            />
+          </div>
         </a>
 
         {/* Desktop Navigation Links: Centered, Single line, whitespace-nowrap */}
@@ -155,13 +157,13 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Menu Button & Mobile Controls */}
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden">
           {/* Mobile Theme Toggle */}
           <button
             type="button"
             onClick={toggleTheme}
             aria-label={t.nav.themeToggle}
-            className={`p-2 rounded-lg border cursor-pointer ${
+            className={`p-2 rounded-xl border cursor-pointer transition-colors ${
               theme === 'dark'
                 ? 'bg-[#16241F] text-[#FBBF24] border-[#243B32]'
                 : 'bg-[#F2F6F3] text-[#133829] border-[#E8E4DC]'
@@ -172,7 +174,7 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile Language Switcher */}
           <div
-            className={`p-0.5 rounded-lg flex items-center border text-xs ${
+            className={`p-0.5 rounded-xl flex items-center border text-[11px] sm:text-xs ${
               theme === 'dark' ? 'bg-[#16241F] border-[#243B32]' : 'bg-[#F2F6F3] border-[#E8E4DC]'
             }`}
           >
@@ -185,7 +187,7 @@ export const Navbar: React.FC = () => {
                 key={lang.code}
                 type="button"
                 onClick={() => handleLanguageChange(lang.code)}
-                className={`px-2 py-1 rounded transition-all shrink-0 cursor-pointer ${lang.font}`}
+                className={`px-1.5 sm:px-2 py-1 rounded-lg transition-all shrink-0 cursor-pointer ${lang.font}`}
                 style={
                   language === lang.code
                     ? { backgroundColor: '#133829', color: '#FFFFFF' }
@@ -215,21 +217,22 @@ export const Navbar: React.FC = () => {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div
-          className={`lg:hidden border-t px-4 pt-3 pb-6 shadow-xl animate-in fade-in slide-in-from-top-4 duration-200 ${
+          className={`lg:hidden border-t px-4 pt-3 pb-8 shadow-xl animate-in fade-in slide-in-from-top-4 duration-200 max-h-[85vh] overflow-y-auto ${
             theme === 'dark'
               ? 'border-[#243B32] bg-[#0E1714] text-[#F3F7F4]'
               : 'border-slate-200 bg-white text-slate-900'
           }`}
         >
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-1.5">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="whitespace-nowrap shrink-0 px-3 py-2 text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-emerald-700 transition-colors rounded-lg"
+                className="whitespace-nowrap shrink-0 px-3.5 py-3 text-base font-semibold text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-[#16241F] transition-colors rounded-xl flex items-center justify-between"
               >
-                {link.label}
+                <span>{link.label}</span>
+                <span className="text-slate-400 text-xs font-mono">→</span>
               </a>
             ))}
 

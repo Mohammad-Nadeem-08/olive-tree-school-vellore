@@ -334,11 +334,11 @@ export const EligibilityChecker: React.FC = () => {
   return (
     <section
       id="eligibility"
-      className={`py-20 relative transition-colors ${
+      className={`py-12 sm:py-20 relative transition-colors ${
         theme === 'dark' ? 'bg-[#0E1714] text-[#F3F7F4]' : 'bg-[#F4F7F5] text-slate-900'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-700 text-white text-xs sm:text-sm font-bold tracking-wider uppercase mb-3 shadow-xs">
@@ -408,7 +408,7 @@ export const EligibilityChecker: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start text-start">
           {/* LEFT 6 COLUMNS: Eligible Grade & Learning Milestones */}
           <div
-            className={`lg:col-span-6 rounded-3xl p-8 border flex flex-col justify-between transition-all relative overflow-hidden ${
+            className={`lg:col-span-6 rounded-2xl sm:rounded-3xl p-5 sm:p-8 border flex flex-col justify-between transition-all relative overflow-hidden ${
               theme === 'dark'
                 ? 'bg-[#16241F] border-[#243B32] text-white shadow-xl'
                 : 'bg-white border-slate-200/90 text-slate-900 shadow-md shadow-slate-900/5'
@@ -558,7 +558,7 @@ export const EligibilityChecker: React.FC = () => {
 
           {/* RIGHT 6 COLUMNS: Required Documents Checklist & Download Pamphlet */}
           <div
-            className={`lg:col-span-6 rounded-3xl p-8 border flex flex-col justify-between transition-all relative overflow-hidden ${
+            className={`lg:col-span-6 rounded-2xl sm:rounded-3xl p-5 sm:p-8 border flex flex-col justify-between transition-all relative overflow-hidden ${
               theme === 'dark'
                 ? 'bg-[#16241F] border-[#243B32] text-white shadow-xl'
                 : 'bg-white border-slate-200/90 text-slate-900 shadow-md shadow-slate-900/5'
@@ -740,10 +740,10 @@ export const EligibilityChecker: React.FC = () => {
               </div>
 
               <a
-                href="/olive-pamphlet-2026.jpg"
+                href="/assets/brochure/olive-tree-school-brochure-2026.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                download="Olive_Tree_School_Admission_Pamphlet_2026-27.jpg"
+                download="Olive_Tree_School_Admission_Brochure_2026-27.pdf"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#D97706] hover:bg-[#b45309] text-white font-extrabold text-xs sm:text-sm shadow-md transition-all shrink-0 cursor-pointer"
               >
                 <Download className="w-4 h-4" />

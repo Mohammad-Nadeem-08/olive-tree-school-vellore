@@ -8,6 +8,7 @@ import {
   MessageSquare,
   TreePine,
   Lock,
+  Download,
 } from 'lucide-react';
 import { useSchool } from '../context/SchoolContext';
 
@@ -26,13 +27,13 @@ export const ContactFooter: React.FC = () => {
   return (
     <footer
       id="contact"
-      className={`relative pt-20 pb-12 overflow-hidden border-t transition-colors ${
+      className={`relative pt-12 sm:pt-20 pb-12 overflow-hidden border-t transition-colors ${
         theme === 'dark'
           ? 'bg-[#0E1714] text-[#F3F7F4] border-[#243B32]'
           : 'bg-[#F4F7F5] text-slate-900 border-slate-200'
       }`}
     >
-      <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-24 relative z-10">
+      <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
         {/* Top Contact Highlight Section */}
         <div className="mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-700 text-white text-xs sm:text-sm font-bold tracking-wider uppercase mb-3 shadow-xs">
@@ -190,7 +191,7 @@ export const ContactFooter: React.FC = () => {
 
             {/* Right: Map / Direction Visual Card */}
             <div
-              className={`lg:col-span-5 p-7 rounded-3xl border relative overflow-hidden text-start ${
+              className={`lg:col-span-5 p-4 sm:p-7 rounded-2xl sm:rounded-3xl border relative overflow-hidden text-start ${
                 theme === 'dark'
                   ? 'bg-[#16241F] border-[#243B32] text-white shadow-xl'
                   : 'bg-white border-slate-200/90 text-slate-900 shadow-md shadow-slate-900/5'
@@ -216,7 +217,7 @@ export const ContactFooter: React.FC = () => {
               <div className="my-5 rounded-2xl overflow-hidden border border-slate-200 dark:border-[#243B32] shadow-2xs">
                 <iframe
                   title="Olive Tree School Location - Kaspa, Vellore"
-                  src="https://maps.google.com/maps?q=Kaspa,+Vellore,+Tamil+Nadu+632001&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://maps.google.com/maps?q=12.9069697,79.1190469&t=&z=17&ie=UTF8&iwloc=&output=embed"
                   width="100%"
                   height="210"
                   style={{ border: 0 }}
@@ -237,7 +238,7 @@ export const ContactFooter: React.FC = () => {
                     <span>Kaspa, Vellore — 632 001</span>
                   </span>
                   <a
-                    href="https://maps.google.com/?q=Kaspa,+Vellore,+Tamil+Nadu+632001"
+                    href="https://www.google.com/maps/place/12%C2%B054'25.1%22N+79%C2%B007'08.6%22E/@12.9069697,79.1190469,17z"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[#123524] dark:text-[#34D399] hover:underline font-bold text-[11px]"
@@ -248,7 +249,7 @@ export const ContactFooter: React.FC = () => {
               </div>
 
               {/* Campus Address Snippet */}
-              <div className="p-3.5 mb-5 rounded-xl border text-xs bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold">
+              <div className="p-3.5 mb-4 rounded-xl border text-xs bg-slate-50 dark:bg-slate-800/80 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold">
                 <div className="font-bold text-slate-900 dark:text-white mb-0.5">
                   {siteConfig.address}
                 </div>
@@ -256,6 +257,17 @@ export const ContactFooter: React.FC = () => {
                   <span>✓ {t.contact.accessibleVellore}</span>
                 </div>
               </div>
+
+              {/* Official Brochure Download Action */}
+              <a
+                href="/assets/brochure/olive-tree-school-brochure-2026.pdf"
+                download="olive-tree-school-brochure-2026.pdf"
+                className="w-full py-3 px-4 mb-3 rounded-2xl border border-slate-300 dark:border-[#243B32] hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs active:scale-98"
+                title="Download Olive Tree School Official Brochure PDF"
+              >
+                <Download className="w-4 h-4 text-[#D97706]" />
+                <span>Download School Brochure (PDF)</span>
+              </a>
 
               {/* CTA Action */}
               <button
